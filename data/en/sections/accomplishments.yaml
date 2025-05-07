@@ -11,36 +11,34 @@ section:
 
 # Your accomplishments
 accomplishments:
-- name: Linux Foundation System Administrator
-  timeline: "March 2018 - March 2019"
+- name: Learning Python on boot.dev
+  timeline: "Jan 2025 - May 2025"
   organization:
-    name: Linux Foundation
-    url: https://www.linuxfoundation.org
-  courseOverview: This course helps to understand the key concepts such as networking, storage, security, maintenance, logging and monitoring, application lifecycle, troubleshooting, API object primitives etc. It also help to grow the ability to establish basic use-cases for end users.
-  certificateURL: "https://example.com"
+    name: Boot.dev
+    url: https://www.boot.dev
+  courseOverview: "Multiple courses to get me started on learning Python. This website is a self-paced gamified learning platform which covers topics like scripting, object oriented programming (OOP), functional programming. The spark I got to go on this adventure was an investigation of dataflow using a python script. It was a fun learning experience to document what to python script does."
+  certificateURL: "https://www.boot.dev/certificates/4727c8c3-3224-4390-b104-d74904581ef6"
 
-- name: Machine Learning
-  timeline: "Jun 2020 - Jan 2021"
+- name: Learning about GIT and CI/CD
+  timeline: "March 2025"
   organization:
-    name: Coursera
-    url: https://www.coursera.org
-  courseOverview: "This course provides a broad introduction to machine learning, datamining, and statistical pattern recognition. Topics include: (i) Supervised learning (parametric/non-parametric algorithms, support vector machines, kernels, neural networks). (ii) Unsupervised learning (clustering, dimensionality reduction, recommender systems, deep learning). (iii) Best practices in machine learning (bias/variance theory; innovation process in machine learning and AI)."
-  certificateURL: "https://example.com"
+    name: Boot.dev
+    url: https://www.boot.dev
+  courseOverview: "Another course at boot.dev. I can only confirm that a subscription to this website was a bit of a higher cost, but definitely worth the investment! To prepare myself to add more value at work and help out our senior techleads finetune our service, I decided to dive into CI/CD and Git. This completely energized me to see how cool those tools are with version control and unit testing. I genuinly enjoyed this course a lot. Definitely tackling the followup course on GIT to deepdive!"
+  certificateURL: "https://www.boot.dev/certificates/3d5484bd-b5f3-46cc-baa3-cbe0d2a49e6a"
 
-- name: Grokking the System Design Interview
-  timeline: "Jan 2018 - Sept 2018"
+- name: Learning about Microsoft Azure Sentinel
+  timeline: "Sep 2024 - now"
   organization:
-    name: educative
-    url: https://www.educative.io
-  courseOverview: This course is a complete guide to master the SDIs. It is created by hiring managers who’ve been working at Google, Facebook, Microsoft, and Amazon. We've carefully chosen a set of questions that have not only been repeatedly asked at top companies, but also provide a thorough experience to handle any system design problem.
-  certificateURL: "https://example.com"
+    name: Microsoft
+    url: https://learn.microsoft.com
+  courseOverview: "A new service to support, so time to get some hands-on practice! A Microsoft learning module to explain Azure Sentinel helped me navigating the tool to investigate incidents. Also documented my findings inhouse for future reference for my colleagues and myself."
+  certificateURL: "https://learn.microsoft.com/en-us/credentials/applied-skills/configure-siem-security-operations-using-microsoft-sentinel/"
 
-- name: Mastering Multithreading Programming with Go (Golang)
-  timeline: "Nov 2017 - Mar 2018"
+- name: MITRE ATT&CK
+  timeline: "July 2021"
   organization:
-    name: Udemy
-    url: https://www.udemy.com
-  courseOverview: Discover how to create responsive and high performance software. Develop programs with Golang that are highly Concurrent and Parallel. Improve your programming skills in Go with more advanced, multithreading topics.
-  certificateURL: "https://example.com"
- 
-
+    name: ATTACKIQ
+    url: https://www.attackiq.com/
+  courseOverview: "While Redteaming can be exciting (depending on the scope), I always had a preference for blueteaming, strengthening systems, learning and applying general cybersecurity concepts AND logs! Lots of logs!! I was a system engineer when I wanted to explore more about cybersecurity, following this course and setting up a Splunk SIEM at home was my first step."
+  certificateURL: "https://www.credly.com/badges/5968ab14-9918-4c48-9580-c0aab91d93fb?source=linked_in_profile"
