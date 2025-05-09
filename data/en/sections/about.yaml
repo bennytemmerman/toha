@@ -62,17 +62,17 @@ badges:
 
 - type: soft-skill-indicator
   name: Documentation
-  percentage: 85
+  percentage: 95
   color: blue
 
 - type: soft-skill-indicator
-  name: Team Work
-  percentage: 90
+  name: Collaboration
+  percentage: 85
   color: yellow
 
 - type: soft-skill-indicator
-  name: Hard Working
-  percentage: 85
+  name: Scripting & Automation
+  percentage: 75
   color: orange
 
 # you can also provide color code instead of the color name
