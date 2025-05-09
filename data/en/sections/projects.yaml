@@ -11,11 +11,11 @@ section:
 # filter buttons
 buttons:
 - name: All
-  filter: "all"
+  filter: "All"
 - name: Professional
-  filter: "professional"
+  filter: "Professional"
 - name: Hobby
-  filter: "hobby"
+  filter: "Hobby"
 - name: Splunk
   filter: "Splunk"
 
@@ -48,7 +48,7 @@ projects:
   tags: ["Hobby"]
 
 - name: Killercoda
-  logo: /images/site/Killercoda.svg
+  logo: /images/site/Killercoda.png
   role: Creator
   timeline: "Aug 2024"
   url: "https://killercoda.com/splunk"
