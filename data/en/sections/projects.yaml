@@ -38,7 +38,7 @@ projects:
   tags: ["Hobby", "Splunk", "Blue team", "Red team"]
 
 - name: New portfolio website
-logo: /images/site/main-logo.png
+  logo: /images/site/main-logo.png
   role: Owner
   timeline: "April 2025 - Present"
   url: "https://siemforge.xyz"
