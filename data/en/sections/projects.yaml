@@ -16,6 +16,8 @@ buttons:
   filter: "professional"
 - name: Hobby
   filter: "hobby"
+- name: Splunk
+  filter: "Splunk"
 
 # your projects
 projects:
@@ -45,3 +47,10 @@ projects:
   summary: Complete project from buying domain, configuring DNS, creating mailbox, using Github combined with Netlify. A more attractive website showcasing my work.
   tags: ["Hobby"]
 
+- name: Killercoda
+  logo: /images/site/Killercoda.svg
+  role: Creator
+  timeline: "Aug 2024"
+  url: "https://killercoda.com/splunk"
+  summary: Creating interactive instances to learn how to set up Splunk environments.
+  tags: ["Hobby", "Splunk", "Blue team"]
