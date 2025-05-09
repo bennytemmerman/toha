@@ -11,9 +11,7 @@ section:
 # filter buttons
 buttons:
 - name: All
-  filter: "All"
-- name: Professional
-  filter: "Professional"
+  filter: "all"
 - name: Hobby
   filter: "Hobby"
 - name: Splunk
