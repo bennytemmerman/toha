@@ -202,7 +202,8 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item><item><title>Splunk searches</title><link>https://siemforge.xyz/notes/splunk/spl/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/spl/</guid><description>&lt;!-- Errorcheck within Splunk GUI -->
+&lt;/div></description></item><item><title>Splunk searches</title><link>https://siemforge.xyz/notes/splunk/spl/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/spl/</guid><description>&lt;div style="display: block;">
+&lt;!-- Errorcheck within Splunk GUI -->
 &lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Troubleshooting: Errorcheck within Splunk GUI&lt;/span>&lt;/h5>
@@ -278,6 +279,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| fields title roles email
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| rename title as username
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
 &lt;/div>
 &lt;/div>
 &lt;/div></description></item><item><title>Splunk CLI commands</title><link>https://siemforge.xyz/notes/splunk/cli/index-cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/cli/index-cli/</guid><description>&lt;div style="display: block;">
