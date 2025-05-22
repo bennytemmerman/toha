@@ -9,6 +9,8 @@ menu:
     weight: 11
 ---
 
+<div style="display: block;">
+
 <!-- Maintenance: Start Splunk -->
 {{< note title="Maintenance: Start Splunk" >}}
 
@@ -64,3 +66,5 @@ menu:
 /opt/splunk/bin/splunk disable
 ```
 {{< /note >}}
+
+</div>
