@@ -282,7 +282,7 @@
 &lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item><item><title>Splunk CLI commands</title><link>https://siemforge.xyz/notes/splunk/cli/index-cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/cli/index-cli/</guid><description>&lt;div style="display: block;">
+&lt;/div></description></item><item><title>Splunk CLI commands</title><link>https://siemforge.xyz/notes/splunk/cli/index-cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/cli/index-cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
 &lt;!-- Maintenance: Start Splunk -->
 &lt;div class="note-card ">
 &lt;div class="item">
@@ -333,6 +333,76 @@
 &lt;/div>
 &lt;/div>
 &lt;/div>
+&lt;!-- Maintenance: Check License expiration date -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Maintenance: Check license expiration date&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo /opt/splunk/bin/splunk list licenses | grep &lt;span style="color:#e6db74">&amp;#34;expiration_time&amp;#34;&lt;/span> | awk -F&lt;span style="color:#e6db74">&amp;#39;:&amp;#39;&lt;/span> &lt;span style="color:#e6db74">&amp;#39;{print $2}&amp;#39;&lt;/span> | xargs -I&lt;span style="color:#f92672">{}&lt;/span> date -d @&lt;span style="color:#f92672">{}&lt;/span> +&lt;span style="color:#e6db74">&amp;#34;%Y-%m-%d %H:%M:%S&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Maintenance: List apps -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Maintenance: List installed apps and their status&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo /opt/splunk/bin/splunk list app
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Maintenance: List app versions -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Maintenance: List installed apps and their version (if found)&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo /opt/splunk/bin/splunk list app | grep version /opt/splunk/etc/apps/*/default/app.conf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Maintenance: Install an app -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Maintenance: Update an app&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/splunk install app &amp;lt;path to app.package&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Maintenance: Update an app -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Maintenance: Update an app&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/splunk install app &amp;lt;path to app.package&amp;gt; -update &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Maintenance: Remove an app -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Maintenance: Remove an app&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk remove app &lt;span style="color:#f92672">[&lt;/span>appname&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Maintenance: Check Splunk admins -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Maintenance: Check Splunk admins&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list user | grep admin -B2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
 &lt;!-- Basic config: Enable Splunk service -->
 &lt;div class="note-card ">
 &lt;div class="item">
@@ -349,6 +419,16 @@
 &lt;h5 class="note-title">&lt;span>Basic config: Disable Splunk service so it doesn&amp;#39;t start when the host boots up&lt;/span>&lt;/h5>
 &lt;div class="card">
 &lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk disable
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Extra: Find the startup message -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Extra: Find the startup message&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>cat /opt/splunk/var/log/splunk/splunkd_stdout.log | grep &lt;span style="color:#e6db74">&amp;#34;Splunk&amp;gt;&amp;#34;&lt;/span> | tail -n &lt;span style="color:#ae81ff">1&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
