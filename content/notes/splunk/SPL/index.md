@@ -9,6 +9,8 @@ menu:
     weight: 10
 ---
 
+<div style="display: block;">
+
 <!-- Errorcheck within Splunk GUI -->
 {{< note title="Troubleshooting: Errorcheck within Splunk GUI" >}}
 
@@ -71,3 +73,5 @@ index=_internal source=*license_usage.log type="Usage"
 | rename title as username
 ```
 {{< /note >}}
+
+</div>
