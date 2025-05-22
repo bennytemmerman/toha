@@ -9,7 +9,7 @@ menu:
     weight: 11
 ---
 
-<div style="display: block;">
+<div style="display: block; width: 100%; max-width: none;">
 
 <!-- Maintenance: Start Splunk -->
 {{< note title="Maintenance: Start Splunk" >}}
@@ -51,6 +51,62 @@ menu:
 ```
 {{< /note >}}
 
+<!-- Maintenance: Check License expiration date -->
+{{< note title="Maintenance: Check license expiration date" >}}
+
+```bash
+sudo /opt/splunk/bin/splunk list licenses | grep "expiration_time" | awk -F':' '{print $2}' | xargs -I{} date -d @{} +"%Y-%m-%d %H:%M:%S"
+```
+{{< /note >}}
+
+<!-- Maintenance: List apps -->
+{{< note title="Maintenance: List installed apps and their status" >}}
+
+```bash
+{{< note title="Maintenance: List installed apps and their status" >}}
+```
+{{< /note >}}
+
+<!-- Maintenance: List app versions -->
+{{< note title="Maintenance: List installed apps and their version (if found)" >}}
+
+```bash
+sudo /opt/splunk/bin/splunk list app | grep version /opt/splunk/etc/apps/*/default/app.conf
+```
+{{< /note >}}
+
+<!-- Maintenance: Install an app -->
+{{< note title="Maintenance: Update an app" >}}
+
+```bash
+/splunk install app <path to app.package>
+```
+{{< /note >}}
+
+<!-- Maintenance: Update an app -->
+{{< note title="Maintenance: Update an app" >}}
+
+```bash
+/splunk install app <path to app.package> -update 1
+```
+{{< /note >}}
+
+<!-- Maintenance: Remove an app -->
+{{< note title="Maintenance: Remove an app" >}}
+
+```bash
+/opt/splunk/bin/splunk remove app [appname]
+```
+{{< /note >}}
+
+<!-- Maintenance: Check Splunk admins -->
+{{< note title="Maintenance: Check Splunk admins" >}}
+
+```bash
+/opt/splunk/bin/splunk list user | grep admin -B2
+```
+{{< /note >}}
+
 <!-- Basic config: Enable Splunk service -->
 {{< note title="Basic config: Enable Splunk service to start when the host boots up" >}}
 
@@ -64,6 +120,14 @@ menu:
 
 ```bash
 /opt/splunk/bin/splunk disable
+```
+{{< /note >}}
+
+<!-- Extra: Find the startup message -->
+{{< note title="Extra: Find the startup message" >}}
+
+```bash
+cat /opt/splunk/var/log/splunk/splunkd_stdout.log | grep "Splunk>" | tail -n 1
 ```
 {{< /note >}}
 
