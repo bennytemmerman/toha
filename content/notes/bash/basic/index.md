@@ -8,6 +8,7 @@ menu:
     parent: notes-bash
     weight: 10
 ---
+<div style="display: block; width: 100%; max-width: none;">
 
 <!-- Variable -->
 {{< note title="Variable" >}}
@@ -33,3 +34,5 @@ fi
 ```
 
 {{< /note >}}
+
+</div>

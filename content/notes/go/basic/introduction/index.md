@@ -8,6 +8,8 @@ menu:
     parent: notes-go-basics
     weight: 10
 ---
+<div style="display: block; width: 100%; max-width: none;">
+
 <!-- A Sample Program -->
 {{< note title="Hello World">}}
 A sample go program is show here.
@@ -59,3 +61,5 @@ msg := "Hello"
 const Phi = 1.618
 ```
 {{< /note >}}
+
+</div>

@@ -8,6 +8,9 @@ menu:
     parent: notes-go-basics
     weight: 20
 ---
+
+<div style="display: block; width: 100%; max-width: none;">
+
 <!-- String Type -->
 {{< note title="Strings" >}}
 ```go
@@ -102,3 +105,5 @@ slice := []byte("Hello")
 ```
 
 {{< /note >}}
+
+</div>

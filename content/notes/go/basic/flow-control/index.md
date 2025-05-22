@@ -8,6 +8,7 @@ menu:
     parent: notes-go-basics
     weight: 30
 ---
+<div style="display: block; width: 100%; max-width: none;">
 
 <!-- Condition -->
 {{< note title="Condition">}}
@@ -74,3 +75,5 @@ for n != x {
 ```
 
 {{< /note >}}
+
+</div>

@@ -8,6 +8,7 @@ menu:
     parent: notes-go-advanced
     weight: 10
 ---
+<div style="display: block; width: 100%; max-width: none;">
 
 <!-- Condition -->
 {{< note title="Condition">}}
@@ -28,3 +29,5 @@ if _, err := doThing(); err != nil {
 ```
 
 {{< /note >}}
+
+</div>
