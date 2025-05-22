@@ -63,7 +63,7 @@ sudo /opt/splunk/bin/splunk list licenses | grep "expiration_time" | awk -F':' '
 {{< note title="Maintenance: List installed apps and their status" >}}
 
 ```bash
-{{< note title="Maintenance: List installed apps and their status" >}}
+sudo /opt/splunk/bin/splunk list app
 ```
 {{< /note >}}
 
