@@ -338,7 +338,7 @@
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Maintenance: Check license expiration date&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo /opt/splunk/bin/splunk list licenses | grep &lt;span style="color:#e6db74">&amp;#34;expiration_time&amp;#34;&lt;/span> | awk -F&lt;span style="color:#e6db74">&amp;#39;:&amp;#39;&lt;/span> &lt;span style="color:#e6db74">&amp;#39;{print $2}&amp;#39;&lt;/span> | xargs -I&lt;span style="color:#f92672">{}&lt;/span> date -d @&lt;span style="color:#f92672">{}&lt;/span> +&lt;span style="color:#e6db74">&amp;#34;%Y-%m-%d %H:%M:%S&amp;#34;&lt;/span>
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list licenses | grep &lt;span style="color:#e6db74">&amp;#34;expiration_time&amp;#34;&lt;/span> | awk -F&lt;span style="color:#e6db74">&amp;#39;:&amp;#39;&lt;/span> &lt;span style="color:#e6db74">&amp;#39;{print $2}&amp;#39;&lt;/span> | xargs -I&lt;span style="color:#f92672">{}&lt;/span> date -d @&lt;span style="color:#f92672">{}&lt;/span> +&lt;span style="color:#e6db74">&amp;#34;%Y-%m-%d %H:%M:%S&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
@@ -348,7 +348,7 @@
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Maintenance: List installed apps and their status&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo /opt/splunk/bin/splunk list app
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list app
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
@@ -358,7 +358,7 @@
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Maintenance: List installed apps and their version (if found)&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo /opt/splunk/bin/splunk list app | grep version /opt/splunk/etc/apps/*/default/app.conf
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list app | grep version /opt/splunk/etc/apps/*/default/app.conf
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
