@@ -9,7 +9,7 @@ menu:
     weight: 10
 ---
 
-<div style="display: block;">
+<div style="display: block; width: 100%; max-width: none;">
 
 <!-- Errorcheck within Splunk GUI -->
 {{< note title="Troubleshooting: Errorcheck within Splunk GUI" >}}
