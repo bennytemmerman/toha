@@ -55,7 +55,7 @@ menu:
 {{< note title="Maintenance: Check license expiration date" >}}
 
 ```bash
-sudo /opt/splunk/bin/splunk list licenses | grep "expiration_time" | awk -F':' '{print $2}' | xargs -I{} date -d @{} +"%Y-%m-%d %H:%M:%S"
+/opt/splunk/bin/splunk list licenses | grep "expiration_time" | awk -F':' '{print $2}' | xargs -I{} date -d @{} +"%Y-%m-%d %H:%M:%S"
 ```
 {{< /note >}}
 
@@ -63,7 +63,7 @@ sudo /opt/splunk/bin/splunk list licenses | grep "expiration_time" | awk -F':' '
 {{< note title="Maintenance: List installed apps and their status" >}}
 
 ```bash
-sudo /opt/splunk/bin/splunk list app
+/opt/splunk/bin/splunk list app
 ```
 {{< /note >}}
 
@@ -71,7 +71,7 @@ sudo /opt/splunk/bin/splunk list app
 {{< note title="Maintenance: List installed apps and their version (if found)" >}}
 
 ```bash
-sudo /opt/splunk/bin/splunk list app | grep version /opt/splunk/etc/apps/*/default/app.conf
+/opt/splunk/bin/splunk list app | grep version /opt/splunk/etc/apps/*/default/app.conf
 ```
 {{< /note >}}
 
