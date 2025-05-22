@@ -327,6 +327,17 @@ style="float: right;"
 &lt;/div>
 &lt;/div>
 &lt;/div>
+&lt;!-- Checking Splunk server version -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Troubleshooting: Check Splunk version&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| rest splunk_server&lt;span style="color:#f92672">=&lt;/span>* count&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span> /services/server/info
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| table version host
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
 &lt;!-- Index list -->
 &lt;div class="note-card ">
 &lt;div class="item">
@@ -360,7 +371,7 @@ style="float: right;"
 &lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#f92672">=&lt;/span>_internal source&lt;span style="color:#f92672">=&lt;/span>*license_usage.log type&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Usage&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| bin _time span&lt;span style="color:#f92672">=&lt;/span>1d
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| stats sum&lt;span style="color:#f92672">(&lt;/span>b&lt;span style="color:#f92672">)&lt;/span> as b by idx, _time
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| eval GB&lt;span style="color:#f92672">=&lt;/span>round&lt;span style="color:#f92672">((&lt;/span>b/1024/1024/1024&lt;span style="color:#f92672">)&lt;/span>,2&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| eval GB&lt;span style="color:#f92672">=&lt;/span>round&lt;span style="color:#f92672">((&lt;/span>b/31556952&lt;span style="color:#f92672">)&lt;/span>,2&lt;span style="color:#f92672">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| eventstats sum&lt;span style="color:#f92672">(&lt;/span>GB&lt;span style="color:#f92672">)&lt;/span> as total_GB by _time
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| eval percentage&lt;span style="color:#f92672">=&lt;/span>round&lt;span style="color:#f92672">((&lt;/span>GB/total_GB&lt;span style="color:#f92672">)&lt;/span>*100,2&lt;span style="color:#f92672">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| sort -_time -GB
@@ -368,19 +379,19 @@ style="float: right;"
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| rename idx as Index, GB as &lt;span style="color:#e6db74">&amp;#34;Size (GB)&amp;#34;&lt;/span>, percentage as &lt;span style="color:#e6db74">&amp;#34;Percentage (%)&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| convert timeformat&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;%Y-%m-%d&amp;#34;&lt;/span> ctime&lt;span style="color:#f92672">(&lt;/span>_time&lt;span style="color:#f92672">)&lt;/span> as Date
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| fields Date, Index, &lt;span style="color:#e6db74">&amp;#34;Size (GB)&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Percentage (%)&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">```&lt;/span>&lt;span style="color:#66d9ef">for&lt;/span> years, divide frozenTimePeriodInSecs/31556952; &lt;span style="color:#66d9ef">for&lt;/span> days, divide frozenTimePeriodInSecs/86400&lt;span style="color:#e6db74">```&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">```&lt;/span>&lt;span style="color:#66d9ef">for&lt;/span> years, divide b/31556952; &lt;span style="color:#66d9ef">for&lt;/span> days, divide b/31556952&lt;span style="color:#e6db74">```&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;!-- Index list -->
+&lt;!-- User list -->
 &lt;div class="note-card ">
 &lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Index: List indexes&lt;/span>&lt;/h5>
+&lt;h5 class="note-title">&lt;span>Users: List users and their roles&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| eventcount summarize&lt;span style="color:#f92672">=&lt;/span>false index&lt;span style="color:#f92672">=&lt;/span>*
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| dedup index
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| fields index
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| rest /services/authentication/users splunk_server&lt;span style="color:#f92672">=&lt;/span>local
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| fields title roles email
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| rename title as username
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
