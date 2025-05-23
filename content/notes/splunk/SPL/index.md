@@ -17,7 +17,6 @@ Errorcheck within Splunk GUI
 ```bash
 index=_internal log_level=ERROR source="/opt/splunk/var/log/splunk/splunkd.log"
 ```
-{{< /note >}}
 
 Check Splunk version
 ```bash
