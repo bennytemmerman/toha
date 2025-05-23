@@ -11,14 +11,14 @@ menu:
 
 <div style="display: block; width: 100%; max-width: none;">
 
-<!-- Troubleshooting:  -->
+<!-- markdownlint-disable -->
 {{< note title="Troubleshooting:" >}}
 Errorcheck within Splunk GUI
 ```bash
 index=_internal log_level=ERROR source="/opt/splunk/var/log/splunk/splunkd.log"
 ```
 Check Splunk version
-```XQuery
+```bash
 | rest splunk_server=* count=1 /services/server/info 
 | table version host
 ```
