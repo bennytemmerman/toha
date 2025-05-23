@@ -4,21 +4,22 @@
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Troubleshooting:&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#f92672">=&lt;/span>_internal log_level&lt;span style="color:#f92672">=&lt;/span>ERROR source&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;/opt/splunk/var/log/splunk/splunkd.log&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Errorcheck within Splunk GUI&lt;/p>
+&lt;div class="card-body">&lt;p>Errorcheck within Splunk GUI&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#f92672">=&lt;/span>_internal log_level&lt;span style="color:#f92672">=&lt;/span>ERROR source&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;/opt/splunk/var/log/splunk/splunkd.log&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check Splunk version&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| rest splunk_server&lt;span style="color:#f92672">=&lt;/span>* count&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span> /services/server/info
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| table version host
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check Splunk version&lt;/p>
-&lt;/div>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
 &lt;/div>
 &lt;!-- Index -->
 &lt;div class="note-card ">
 &lt;div class="item">
-&lt;h5 class="note-title">&lt;span>List indexes with the retention period&lt;/span>&lt;/h5>
+&lt;h5 class="note-title">&lt;span>Index&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| rest splunk_server&lt;span style="color:#f92672">=&lt;/span>* /services/data/indexes
+&lt;div class="card-body">&lt;p>List indexes with the retention period&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| rest splunk_server&lt;span style="color:#f92672">=&lt;/span>* /services/data/indexes
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| eval &lt;span style="color:#e6db74">&amp;#34;Retention Period (months)&amp;#34;&lt;/span>&lt;span style="color:#f92672">=&lt;/span>round&lt;span style="color:#f92672">((&lt;/span>frozenTimePeriodInSecs/2628000&lt;span style="color:#f92672">)&lt;/span>,0&lt;span style="color:#f92672">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| search NOT title IN &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;_*&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;main&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;history&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;summary&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;splunklogger&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| table title &lt;span style="color:#e6db74">&amp;#34;Retention Period (months)&amp;#34;&lt;/span>
@@ -31,183 +32,26 @@
 &lt;!-- Hosts -->
 &lt;div class="note-card ">
 &lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Overview of hosts sending logs by index&lt;/span>&lt;/h5>
+&lt;h5 class="note-title">&lt;span>Hosts&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| tstats values&lt;span style="color:#f92672">(&lt;/span>host&lt;span style="color:#f92672">)&lt;/span> where index&lt;span style="color:#f92672">=&lt;/span>* by index
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;!-- License -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Usage per day by index &amp;#43; percentages&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#f92672">=&lt;/span>_internal source&lt;span style="color:#f92672">=&lt;/span>*license_usage.log type&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Usage&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| bin _time span&lt;span style="color:#f92672">=&lt;/span>1d
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| stats sum&lt;span style="color:#f92672">(&lt;/span>b&lt;span style="color:#f92672">)&lt;/span> as b by idx, _time
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| eval GB&lt;span style="color:#f92672">=&lt;/span>round&lt;span style="color:#f92672">((&lt;/span>b/31556952&lt;span style="color:#f92672">)&lt;/span>,2&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| eventstats sum&lt;span style="color:#f92672">(&lt;/span>GB&lt;span style="color:#f92672">)&lt;/span> as total_GB by _time
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| eval percentage&lt;span style="color:#f92672">=&lt;/span>round&lt;span style="color:#f92672">((&lt;/span>GB/total_GB&lt;span style="color:#f92672">)&lt;/span>*100,2&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| sort -_time -GB
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| fields - b, total_GB
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| rename idx as Index, GB as &lt;span style="color:#e6db74">&amp;#34;Size (GB)&amp;#34;&lt;/span>, percentage as &lt;span style="color:#e6db74">&amp;#34;Percentage (%)&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| convert timeformat&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;%Y-%m-%d&amp;#34;&lt;/span> ctime&lt;span style="color:#f92672">(&lt;/span>_time&lt;span style="color:#f92672">)&lt;/span> as Date
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| fields Date, Index, &lt;span style="color:#e6db74">&amp;#34;Size (GB)&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Percentage (%)&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">```&lt;/span>&lt;span style="color:#66d9ef">for&lt;/span> years, divide b/31556952; &lt;span style="color:#66d9ef">for&lt;/span> days, divide b/31556952&lt;span style="color:#e6db74">```&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;!-- Users -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>List users and their roles&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| rest /services/authentication/users splunk_server&lt;span style="color:#f92672">=&lt;/span>local
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| fields title roles email
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| rename title as username
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div></description></item><item><title>Splunk CLI commands</title><link>https://siemforge.xyz/notes/splunk/cli/index-cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/cli/index-cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;div class="card-body">&lt;p>Overview of hosts sending logs by index&lt;/p></description></item><item><title>Splunk CLI commands</title><link>https://siemforge.xyz/notes/splunk/cli/index-cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/cli/index-cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
 &lt;!-- Maintenance: -->
 &lt;div class="note-card ">
 &lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Start Splunk&lt;/span>&lt;/h5>
+&lt;h5 class="note-title">&lt;span>Maintenance:&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk start
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Stop Splunk&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk stop
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Restart Splunk&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk restart
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Check if Splunk is running&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk status
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>reloading a serverclass to push deployment apps without restarting Splunk&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk reload deploy-server -class &lt;span style="color:#f92672">[&lt;/span>serverclass-name&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Check license expiration date&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list licenses | grep &lt;span style="color:#e6db74">&amp;#34;expiration_time&amp;#34;&lt;/span> | awk -F&lt;span style="color:#e6db74">&amp;#39;:&amp;#39;&lt;/span> &lt;span style="color:#e6db74">&amp;#39;{print $2}&amp;#39;&lt;/span> | xargs -I&lt;span style="color:#f92672">{}&lt;/span> date -d @&lt;span style="color:#f92672">{}&lt;/span> +&lt;span style="color:#e6db74">&amp;#34;%Y-%m-%d %H:%M:%S&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>List installed apps and their status&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list app
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>List installed apps and their version (if found)&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list app | grep version /opt/splunk/etc/apps/*/default/app.conf
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Install an app&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/splunk install app &amp;lt;path to app.package&amp;gt;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Update an app&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/splunk install app &amp;lt;path to app.package&amp;gt; -update &lt;span style="color:#ae81ff">1&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Remove an app&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk remove app &lt;span style="color:#f92672">[&lt;/span>appname&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Check Splunk admins&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list user | grep admin -B2
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;!-- Basic config: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Enable Splunk service to start when the host boots up&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk enable
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Disable Splunk service so it doesn&amp;#39;t start when the host boots up&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk disable
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;!-- Extra: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Find the startup message&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>cat /opt/splunk/var/log/splunk/splunkd_stdout.log | grep &lt;span style="color:#e6db74">&amp;#34;Splunk&amp;gt;&amp;#34;&lt;/span> | tail -n &lt;span style="color:#ae81ff">1&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div></description></item></channel></rss>
+&lt;div class="card-body">&lt;p>Start Splunk&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk start
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Stop Splunk&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk stop
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Restart Splunk&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk restart
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check if Splunk is running&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk status
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Reload a serverclass to push deployment apps without restarting Splunk&amp;quot;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk reload deploy-server -class &lt;span style="color:#f92672">[&lt;/span>serverclass-name&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check license expiration date&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list licenses | grep &lt;span style="color:#e6db74">&amp;#34;expiration_time&amp;#34;&lt;/span> | awk -F&lt;span style="color:#e6db74">&amp;#39;:&amp;#39;&lt;/span> &lt;span style="color:#e6db74">&amp;#39;{print $2}&amp;#39;&lt;/span> | xargs -I&lt;span style="color:#f92672">{}&lt;/span> date -d @&lt;span style="color:#f92672">{}&lt;/span> +&lt;span style="color:#e6db74">&amp;#34;%Y-%m-%d %H:%M:%S&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>List installed apps and their status&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list app
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>List installed apps and their version (if found)&lt;/p></description></item></channel></rss>
