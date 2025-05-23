@@ -10,7 +10,8 @@ menu:
 ---
 
 <div style="display: block; width: 100%; max-width: none;">
-<!-- Troubleshooting -->
+
+<!-- markdownlint-enable --> 
 {{< note title="Troubleshooting:" >}}
 Errorcheck within Splunk GUI
 ```SPL
