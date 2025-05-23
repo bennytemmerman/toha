@@ -11,7 +11,6 @@ menu:
 
 <div style="display: block; width: 100%; max-width: none;">
 
-<!-- markdownlint-disable -->
 {{< note title="Troubleshooting:" >}}
 Errorcheck within Splunk GUI
 ```SPL
