@@ -57,9 +57,6 @@ enableEmoji: true
 
 # Site parameters
 params:
-  assets:
-    customCSS:
-      - css/custom.css
   # Background image of the landing page
   background: /images/site/background.jpg
   # Background image of the landing page for dark theme
