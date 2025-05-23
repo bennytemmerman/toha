@@ -13,10 +13,12 @@ menu:
 
 <!-- Troubleshooting:  -->
 {{< note title="Troubleshooting:" >}}
+
 Errorcheck within Splunk GUI
 ```bash
 index=_internal log_level=ERROR source="/opt/splunk/var/log/splunk/splunkd.log"
 ```
+
 
 Check Splunk version
 ```bash
