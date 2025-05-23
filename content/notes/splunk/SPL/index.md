@@ -10,7 +10,7 @@ menu:
 ---
 
 <div style="display: block; width: 100%; max-width: none;">
-
+<!-- Troubleshooting -->
 {{< note title="Troubleshooting:" >}}
 Errorcheck within Splunk GUI
 ```SPL
