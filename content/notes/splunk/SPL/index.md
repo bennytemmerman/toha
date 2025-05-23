@@ -12,15 +12,14 @@ menu:
 <div style="display: block; width: 100%; max-width: none;">
 
 <!-- Troubleshooting:  -->
-{{< note title="Errorcheck within Splunk GUI" >}}
-
+{{< note title="Troubleshooting:" >}}
+Errorcheck within Splunk GUI
 ```bash
 index=_internal log_level=ERROR source="/opt/splunk/var/log/splunk/splunkd.log"
 ```
 {{< /note >}}
 
-{{< note title="Check Splunk version" >}}
-
+Check Splunk version
 ```bash
 | rest splunk_server=* count=1 /services/server/info 
 | table version host
