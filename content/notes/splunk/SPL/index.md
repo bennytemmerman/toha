@@ -11,16 +11,15 @@ menu:
 
 <div style="display: block; width: 100%; max-width: none;">
 
-<!-- Errorcheck within Splunk GUI -->
-{{< note title="Troubleshooting: Errorcheck within Splunk GUI" >}}
+<!-- Troubleshooting:  -->
+{{< note title="Errorcheck within Splunk GUI" >}}
 
 ```bash
 index=_internal log_level=ERROR source="/opt/splunk/var/log/splunk/splunkd.log"
 ```
 {{< /note >}}
 
-<!-- Checking Splunk server version -->
-{{< note title="Troubleshooting: Check Splunk version" >}}
+{{< note title="Check Splunk version" >}}
 
 ```bash
 | rest splunk_server=* count=1 /services/server/info 
@@ -28,8 +27,8 @@ index=_internal log_level=ERROR source="/opt/splunk/var/log/splunk/splunkd.log"
 ```
 {{< /note >}}
 
-<!-- Index list -->
-{{< note title="Index: List indexes with the retention period" >}}
+<!-- Index -->
+{{< note title="List indexes with the retention period" >}}
 ```bash
 | rest splunk_server=* /services/data/indexes 
 | eval "Retention Period (months)"=round((frozenTimePeriodInSecs/2628000),0)
@@ -40,15 +39,15 @@ index=_internal log_level=ERROR source="/opt/splunk/var/log/splunk/splunkd.log"
 ```
 {{< /note >}}
 
-<!-- Host list -->
-{{< note title="Hosts: Overview of hosts sending logs by index" >}}
+<!-- Hosts -->
+{{< note title="Overview of hosts sending logs by index" >}}
 ```bash
 | tstats values(host) where index=* by index
 ```
 {{< /note >}}
 
-<!-- License usage -->
-{{< note title="License: Usage per day by index + percentages" >}}
+<!-- License -->
+{{< note title="Usage per day by index + percentages" >}}
 ```bash
 index=_internal source=*license_usage.log type="Usage"
 | bin _time span=1d
@@ -65,8 +64,8 @@ index=_internal source=*license_usage.log type="Usage"
 ```
 {{< /note >}}
 
-<!-- User list -->
-{{< note title="Users: List users and their roles" >}}
+<!-- Users -->
+{{< note title="List users and their roles" >}}
 ```bash
 | rest /services/authentication/users splunk_server=local
 | fields title roles email
