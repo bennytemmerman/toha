@@ -112,7 +112,7 @@ menu:
 {{< /note >}}
 
 <!-- Extra: -->
-{{< note title=""Extra: "Find the startup message" >}}
+{{< note title="Find the startup message" >}}
 
 ```bash
 cat /opt/splunk/var/log/splunk/splunkd_stdout.log | grep "Splunk>" | tail -n 1
