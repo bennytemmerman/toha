@@ -1,10 +1,10 @@
 /* Add more spacing after code blocks followed by paragraphs */
 pre + p {
-    margin-top: 1.5rem; /* Increase this if needed */
+    margin-top: 3rem; /* Increase this if needed */
   }
   
   /* Reduce space between paragraph and following code block */
   p + pre {
-    margin-top: 0.5rem; /* Decrease this if needed */
+    margin-top: 0.1rem; /* Decrease this if needed */
   }
   
