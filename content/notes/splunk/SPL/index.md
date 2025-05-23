@@ -18,7 +18,7 @@ Errorcheck within Splunk GUI
 index=_internal log_level=ERROR source="/opt/splunk/var/log/splunk/splunkd.log"
 ```
 Check Splunk version
-```SPL
+```XQuery
 | rest splunk_server=* count=1 /services/server/info 
 | table version host
 ```
