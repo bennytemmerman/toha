@@ -219,12 +219,10 @@
 &lt;div class="card">
 &lt;div class="card-body">&lt;p>Errorcheck within Splunk GUI&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#f92672">=&lt;/span>_internal log_level&lt;span style="color:#f92672">=&lt;/span>ERROR source&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;/opt/splunk/var/log/splunk/splunkd.log&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;br>
-Check Splunk version
-```bash
-| rest splunk_server=* count=1 /services/server/info
-| table version host
-```&lt;/div>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check Splunk version&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| rest splunk_server&lt;span style="color:#f92672">=&lt;/span>* count&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span> /services/server/info
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| table version host
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
 &lt;/div>
