@@ -16,7 +16,7 @@ accomplishments:
   organization:
     name: Boot.dev
     url: https://www.boot.dev
-  courseOverview: "Multiple courses, learning Python in a self-paced gamified learning platform which covers topics like scripting, object oriented programming (OOP), functional programming. 
+  courseOverview: "Multiple courses, learning Python in a self-paced gamified learning platform which covers topics like scripting, object oriented programming (OOP), functional programming."
   certificateURL: "https://www.boot.dev/certificates/4727c8c3-3224-4390-b104-d74904581ef6"
 
 - name: Learning about GIT and CI/CD
@@ -24,7 +24,7 @@ accomplishments:
   organization:
     name: Boot.dev
     url: https://www.boot.dev
-  courseOverview: " To add more value at work and help out our senior techleads finetune our service, I decided to dive into CI/CD and Git. I genuinly enjoyed this course a lot about version control and unit testing.   
+  courseOverview: "To add more value at work and help out our senior techleads finetune our service, I decided to dive into CI/CD and Git. I genuinly enjoyed this course a lot about version control and unit testing."
   certificateURL: "https://www.boot.dev/certificates/3d5484bd-b5f3-46cc-baa3-cbe0d2a49e6a"
 
 - name: Learning about Microsoft Azure Sentinel
