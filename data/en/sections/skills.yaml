@@ -57,3 +57,4 @@ skills:
   logo: /images/sections/skills/azure_devops.svg
   summary: "Contributing to our Sentinel service, configuring analytics rules through Azure Devops for version control and collaboration."
   categories: ["basic", "language"]
+  url: "https://azure.microsoft.com/en-us/products/devops"
