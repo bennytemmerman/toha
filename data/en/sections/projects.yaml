@@ -41,7 +41,7 @@ projects:
   logo: /images/site/main-logo.png
   role: Owner
   timeline: "April 2025 - Present"
-  url: "https://siemforge.xyz"
+  #url: "https://siemforge.xyz"
   summary: Complete project from buying domain, configuring DNS, creating mailbox, using Github combined with Netlify. A more attractive website showcasing my work.
   tags: ["Hobby"]
 
