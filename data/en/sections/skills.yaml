@@ -64,3 +64,27 @@ skills:
   summary: "All my containers in my homelab are running LXC in Proxmox."
   categories: ["container", "virtualization"]
   url: "https://linuxcontainers.org/"
+
+- name: Linux
+  logo: /images/sections/skills/linux.png
+  summary: "Mostly roaming around in CLI, 97% of my homelab consists of linux hosts. Capable of writing bash/shell scripts. At work all of our tools are configured on Linux hosts. My preferred distro is Ubuntu while at work we focus on redhat alternatives like Oracle Linux or Alma Linux."
+  categories: ["basic"]
+  url: "https://www.linux.org/"
+
+- name: Windows
+  logo: /images/sections/skills/linux.png
+  summary: "Main driver, but also testing hosts in my homelab mostly for log generation and ingestion"
+  categories: ["basic"]
+  url: "https://www.microsoft.com/nl-be/windows"
+
+- name: Git
+  logo: /images/sections/skills/git.png
+  summary: "Using Github while building this website to learn about version control."
+  categories: ["basic"]
+  url: "https://git-scm.com/"
+
+- name: Azure DevOps
+  logo: /images/sections/skills/azure_devops.svg
+  summary: "Contributing to our Sentinel service, configuring analytics rules through Azure Devops for version control and collaboration."
+  categories: ["cloud", "basic"]
+  url: "https://azure.microsoft.com/en-us/products/devops"
