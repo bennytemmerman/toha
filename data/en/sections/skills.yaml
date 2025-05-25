@@ -17,8 +17,8 @@ buttons:
   filter: "basic"
 - name: Language
   filter: "language"
-- name: Container
-  filter: "container"
+- name: Automation
+  filter: "automation"
 - name: Cloud
   filter: "cloud"
 - name: SIEM
@@ -56,13 +56,13 @@ skills:
 - name: Docker
   logo: /images/sections/skills/docker.svg
   summary: "Learning containerization in order to create my own containers."
-  categories: ["container", virtualization]
+  categories: ["virtualization"]
   url: "https://www.docker.com/"
 
 - name: LXC
   logo: /images/sections/skills/lxc.png
   summary: "All my containers in my homelab are running LXC in Proxmox."
-  categories: ["container", "virtualization"]
+  categories: ["virtualization"]
   url: "https://linuxcontainers.org/"
 
 - name: Proxmox
@@ -112,3 +112,9 @@ skills:
   summary: "Certified admin, but not a lot of hands-on experience yet."
   categories: ["siem"]
   url: "https://cribl.io/"
+
+- name: Ansible
+  logo: /images/sections/skills/ansible.svg
+  summary: "Testing and learning within the homelab. Used Ansible Tower at work and currently using CCA for Splunk, but it's truly complicated."
+  categories: ["automation"]
+  url: "https://docs.ansible.com/"
