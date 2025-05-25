@@ -29,6 +29,12 @@ buttons:
 
 # your projects
 projects:
+- name: KC7
+  logo: /images/sections/projects/kc7.png
+  role: Azure Sentinel KQL
+  url: "https://kc7cyber.com/" 
+  summary: The free cyber detective game to learn about the Kusto Query language and SOC analyst investigation. Transform into a digital detective, sift through data, and unravel mysteries. A fresh, fun way to learn cybersecurity, designed for everyone.
+  tags: ["blue", "Hypervisor"]
 
 - name: KC7 cyber
   logo: /images/sections/projects/proxmox.png
