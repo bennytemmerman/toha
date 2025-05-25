@@ -64,9 +64,3 @@ skills:
   summary: "All my containers in my homelab are running LXC in Proxmox."
   categories: ["container", "virtualization"]
   url: "https://linuxcontainers.org/"
-
-- name: Proxmox
-  logo: /images/sections/skills/proxmox.png
-  summary: "This open-source virtualization platform is my first choice for my homelab projects"
-  categories: ["virtualization"]
-  url: "https://www.proxmox.com/"
