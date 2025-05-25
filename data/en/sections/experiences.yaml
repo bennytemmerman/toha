@@ -14,7 +14,7 @@ experiences:
     name: Orange Cyberdefense
     url: "https://www.orangecyberdefense.com"
     location: Brussels, Belgium
-    logo: /images/sections/experiences/OCD.png
+    logo: /images/sections/experiences/OCD.svg
     # Can optionally show a different logo for dark theme
     # darkLogo: /images/sections/experiences/company1.jpg
     # company overview
@@ -26,7 +26,6 @@ experiences:
     # end: Dec 2020
     # give some points about what was your responsibilities at the company.
     responsibilities:
-    - Deploy Splunk and Sentinel
     - Handle customer cases
     - Manage, monitor and operate SIEM
     - collaborate with other teams

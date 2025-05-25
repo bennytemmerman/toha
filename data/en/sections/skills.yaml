@@ -25,15 +25,26 @@ buttons:
 # Your Skills.
 # Give a summary of you each skill in the summary section.
 skills:
-- name: Go Development
+- name: Golang
   logo: /images/sections/skills/go.png
   summary: "Creating/testing small applications to enhance day to day work."
   categories: ["language"]
   url: "https://golang.org/"
 
-- name: Cloud Computing
-  logo: /images/sections/skills/cloud.png
-  summary: "Worked with GCP for testing/learning purposes, Azure for troubleshooting work related tickets."
+- name: Python (scripting)
+  logo: /images/sections/skills/python.svg
+  summary: "Learning about python scripts, what they do and how I can build my own."
+  categories: ["language"]
+  url: "https://golang.org/"
+
+- name: GCP
+  logo: /images/sections/skills/GCP.svg
+  summary: "Tried GCP for testing/learning about cloud computing concepts."
+  categories: ["cloud"]
+
+- name: Microsoft Azure
+  logo: /images/sections/skills/azure.svg
+  summary: "Tried GCP for testing/learning about cloud computing concepts."
   categories: ["cloud"]
 
 - name: Docker
@@ -56,5 +67,5 @@ skills:
 - name: Azure DevOps
   logo: /images/sections/skills/azure_devops.svg
   summary: "Contributing to our Sentinel service, configuring analytics rules through Azure Devops for version control and collaboration."
-  categories: ["basic", "language"]
+  categories: ["basic"]
   url: "https://azure.microsoft.com/en-us/products/devops"
