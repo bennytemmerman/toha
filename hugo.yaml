@@ -25,11 +25,11 @@ languages:
     languageName: English
     title: "SIEMForge"
     weight: 1
-  nl:
-    languageCode: nl
-    languageName: Dutch
-    title: "SIEMForge"
-    weight: 2
+#  nl:
+#    languageCode: nl
+#    languageName: Dutch
+#    title: "SIEMForge"
+#    weight: 2
 # default language for the content
 defaultContentLanguage: en
 
