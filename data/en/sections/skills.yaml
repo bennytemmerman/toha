@@ -21,11 +21,15 @@ buttons:
   filter: "container"
 - name: Cloud
   filter: "cloud"
+- name: SIEM
+  filter: "siem"
+- name: Virtualization
+  filter: "virtualization"
 
 # Your Skills.
 # Give a summary of you each skill in the summary section.
 skills:
-- name: Golang
+- name: Go
   logo: /images/sections/skills/go.png
   summary: "Creating/testing small applications to enhance day to day work."
   categories: ["language"]
@@ -35,29 +39,50 @@ skills:
   logo: /images/sections/skills/python.svg
   summary: "Learning about python scripts, what they do and how I can build my own."
   categories: ["language"]
-  url: "https://golang.org/"
+  url: "https://www.python.org/"
 
 - name: GCP
   logo: /images/sections/skills/GCP.svg
   summary: "Tried GCP for testing/learning about cloud computing concepts."
-  categories: ["cloud"]
+  categories: ["cloud", virtualization]
+  url: "https://cloud.google.com"
 
 - name: Microsoft Azure
   logo: /images/sections/skills/azure.svg
-  summary: "Tried GCP for testing/learning about cloud computing concepts."
-  categories: ["cloud"]
+  summary: "We work daily in Azure to handle customer tickets, mostly related to Azure Sentinel."
+  categories: ["cloud", "virtualization"]
+  url: "https://azure.microsoft.com"
 
 - name: Docker
   logo: /images/sections/skills/docker.svg
   summary: "Learning containerization in order to create my own containers."
-  categories: ["container"]
+  categories: ["container", virtualization]
   url: "https://www.docker.com/"
+
+- name: LXC
+  logo: /images/sections/skills/lxc.png
+  summary: "All my containers in my homelab are running LXC in Proxmox."
+  categories: ["container", "virtualization"]
+  url: "https://linuxcontainers.org/"
+
+- name: Proxmox
+  logo: /images/sections/skills/proxmox.png
+  summary: "This open-source virtualization platform is my first choice for my homelab projects"
+  categories: ["virtualization"]
+  url: "https://www.proxmox.com/"
 
 - name: Linux
   logo: /images/sections/skills/linux.png
-  summary: "Mostly roaming around in CLI, 97% of my homelab consists of linux hosts. Capable of writing bash/shell scripts. At work all of our tools are configured on Linux hosts."
+  summary: "Mostly roaming around in CLI, 97% of my homelab consists of linux hosts. Capable of writing bash/shell scripts. At work all of our tools are configured on Linux hosts. My preferred distro is Ubuntu while at work we focus on redhat alternatives like Oracle Linux or Alma Linux."
   categories: ["basic"]
+  url: "https://www.linux.org/"
 
+- name: Windows
+  logo: /images/sections/skills/windows.png
+  summary: "Main driver, but also testing hosts in my homelab mostly for log generation and ingestion"
+  categories: ["basic"]
+  url: "https://www.microsoft.com/nl-be/windows"
+  
 - name: Git
   logo: /images/sections/skills/git.png
   summary: "Using Github while building this website to learn about version control."
@@ -67,5 +92,5 @@ skills:
 - name: Azure DevOps
   logo: /images/sections/skills/azure_devops.svg
   summary: "Contributing to our Sentinel service, configuring analytics rules through Azure Devops for version control and collaboration."
-  categories: ["basic"]
+  categories: ["cloud", "basic"]
   url: "https://azure.microsoft.com/en-us/products/devops"
