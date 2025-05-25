@@ -95,4 +95,20 @@ skills:
   categories: ["cloud", "basic"]
   url: "https://azure.microsoft.com/en-us/products/devops"
 
-  
+- name: Splunk
+  logo: /images/sections/skills/splunk.svg
+  summary: "As a Splunk admin I handle tickets daily. From incidents where logs stop ingesting to investigating and fixing misconfigurations to informational requests from colleagues or customers."
+  categories: ["siem"]
+  url: "https://www.splunk.com/"
+
+- name: Azure Sentinel
+  logo: /images/sections/skills/sentinel.svg
+  summary: "Analytics rules and DCR's, monitoring and maintaining logsources, contributing to writing procedures and guides on handling requests regarding this service."
+  categories: ["siem"]
+  url: "https://www.microsoft.com/en-us/security/business/siem-and-xdr/microsoft-sentinel"
+
+- name: Cribl
+  logo: /images/sections/skills/cribl.png
+  summary: "Certified admin, but not a lot of hands-on experience yet."
+  categories: ["siem"]
+  url: "https://cribl.io/"
