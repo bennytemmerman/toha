@@ -1,0 +1,54 @@
+# section information
+section:
+  name: Resources
+  id: resources
+  enable: true
+  weight: 6
+  showOnNavbar: true
+  # Can optionally hide the title in sections
+  # hideTitle: true
+
+# filter buttons
+buttons:
+- name: All
+  filter: "all"
+- name: Hobby
+  filter: "Hobby"
+- name: Splunk
+  filter: "Splunk"
+
+# your projects
+resources:
+- name: Proxmox Homelab
+  logo: /images/sections/projects/proxmox.png
+  role: Owner
+  timeline: "April 2021 - Present"
+  #repo: https://github.com/kubernetes/kubernetes # If your project is a public repo on GitHub, then provide this link. it will show star count.
+  #url: "path to post"  # If your project is not a public repo but it has a website or any external details url then provide it here. don't provide "repo" and "url" simultaneously.
+  summary: Homelab environment for project testing
+  tags: ["Hobby", "Hypervisor"]
+
+- name: POC, Bruteforce Splunk-Hydra
+  logo: /images/sections/projects/splunk.png
+  role: Blue team
+  timeline: "Aug 2022"
+  #repo: https://github.com/tensorflow/tensorflow
+  #url: "path to post"
+  summary: Setting up demonstration to use in interview for SOC analyst role
+  tags: ["Hobby", "Splunk", "Blue team", "Red team"]
+
+- name: New portfolio website
+  logo: /images/site/main-logo.png
+  role: Owner
+  timeline: "April 2025 - Present"
+  url: "https://siemforge.xyz"
+  summary: Complete project from buying domain, configuring DNS, creating mailbox, using Github combined with Netlify. A more attractive website showcasing my work.
+  tags: ["Hobby"]
+
+- name: Killercoda
+  logo: /images/site/Killercoda.png
+  role: Creator
+  timeline: "Aug 2024"
+  url: "https://killercoda.com/splunk"
+  summary: Creating interactive instances to learn how to set up Splunk environments.
+  tags: ["Hobby", "Splunk", "Blue team"]
