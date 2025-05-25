@@ -78,11 +78,11 @@ skills:
   url: "https://www.linux.org/"
 
 - name: Windows
-  logo: /images/sections/skills/windows.png
+  logo: /images/sections/skills/linux.png
   summary: "Main driver, but also testing hosts in my homelab mostly for log generation and ingestion"
   categories: ["basic"]
   url: "https://www.microsoft.com/nl-be/windows"
-  
+
 - name: Git
   logo: /images/sections/skills/git.png
   summary: "Using Github while building this website to learn about version control."
