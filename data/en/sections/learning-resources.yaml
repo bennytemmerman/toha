@@ -28,7 +28,7 @@ buttons:
   filter: "sentinel"
 
 # your projects
-projects:
+learning-resources:
 
 - name: KC7 cyber
   logo: /images/sections/projects/proxmox.png
