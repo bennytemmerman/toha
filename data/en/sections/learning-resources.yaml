@@ -2,9 +2,9 @@
 section:
   name: learning-resources
   id: learning-resources
-  enable: false
+  enable: true
   weight: 6
-  showOnNavbar: false
+  showOnNavbar: true
   # Can optionally hide the title in sections
   # hideTitle: true
 
