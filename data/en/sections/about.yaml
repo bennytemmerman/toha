@@ -19,7 +19,7 @@ company:
 # resume: "files/resume.pdf"
 
 # a summary about you
-summary: "I manage, operate and monitor SIEM tools (Security Information and Event Management) like Splunk, Azure Sentinel, Cribl... I like reading books and printing usefull and fun things with my 3d printer. Besides this I also enjoy testing self-hosted tools to keep learning."
+summary: "A SIEM-focused Cybersecurity Engineer with experience across Splunk, Azure Sentinel, and modern log management tools like Cribl. Skilled at working across on-prem and cloud environments, with hands-on knowledge of Azure, Linux, Proxmox, and containerization. Passionate about automation, scripting, and operational efficiency — with growing experience in Python, Ansible, and Go. Someone who combines real-world incident handling with homelab tinkering, contributing to production systems and building personal projects alike."
 
 # your social links
 # give as many as you want. use font-awesome for the icons.
