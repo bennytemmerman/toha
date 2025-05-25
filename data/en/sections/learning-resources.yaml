@@ -1,7 +1,7 @@
 # section information
 section:
-  name: Publications
-  id: publications
+  name: learning-resources
+  id: learning-resources
   enable: false
   weight: 6
   showOnNavbar: false
@@ -12,31 +12,83 @@ section:
 buttons:
 - name: All
   filter: "all"
-- name: "Machine Learning"
-  filter: "machinelearning"
-- name: "Image Processing"
-  filter: "image-processing"
-- name: Security
-  filter: "security"
+- name: KC7
+  filter: "kc7"
+- name: Boot.dev
+  filter: "bootdev"
+- name: KillerCoda
+  filter: "killercoda"
+- name: THM
+  filter: "thm"
+- name: Splunk
+  filter: "splunk"
+- name: Cribl
+  filter: "cribl"
+- name: Azure-Sentinel
+  filter: "sentinel"
 
-# your publications
-publications:
-- title: An Example Paper on Machine Learning
-  publishedIn:
-    name: 2020 IEEE Region Symposium (TENSYMP)
-    date: 7 June 2020
-    url: https://example.com
-  authors:
-  - name: Dr. Madman
-    url: https://example.com
-  - name: Dr. Lessmad
-    url: https://example.com
-  - name: Dr. Moremad
-    url: https://example.com
-  - name: Dr. Goodman
-    url: https://example.com
-  paper:
-    summary: Voluptate in id id voluptate laboris. Minim mollit aliquip sit aliqua ut exercitation voluptate eiusmod consequat pariatur sunt enim veniam. Velit esse tempor laboris anim tempor officia. Magna non labore duis do esse sit do ipsum culpa. Officia consequat id non duis culpa dolor. Excepteur magna non nostrud cupidatat aute aliqua aliquip.
-    url: https://example.com
-  categories: ["machinelearning","image-processing"]
-  tags: ["Machine Learning", "Autonomous Driving", "Computer Vision"]
+# your projects
+learning-resources:
+
+- name: KC7 cyber
+  logo: /images/sections/projects/proxmox.png
+  role: Azure Sentinel
+  timeline: "April 2021 - Present"
+  #repo: https://github.com/kubernetes/kubernetes # If your project is a public repo on GitHub, then provide this link. it will show star count.
+  #url: "path to post"  # If your project is not a public repo but it has a website or any external details url then provide it here. don't provide "repo" and "url" simultaneously.
+  summary: Homelab environment for project testing
+  tags: ["Hobby", "Hypervisor"]
+
+- name: KC7 cyber
+  logo: /images/sections/projects/proxmox.png
+  role: Azure Sentinel
+  timeline: "April 2021 - Present"
+  #repo: https://github.com/kubernetes/kubernetes # If your project is a public repo on GitHub, then provide this link. it will show star count.
+  #url: "path to post"  # If your project is not a public repo but it has a website or any external details url then provide it here. don't provide "repo" and "url" simultaneously.
+  summary: Homelab environment for project testing
+  tags: ["Hobby", "Hypervisor"]
+
+- name: KC7 cyber
+  logo: /images/sections/projects/proxmox.png
+  role: Azure Sentinel
+  timeline: "April 2021 - Present"
+  #repo: https://github.com/kubernetes/kubernetes # If your project is a public repo on GitHub, then provide this link. it will show star count.
+  #url: "path to post"  # If your project is not a public repo but it has a website or any external details url then provide it here. don't provide "repo" and "url" simultaneously.
+  summary: Homelab environment for project testing
+  tags: ["Hobby", "Hypervisor"]
+
+- name: KC7 cyber
+  logo: /images/sections/projects/proxmox.png
+  role: Azure Sentinel
+  timeline: "April 2021 - Present"
+  #repo: https://github.com/kubernetes/kubernetes # If your project is a public repo on GitHub, then provide this link. it will show star count.
+  #url: "path to post"  # If your project is not a public repo but it has a website or any external details url then provide it here. don't provide "repo" and "url" simultaneously.
+  summary: Homelab environment for project testing
+  tags: ["Hobby", "Hypervisor"]
+
+- name: KC7 cyber
+  logo: /images/sections/projects/proxmox.png
+  role: Azure Sentinel
+  timeline: "April 2021 - Present"
+  #repo: https://github.com/kubernetes/kubernetes # If your project is a public repo on GitHub, then provide this link. it will show star count.
+  #url: "path to post"  # If your project is not a public repo but it has a website or any external details url then provide it here. don't provide "repo" and "url" simultaneously.
+  summary: Homelab environment for project testing
+  tags: ["Hobby", "Hypervisor"]
+
+- name: KC7 cyber
+  logo: /images/sections/projects/proxmox.png
+  role: Azure Sentinel
+  timeline: "April 2021 - Present"
+  #repo: https://github.com/kubernetes/kubernetes # If your project is a public repo on GitHub, then provide this link. it will show star count.
+  #url: "path to post"  # If your project is not a public repo but it has a website or any external details url then provide it here. don't provide "repo" and "url" simultaneously.
+  summary: Homelab environment for project testing
+  tags: ["Hobby", "Hypervisor"]
+
+- name: KC7 cyber
+  logo: /images/sections/projects/proxmox.png
+  role: Azure Sentinel
+  timeline: "April 2021 - Present"
+  #repo: https://github.com/kubernetes/kubernetes # If your project is a public repo on GitHub, then provide this link. it will show star count.
+  #url: "path to post"  # If your project is not a public repo but it has a website or any external details url then provide it here. don't provide "repo" and "url" simultaneously.
+  summary: Homelab environment for project testing
+  tags: ["Hobby", "Hypervisor"]
