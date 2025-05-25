@@ -65,6 +65,12 @@ skills:
   categories: ["container", "virtualization"]
   url: "https://linuxcontainers.org/"
 
+- name: Proxmox
+  logo: /images/sections/skills/proxmox.svg
+  summary: "This open-source virtualization platform is my first choice for my homelab projects"
+  categories: ["virtualization"]
+  url: "https://www.proxmox.com/"
+
 - name: Linux
   logo: /images/sections/skills/linux.png
   summary: "Mostly roaming around in CLI, 97% of my homelab consists of linux hosts. Capable of writing bash/shell scripts. At work all of our tools are configured on Linux hosts. My preferred distro is Ubuntu while at work we focus on redhat alternatives like Oracle Linux or Alma Linux."
@@ -88,3 +94,5 @@ skills:
   summary: "Contributing to our Sentinel service, configuring analytics rules through Azure Devops for version control and collaboration."
   categories: ["cloud", "basic"]
   url: "https://azure.microsoft.com/en-us/products/devops"
+
+  
