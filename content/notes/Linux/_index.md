@@ -2,8 +2,8 @@
 title: Linux Notes
 menu:
   notes:
-    name: Bash
-    identifier: notes-bash
+    name: Linux
+    identifier: notes-linux
     weight: 31
 ---
 # Linux Bash Notes

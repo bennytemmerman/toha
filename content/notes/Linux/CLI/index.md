@@ -3,9 +3,9 @@ title: Linux Bash commands
 weight: 210
 menu:
   notes:
-    name: bash
+    name: Bash
     identifier: notes-linux-bash
-    parent: notes-bash
+    parent: notes-linux
     weight: 10
 ---
 
