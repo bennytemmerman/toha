@@ -3,7 +3,7 @@ title: Splunk Upgrade procedure
 weight: 212
 menu:
   notes:
-    name: CLI
+    name: Upgrade
     identifier: notes-splunk-Upgrade
     parent: notes-splunk
     weight: 12
