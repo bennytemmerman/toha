@@ -24,7 +24,6 @@ This document provides a step-by-step procedure to upgrade Splunk from an existi
 6. Install the New Version
 7. Post-Upgrade Verification
 8. Documentation and Communication
-9. Additional Resources
 ## 1. Preparation
 - Ensure you have access to the target devices and necessary permissions.
 - Confirm the current Splunk version.
@@ -38,7 +37,94 @@ cd /tmp
 wget -O splunk-<version>-<hash>-Linux-x86_64.tgz "https://download.splunk.com/products/splunk/releases/<version>/linux/splunk-<version>-<hash>-Linux-x86_64.tgz"
 ```
 ### Transfer the Installer to Target Devices
+Use WinSCP or similar tools to connect to the device:
+```bash
+set path=C:\Program Files (x86)\WinSCP;%path%
+winscp sftp://<CLI-account>@<device_NAT_IP>:/tmp
+put "path\to\splunk-<version>-<hash>-Linux-x86_64.tgz" "/tmp/splunk-<version>-<hash>-Linux-x86_64.tgz"
+```
+Use SCP on more recent windows machines or on Linux:
+```bash
+scp "path\to\splunk-<version>-<hash>-Linux-x86_64.tgz" user@remote-ip:"/tmp/splunk-<version>-<hash>-Linux-x86_64.tgz"
+```
+## 3. Pre-Upgrade Checks
+Check if Splunk has an active process:
+```bash
+ps -ef | grep splunk
+```
+Check if Splunk is running:
+```bash
+/opt/splunk/bin/splunk status
+```
+Check Splunk version:
+```bash
+/opt/splunk/bin/splunk --version
+```
+## 4. Device State Management
+Check whether a monitoring needs to set the host in maintenance mode
 
+## 5. Backup Current Configuration
+Check KV Store status
+```bash
+/opt/splunk/bin/splunk show kvstore-status
+```
+Backup KV Store
+```bash
+/opt/splunk/bin/splunk backup kvstore
+```
+Check backup
+```bash
+ls -la /opt/splunk/var/lib/splunk/kvstorebackup/
+```
+Backup config files
+```bash
+sudo -i
+cd /tmp
+mkdir /tmp/etc_backup$(date +"%d-%m-%Y")
+cp -a /opt/splunk/etc/ /tmp/etc_backup$(date +"%d-%m-%Y")/
+```
+Check backup
+```bash
+ls /tmp/etc_backup$(date +"%d-%m-%Y")/etc
+```
+## 6. Install the New Version
+stop splunk using Splunk command
+```bash
+/opt/splunk/bin/splunk stop
+```
+stop splunk using systemctl command
+```bash
+systemctl stop splunk
+```
+Unpack the Installer
+```bash
+tar -xvzf /tmp/splunk-<version>-<hash>-Linux-x86_64.tgz -C /opt/
+```
+Change the owner of the Splunk folder recursively with the account running Splunk
+```bash
+chown -R splunk.splunk /opt/splunk
+```
+Start Splunk with License Acceptance
+```bash
+/opt/splunk/bin/splunk start --accept-license --answer-yes
+```
+## 7. Post-Upgrade Verification
+Check if Splunk is running
+```bash
+/opt/splunk/bin/splunk status
+```
+Check recent logs for errors
+```bash
+tail -20f /opt/splunk/var/log/splunk/splunkd.log
+```
+check Splunk version
+```bash
+/opt/splunk/bin/splunk --version
+```
+## 8. Documentation and Communication
+- Update internal documentation with the new version details.
+- Notify customer and colleagues of the successful upgrade.
+- Share release notes and any post-upgrade instructions.
 
 {{< /note >}}
 
