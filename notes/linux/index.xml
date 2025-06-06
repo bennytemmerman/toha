@@ -40,6 +40,6 @@ Use this as a quick reference to master log rotation on Unix-like systems.&lt;/p
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> create &lt;span style="color:#ae81ff">0640&lt;/span> root adm
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="configuration-directives--examples">Configuration Directives &amp;amp; Examples&lt;/h3>
-&lt;h4 id="basic-settings">Basic Settings:&lt;/h4>
+&lt;h4 id="basic-settings">&lt;em>Basic Settings:&lt;/em>&lt;/h4>
 &lt;h5 id="rotate">rotate &lt;count>&lt;/h5>
 &lt;p>Keep &lt;count> number of old log files before deleting them.&lt;/p></description></item></channel></rss>
