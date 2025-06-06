@@ -4,7 +4,8 @@ date: 2025-06-06T14:17:23+02:00
 hero: /images/posts/logrotate.svg
 description: Explaining logrotate configuration
 theme: Toha
-image: /images/posts/logrotate.svg
+author:
+  image: /images/posts/logrotate.svg
 menu:
   sidebar:
     name: Logrotate
@@ -53,7 +54,8 @@ Logrotate’s power lies in its flexibility. You can define global rules in `/et
 
 🔍 What Each Directive Does:  
 
-    `daily`: Rotate logs every day (alternatives: weekly, monthly, or custom intervals).  
+    > daily: 
+    Rotate logs every day (alternatives: weekly, monthly, or custom intervals).  
 
     `rotate 14`: Keep 14 archived logs before purging.  
 
