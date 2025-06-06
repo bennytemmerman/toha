@@ -10,7 +10,6 @@ menu:
 ---
 
 <div style="display: block; width: 100%; max-width: none;">
-<!-- Troubleshooting: -->
 {{< note title="Logrotate Configuration Cheat Sheet:" >}}
 This cheat sheet provides an extensive list of Logrotate configuration directives, their descriptions, and examples. 
 Use this as a quick reference to master log rotation on Unix-like systems.
