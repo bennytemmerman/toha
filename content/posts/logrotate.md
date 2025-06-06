@@ -1,7 +1,8 @@
 ---
 title: "Logrotate"
 date: 2025-06-06T14:17:23+02:00
-hero: /images/posts/logrotate.svg
+#hero: /images/posts/logrotate.svg
+hero: /images/site/background.jpg
 description: Explaining logrotate configuration
 theme: Toha
 menu:
@@ -9,7 +10,6 @@ menu:
     name: Logrotate
     identifier: logrotate
     weight: 500
-images: /images/posts/logrotate.svg
 ---
 # Mastering Logrotate: The Unsung Hero of Log Management
 
