@@ -57,7 +57,100 @@
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Hosts&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;p>Overview of hosts sending logs by index&lt;/p></description></item><item><title>Splunk CLI commands</title><link>https://siemforge.xyz/notes/splunk/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;div class="card-body">&lt;p>Overview of hosts sending logs by index&lt;/p></description></item><item><title>Logrotate config</title><link>https://siemforge.xyz/notes/linux/logrotate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/logrotate/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;!-- Cheatsheet: -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>🌀 Logrotate Configuration Cheat Sheet:&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">This cheat sheet provides an extensive list of Logrotate configuration directives, their descriptions, and examples.
+Use this as a quick reference to master log rotation on Unix-like systems.&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>📁 Basic structure&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>Each configuration block is tied to a log file or set of log files. Example:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/var/log/example.log &lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> daily
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> rotate &lt;span style="color:#ae81ff">7&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compress
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> missingok
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> notifempty
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> create &lt;span style="color:#ae81ff">0640&lt;/span> root adm
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>🛠 Configuration Directives &amp;amp; Examples&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">rotate &lt;count>: Keep &lt;count> number of old log files before deleting them.
+daily | weekly | monthly | yearly: Frequency of rotation.
+compress: Compress old versions of log files with gzip.
+nocompress: Do not compress old logs.
+delaycompress: Postpone compression to the next rotation cycle (used with compress).
+missingok: Ignore missing log files and don’t issue an error.
+notifempty: Do not rotate the log if it is empty.
+ifempty: Rotate the log even if it is empty (default behavior).
+create &lt;mode> &lt;owner> &lt;group>: Create a new log file with specified permissions.
+copy: Make a copy of the log file and truncate the original.
+copytruncate: Truncate the original log file after copying it (useful for active logs).
+dateext: Append an extension with the current date to rotated log files.
+dateformat .%Y-%m-%d: Custom format for dateext (e.g., .2025-06-06).
+extension &lt;ext>: Force specific extension for rotated files (e.g., .log).
+maxage &lt;days>: Remove rotated logs older than &lt;days>.
+minsize &lt;size>: Rotate only if log size is above &lt;size>.
+size &lt;size>: Rotate if log file size meets threshold, regardless of time.
+maxsize &lt;size>: Do not rotate if log is larger than specified size.
+olddir &lt;dir>: Move rotated logs to a specified directory.
+sharedscripts: Run postrotate script once for all matching logs.
+postrotate/endscript: Script to run after log rotation.
+prerotate/endscript: Script to run before log rotation.
+firstaction/endscript: Run only once before rotation begins (before prerotate).
+lastaction/endscript: Run once after rotation finishes (after postrotate).
+tabooext + &lt;ext>: Treat additional extensions as taboo (not rotated).&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>📄 Full Example Configuration&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/var/log/myapp/*.log &lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> daily
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> rotate &lt;span style="color:#ae81ff">10&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> size 100M
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compress
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> delaycompress
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> missingok
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> notifempty
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> create &lt;span style="color:#ae81ff">0640&lt;/span> appuser adm
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sharedscripts
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> postrotate
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> systemctl reload myapp &amp;gt; /dev/null 2&amp;gt;&amp;amp;&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#f92672">||&lt;/span> true
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> endscript
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>📌 Tips&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">• Run &lt;code>logrotate -d &amp;lt;config&amp;gt;&lt;/code> to debug your config without applying changes.
+• Use &lt;code>logrotate -f &amp;lt;config&amp;gt;&lt;/code> to force rotation for testing.
+• Logrotate is typically triggered via cron or systemd timers.
+• Keep your config DRY by centralizing shared logic in /etc/logrotate.conf and using includes.&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div></description></item><item><title>Splunk CLI commands</title><link>https://siemforge.xyz/notes/splunk/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
 &lt;!-- Maintenance: -->
 &lt;div class="note-card ">
 &lt;div class="item">
