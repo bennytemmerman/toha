@@ -1,3 +1,16 @@
+---
+title: "Logrotate"
+date: 2025-06-06T14:17:23+02:00
+hero: /images/posts/logrotate.svg
+description: Explaining logrotate configuration
+theme: Toha
+menu:
+  sidebar:
+    name: Logrotate
+    identifier: logrotate
+    weight: 500
+---
+
 # Re-run the Markdown generation since the code environment has reset
 
 # Create a Markdown version of the blog post again
