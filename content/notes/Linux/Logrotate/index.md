@@ -10,12 +10,13 @@ menu:
 ---
 
 <div style="display: block; width: 100%; max-width: none;">
-<!-- Cheatsheet: -->
-{{< note title="🌀 Logrotate Configuration Cheat Sheet:" >}}
+<!-- Troubleshooting: -->
+{{< note title="Logrotate Configuration Cheat Sheet:" >}}
 This cheat sheet provides an extensive list of Logrotate configuration directives, their descriptions, and examples. 
 Use this as a quick reference to master log rotation on Unix-like systems.
 {{< /note >}}
-{{< note title="📁 Basic structure" >}}
+
+{{< note title="Basic structure" >}}
 Each configuration block is tied to a log file or set of log files. Example:
 ```bash
 /var/log/example.log {
@@ -28,7 +29,8 @@ Each configuration block is tied to a log file or set of log files. Example:
 }
 ```
 {{< /note >}}
-{{< note title="🛠 Configuration Directives & Examples" >}}
+
+{{< note title="Configuration Directives & Examples" >}}
 #### Basic Settings:
 
     - rotate <count>
@@ -116,7 +118,7 @@ Each configuration block is tied to a log file or set of log files. Example:
     tabooext + <ext>
     Treat additional extensions as taboo (not rotated).
 {{< /note >}}
-{{< note title="📄 Full Example Configuration" >}}
+{{< note title="Full Example Configuration" >}}
 ```bash
 /var/log/myapp/*.log {
     daily
@@ -134,7 +136,7 @@ Each configuration block is tied to a log file or set of log files. Example:
 }
 ```
 {{< /note >}}
-{{< note title="📌 Tips" >}}
+{{< note title="Tips" >}}
 •	Run `logrotate -d <config>` to debug your config without applying changes.
 •	Use `logrotate -f <config>` to force rotation for testing.
 •	Logrotate is typically triggered via cron or systemd timers.
