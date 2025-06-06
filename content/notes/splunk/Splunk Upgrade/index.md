@@ -63,6 +63,20 @@ Check Splunk version:
 ## 4. Device State Management
 Check whether a monitoring needs to set the host in maintenance mode
 
+On Splunk in environments with index clusters: Maintenance mode halts most bucket fixup activity and prevents frequent rolling of hot buckets. It is useful when performing peer upgrades and other maintenance activities on an indexer cluster.
+Enable maintenance mode:
+```bash
+/opt/splunk/bin/splunk enable maintenance-mode
+```
+Disable maintenance mode:
+```bash
+/opt/splunk/bin/splunk disable maintenance-mode
+```
+Enable maintenance mode:
+```bash
+/opt/splunk/bin/splunk show maintenance-mode
+```
+
 ## 5. Backup Current Configuration
 Check KV Store status
 ```bash
@@ -87,6 +101,7 @@ Check backup
 ```bash
 ls /tmp/etc_backup$(date +"%d-%m-%Y")/etc
 ```
+
 ## 6. Install the New Version
 stop splunk using Splunk command
 ```bash
