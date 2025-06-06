@@ -14,8 +14,10 @@ menu:
 {{< note title="Logrotate Configuration Cheat Sheet:" >}}
 This cheat sheet provides an extensive list of Logrotate configuration directives, their descriptions, and examples. 
 Use this as a quick reference to master log rotation on Unix-like systems.
+{{< /note >}}
 
-### Basic structure
+<!-- Logrotate: -->
+{{< note title="Basic structure:" >}}
 Each configuration block is tied to a log file or set of log files. Example:
 ```bash
 /var/log/example.log {
@@ -27,7 +29,7 @@ Each configuration block is tied to a log file or set of log files. Example:
     create 0640 root adm
 }
 ```
-
+{{< /note >}}
 ### Configuration Directives & Examples
 #### _Basic Settings:_
 ##### rotate <count>
