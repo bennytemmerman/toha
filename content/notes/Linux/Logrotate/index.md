@@ -115,8 +115,8 @@ Run once after rotation finishes (after postrotate).
 
 `tabooext + <ext>`  
 Treat additional extensions as taboo (not rotated).
-
-### Full Example Configuration
+{{< /note >}}
+{{< note title="Full Example Configuration:" >}}
 ```bash
 /var/log/myapp/*.log {
     daily
@@ -133,8 +133,8 @@ Treat additional extensions as taboo (not rotated).
     endscript
 }
 ```
-
-### Tips
+{{< /note >}}
+{{< note title="Tips:" >}}
 •	Run `logrotate -d <config>` to debug your config without applying changes.
 •	Use `logrotate -f <config>` to force rotation for testing.
 •	Logrotate is typically triggered via cron or systemd timers.
