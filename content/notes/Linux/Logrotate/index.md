@@ -11,8 +11,8 @@ menu:
 
 <div style="display: block; width: 100%; max-width: none;">
 {{< note title="Logrotate Configuration Cheat Sheet:" >}}
-_This cheat sheet provides an extensive list of Logrotate configuration directives, their descriptions, and examples. 
-Use this as a quick reference to master log rotation on Unix-like systems._
+_This cheat sheet provides an extensive list of Logrotate configuration directives, their descriptions, and examples._  
+_Use this as a quick reference to master log rotation on Unix-like systems._  
 {{< /note >}}
 
 {{< note title="Basic structure:" >}}
