@@ -9,8 +9,7 @@ menu:
     name: Logrotate
     identifier: logrotate
     weight: 500
-images:
-  - /images/posts/logrotate.svg
+images: /images/posts/logrotate.svg
 ---
 # Mastering Logrotate: The Unsung Hero of Log Management
 
