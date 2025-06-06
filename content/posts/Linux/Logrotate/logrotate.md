@@ -2,13 +2,14 @@
 title: "Logrotate"
 date: 2025-06-06T14:17:23+02:00
 #hero: /images/posts/logrotate.svg
-hero: /images/site/background.jpg
+hero: /images/posts/logrotate.jpg
 description: Explaining logrotate configuration
 theme: Toha
 menu:
   sidebar:
     name: Logrotate
     identifier: logrotate
+    parent: cat-linux
     weight: 500
 ---
 # Mastering Logrotate: The Unsung Hero of Log Management
