@@ -31,7 +31,8 @@ Each configuration block is tied to a log file or set of log files. Example:
 
 {{< note title="Configuration Directives & Examples:" >}}
 #### Basic Settings:
-`rotate <count>`  Keep <count> number of old log files before deleting them.
+`rotate <count>`  
+Keep <count> number of old log files before deleting them.
 
 ##### daily | weekly | monthly | yearly
 Frequency of rotation.
