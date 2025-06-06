@@ -53,31 +53,69 @@ Use this as a quick reference to master log rotation on Unix-like systems.&lt;/d
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>🛠 Configuration Directives &amp;amp; Examples&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">rotate &lt;count>: Keep &lt;count> number of old log files before deleting them.
-daily | weekly | monthly | yearly: Frequency of rotation.
-compress: Compress old versions of log files with gzip.
-nocompress: Do not compress old logs.
-delaycompress: Postpone compression to the next rotation cycle (used with compress).
-missingok: Ignore missing log files and don’t issue an error.
-notifempty: Do not rotate the log if it is empty.
-ifempty: Rotate the log even if it is empty (default behavior).
-create &lt;mode> &lt;owner> &lt;group>: Create a new log file with specified permissions.
-copy: Make a copy of the log file and truncate the original.
-copytruncate: Truncate the original log file after copying it (useful for active logs).
-dateext: Append an extension with the current date to rotated log files.
-dateformat .%Y-%m-%d: Custom format for dateext (e.g., .2025-06-06).
-extension &lt;ext>: Force specific extension for rotated files (e.g., .log).
-maxage &lt;days>: Remove rotated logs older than &lt;days>.
-minsize &lt;size>: Rotate only if log size is above &lt;size>.
-size &lt;size>: Rotate if log file size meets threshold, regardless of time.
-maxsize &lt;size>: Do not rotate if log is larger than specified size.
-olddir &lt;dir>: Move rotated logs to a specified directory.
-sharedscripts: Run postrotate script once for all matching logs.
-postrotate/endscript: Script to run after log rotation.
-prerotate/endscript: Script to run before log rotation.
-firstaction/endscript: Run only once before rotation begins (before prerotate).
-lastaction/endscript: Run once after rotation finishes (after postrotate).
-tabooext + &lt;ext>: Treat additional extensions as taboo (not rotated).&lt;/div>
+&lt;div class="card-body">&lt;h3 id="basic-settings">Basic Settings:&lt;/h3>
+&lt;pre>&lt;code>**rotate &amp;lt;count&amp;gt;**
+Keep &amp;lt;count&amp;gt; number of old log files before deleting them.
+**daily | weekly | monthly | yearly**
+Frequency of rotation.
+&lt;/code>&lt;/pre>
+&lt;h3 id="compression-options">Compression Options:&lt;/h3>
+&lt;pre>&lt;code>**compress**
+Compress old versions of log files with gzip.
+**nocompress**
+Do not compress old logs.
+**delaycompress**
+Postpone compression to the next rotation cycle (used with compress).
+&lt;/code>&lt;/pre>
+&lt;h3 id="file-handling">File Handling:&lt;/h3>
+&lt;pre>&lt;code>**missingok**
+Ignore missing log files and don’t issue an error.
+**notifempty**
+Do not rotate the log if it is empty.
+**ifempty**
+Rotate the log even if it is empty (default behavior).
+**create &amp;lt;mode&amp;gt; &amp;lt;owner&amp;gt; &amp;lt;group&amp;gt;**
+Create a new log file with specified permissions.
+**copy**
+Make a copy of the log file and truncate the original.
+**copytruncate**
+Truncate the original log file after copying it (useful for active logs).
+&lt;/code>&lt;/pre>
+&lt;h3 id="date--naming">Date &amp;amp; Naming:&lt;/h3>
+&lt;pre>&lt;code>**dateext**
+Append an extension with the current date to rotated log files.
+**dateformat .%Y-%m-%d**
+Custom format for dateext (e.g., .2025-06-06).
+**extension &amp;lt;ext&amp;gt;**
+Force specific extension for rotated files (e.g., .log).
+&lt;/code>&lt;/pre>
+&lt;h3 id="size-based-rotation">Size-Based Rotation:&lt;/h3>
+&lt;pre>&lt;code>**maxage &amp;lt;days&amp;gt;**
+Remove rotated logs older than &amp;lt;days&amp;gt;.
+**minsize &amp;lt;size&amp;gt;**
+Rotate only if log size is above &amp;lt;size&amp;gt;.
+**size &amp;lt;size&amp;gt;**
+Rotate if log file size meets threshold, regardless of time.
+**maxsize &amp;lt;size&amp;gt;**
+Do not rotate if log is larger than specified size.
+&lt;/code>&lt;/pre>
+&lt;h3 id="directory--scripts">Directory &amp;amp; Scripts:&lt;/h3>
+&lt;pre>&lt;code>**olddir &amp;lt;dir&amp;gt;**
+Move rotated logs to a specified directory.
+**sharedscripts**
+Run postrotate script once for all matching logs.
+**postrotate/endscript**
+Script to run after log rotation.
+**prerotate/endscript**
+Script to run before log rotation.
+**firstaction/endscript**
+Run only once before rotation begins (before prerotate).
+**lastaction/endscript**
+Run once after rotation finishes (after postrotate).
+**tabooext + &amp;lt;ext&amp;gt;**
+Treat additional extensions as taboo (not rotated).
+&lt;/code>&lt;/pre>
+&lt;/div>
 &lt;/div>
 &lt;/div>
 &lt;/div>
