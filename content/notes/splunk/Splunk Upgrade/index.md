@@ -132,9 +132,13 @@ Check recent logs for errors
 ```bash
 tail -20f /opt/splunk/var/log/splunk/splunkd.log
 ```
-check Splunk version
+Check Splunk version
 ```bash
 /opt/splunk/bin/splunk --version
+```
+Check if Splunk service is run by splunk user
+```bash
+ps -ef | grep splunkd | grep -v grep
 ```
 ## 8. Documentation and Communication
 - Update internal documentation with the new version details.
