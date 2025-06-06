@@ -114,4 +114,6 @@ Logrotate might not be flashy, but it’s a critical piece of your system's hygi
 
 - Keep it cron’d: crontab -e
 
+> A more extensive cheatsheet can be found here: [Logrotate cheatsheet](/notes/Linux/Logrotate/index)
+
 Now go forth and rotate like a boss. 🌀
