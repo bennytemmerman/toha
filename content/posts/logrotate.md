@@ -4,17 +4,13 @@ date: 2025-06-06T14:17:23+02:00
 hero: /images/posts/logrotate.svg
 description: Explaining logrotate configuration
 theme: Toha
+image: /images/posts/logrotate.svg
 menu:
   sidebar:
     name: Logrotate
     identifier: logrotate
     weight: 500
 ---
-
-# Re-run the Markdown generation since the code environment has reset
-
-# Create a Markdown version of the blog post again
-markdown_content = """
 # 🚀 Mastering Logrotate: The Unsung Hero of Log Management
 
 In the trenches of system administration, there's one silent guardian that keeps your disk space from imploding under a mountain of logs: **Logrotate**. Whether you're wrangling logs on a sprawling Kubernetes cluster or just babysitting a single Linux box, Logrotate ensures your logs don’t spiral out of control.
@@ -53,26 +49,27 @@ Logrotate’s power lies in its flexibility. You can define global rules in `/et
         systemctl reload nginx > /dev/null 2>&1 || true
     endscript
 }
+```
 
-🔍 What Each Directive Does:
+🔍 What Each Directive Does:  
 
-    daily: Rotate logs every day (alternatives: weekly, monthly, or custom intervals).
+    `daily`: Rotate logs every day (alternatives: weekly, monthly, or custom intervals).  
 
-    rotate 14: Keep 14 archived logs before purging.
+    `rotate 14`: Keep 14 archived logs before purging.  
 
-    compress: Gzip old logs to save space.
+    `compress`: Gzip old logs to save space.  
 
-    delaycompress: Wait a cycle before compressing (avoids compressing still-used logs).
+    `delaycompress`: Wait a cycle before compressing (avoids compressing still-used logs).  
 
-    missingok: Don’t freak out if a log file is missing.
+    `missingok`: Don’t freak out if a log file is missing.  
 
-    notifempty: Skip rotation for empty logs.
+    `notifempty`: Skip rotation for empty logs.  
 
-    create 0640 www-data adm: Create new logs with specific permissions.
+    `create 0640 www-data adm`: Create new logs with specific permissions.  
 
-    sharedscripts: Ensures postrotate only runs once per log group.
+    `sharedscripts`: Ensures postrotate only runs once per log group.  
 
-    postrotate...endscript: What to do after rotating logs — in this case, gracefully reload NGINX.
+    `postrotate...endscript`: What to do after rotating logs — in this case, gracefully reload NGINX.  
 
 🔥 Pro Tip: Use copytruncate if your app won’t release the log file handle — useful for apps that don't support log reopening on SIGHUP.
 ⏰ Automating with Cron
@@ -81,7 +78,9 @@ Logrotate is typically triggered by cron — so unless you're into manual rotati
 
 Always show details
 
+```bash
 0 0 * * * /usr/sbin/logrotate /etc/logrotate.conf >/dev/null 2>&1
+```
 
 This runs it daily at midnight. You can customize it further with anacron or systemd timers if you're using newer systems like RHEL 8+ or Ubuntu 22.04+.
 🧰 Common Pitfalls and How to Debug Like a Boss
