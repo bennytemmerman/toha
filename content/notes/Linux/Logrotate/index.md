@@ -135,9 +135,9 @@ Treat additional extensions as taboo (not rotated).
 ```
 {{< /note >}}
 {{< note title="Tips:" >}}
-•	Run `logrotate -d <config>` to debug your config without applying changes.
-•	Use `logrotate -f <config>` to force rotation for testing.
-•	Logrotate is typically triggered via cron or systemd timers.
-•	Keep your config DRY by centralizing shared logic in /etc/logrotate.conf and using includes.
+-	Run `logrotate -d <config>` to debug your config without applying changes.
+-	Use `logrotate -f <config>` to force rotation for testing.
+-	Logrotate is typically triggered via cron or systemd timers.
+-	Keep your config DRY by centralizing shared logic in /etc/logrotate.conf and using includes.
 {{< /note >}}
 </div>
