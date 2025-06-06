@@ -29,91 +29,91 @@ Each configuration block is tied to a log file or set of log files. Example:
 ```
 {{< /note >}}
 {{< note title="🛠 Configuration Directives & Examples" >}}
-### Basic Settings:
+#### Basic Settings:
 
-    **rotate <count>**
+    - rotate <count>
     Keep <count> number of old log files before deleting them.
 
-    **daily | weekly | monthly | yearly**
+    - daily | weekly | monthly | yearly
     Frequency of rotation.
 
-### Compression Options:
+#### Compression Options:
 
-    **compress**
+    compress
     Compress old versions of log files with gzip.
 
-    **nocompress**
+    nocompress
     Do not compress old logs.
 
-    **delaycompress**
+    delaycompress
     Postpone compression to the next rotation cycle (used with compress).
 
-### File Handling:
+#### File Handling:
 
-    **missingok**
+    missingok
     Ignore missing log files and don’t issue an error.
 
-    **notifempty**
+    notifempty
     Do not rotate the log if it is empty.
 
-    **ifempty**
+    ifempty
     Rotate the log even if it is empty (default behavior).
 
-    **create <mode> <owner> <group>**
+    create <mode> <owner> <group>
     Create a new log file with specified permissions.
 
-    **copy**
+    copy
     Make a copy of the log file and truncate the original.
 
-    **copytruncate**
+    copytruncate
     Truncate the original log file after copying it (useful for active logs).
 
-### Date & Naming:
+#### Date & Naming:
 
-    **dateext**
+    dateext
     Append an extension with the current date to rotated log files.
 
-    **dateformat .%Y-%m-%d**
+    dateformat .%Y-%m-%d
     Custom format for dateext (e.g., .2025-06-06).
 
-    **extension <ext>**
+    extension <ext>
     Force specific extension for rotated files (e.g., .log).
 
-### Size-Based Rotation:
+#### Size-Based Rotation:
 
-    **maxage <days>**
+    maxage <days>
     Remove rotated logs older than <days>.
 
-    **minsize <size>**
+    minsize <size>
     Rotate only if log size is above <size>.
 
-    **size <size>**
+    size <size>
     Rotate if log file size meets threshold, regardless of time.
 
-    **maxsize <size>**
+    maxsize <size>
     Do not rotate if log is larger than specified size.
 
-### Directory & Scripts:
+#### Directory & Scripts:
 
-    **olddir <dir>**
+    olddir <dir>
     Move rotated logs to a specified directory.
 
-    **sharedscripts**
+    sharedscripts
     Run postrotate script once for all matching logs.
 
-    **postrotate/endscript**
+    postrotate/endscript
     Script to run after log rotation.
 
-    **prerotate/endscript**
+    prerotate/endscript
     Script to run before log rotation.
 
-    **firstaction/endscript**
+    firstaction/endscript
     Run only once before rotation begins (before prerotate).
 
-    **lastaction/endscript**
+    lastaction/endscript
     Run once after rotation finishes (after postrotate).
 
-    **tabooext + <ext>**
+    tabooext + <ext>
     Treat additional extensions as taboo (not rotated).
 {{< /note >}}
 {{< note title="📄 Full Example Configuration" >}}
