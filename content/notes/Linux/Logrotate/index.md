@@ -30,9 +30,10 @@ Each configuration block is tied to a log file or set of log files. Example:
 }
 ```
 {{< /note >}}
-### Configuration Directives & Examples
-#### _Basic Settings:_
-##### rotate <count>
+
+{{< note title="Configuration Directives & Examples:" >}}
+#### Basic Settings:
+_rotate <count>_
 Keep <count> number of old log files before deleting them.
 
 ##### daily | weekly | monthly | yearly
