@@ -31,21 +31,24 @@ This document provides a step-by-step procedure to upgrade Splunk from an existi
 - Review release notes for the target version.
 ## 2. Download and Transfer Files
 ### Download the Splunk Installer
+You can use the wget command to download the package on the host
+wget -O splunk-<version>-<hash>-Linux-x86_64.tgz "https://download.splunk.com/products/splunk/releases/<version>/linux/splunk-<version>-<hash>-Linux-x86_64.tgz"
 ```bash
 sudo -i
 cd /tmp
-wget -O splunk-<version>-<hash>-Linux-x86_64.tgz "https://download.splunk.com/products/splunk/releases/<version>/linux/splunk-<version>-<hash>-Linux-x86_64.tgz"
+wget -O splunk-9.4.3-237ebbd22314-linux-amd64.tgz "https://download.splunk.com/products/splunk/releases/9.4.3/linux/splunk-9.4.3-237ebbd22314-linux-amd64.tgz"
 ```
 ### Transfer the Installer to Target Devices
-Use WinSCP or similar tools to connect to the device:
+Use WinSCP or similar tools to connect and send to the device:
+put "path\to\splunk-<version>-<hash>-Linux-x86_64.tgz" "/tmp/splunk-<version>-<hash>-Linux-x86_64.tgz"
 ```bash
 set path=C:\Program Files (x86)\WinSCP;%path%
 winscp sftp://<CLI-account>@<device_NAT_IP>:/tmp
-put "path\to\splunk-<version>-<hash>-Linux-x86_64.tgz" "/tmp/splunk-<version>-<hash>-Linux-x86_64.tgz"
+put "path\to\splunk-9.4.3-237ebbd22314-linux-amd64.tgz" "/tmp/splunk-9.4.3-237ebbd22314-linux-amd64.tgz"
 ```
 Use SCP on more recent windows machines or on Linux:
 ```bash
-scp "path\to\splunk-<version>-<hash>-Linux-x86_64.tgz" user@remote-ip:"/tmp/splunk-<version>-<hash>-Linux-x86_64.tgz"
+scp "path\to\splunk-9.4.3-237ebbd22314-linux-amd64.tgz" user@remote-ip:"/tmp/splunk-9.4.3-237ebbd22314-linux-amd64.tgz"
 ```
 ## 3. Pre-Upgrade Checks
 Check if Splunk has an active process:
@@ -113,7 +116,7 @@ systemctl stop splunk
 ```
 Unpack the Installer
 ```bash
-tar -xvzf /tmp/splunk-<version>-<hash>-Linux-x86_64.tgz -C /opt/
+tar -xvzf /tmp/splunk-9.4.3-237ebbd22314-linux-amd64.tgz -C /opt/
 ```
 Change the owner of the Splunk folder recursively with the account running Splunk
 ```bash
