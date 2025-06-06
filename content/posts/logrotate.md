@@ -4,8 +4,6 @@ date: 2025-06-06T14:17:23+02:00
 hero: /images/posts/logrotate.svg
 description: Explaining logrotate configuration
 theme: Toha
-author:
-  image: /images/posts/logrotate.svg
 menu:
   sidebar:
     name: Logrotate
@@ -54,24 +52,15 @@ Logrotate’s power lies in its flexibility. You can define global rules in `/et
 
 🔍 What Each Directive Does:  
 
-`daily:`  
-Rotate logs every day (alternatives: weekly, monthly, or custom intervals).  
-`rotate 14`: Keep 14 archived logs before purging.  
-
-`compress: `
-Gzip old logs to save space.  
-
-    `delaycompress`: Wait a cycle before compressing (avoids compressing still-used logs).  
-
-    `missingok`: Don’t freak out if a log file is missing.  
-
-    `notifempty`: Skip rotation for empty logs.  
-
-    `create 0640 www-data adm`: Create new logs with specific permissions.  
-
-    `sharedscripts`: Ensures postrotate only runs once per log group.  
-
-    `postrotate...endscript`: What to do after rotating logs — in this case, gracefully reload NGINX.  
+`daily: `Rotate logs every day (alternatives: weekly, monthly, or custom intervals).  
+`rotate 14: `Keep 14 archived logs before purging.  
+`compress: `Gzip old logs to save space.  
+`delaycompress: `Wait a cycle before compressing (avoids compressing still-used logs).  
+`missingok: `Don’t freak out if a log file is missing.  
+`notifempty: `Skip rotation for empty logs.  
+`create 0640 www-data adm: `Create new logs with specific permissions.  
+`sharedscripts: `Ensures postrotate only runs once per log group.  
+`postrotate...endscript: `What to do after rotating logs — in this case, gracefully reload NGINX.  
 
 🔥 Pro Tip: Use copytruncate if your app won’t release the log file handle — useful for apps that don't support log reopening on SIGHUP.
 ⏰ Automating with Cron
