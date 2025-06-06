@@ -54,8 +54,8 @@ Logrotate’s power lies in its flexibility. You can define global rules in `/et
 
 🔍 What Each Directive Does:  
 
-    > daily: 
-    Rotate logs every day (alternatives: weekly, monthly, or custom intervals).  
+> daily: 
+Rotate logs every day (alternatives: weekly, monthly, or custom intervals).  
 
     `rotate 14`: Keep 14 archived logs before purging.  
 
