@@ -105,8 +105,5 @@
 &lt;/ul>
 &lt;h2 id="2-download-and-transfer-files">2. Download and Transfer Files&lt;/h2>
 &lt;h3 id="download-the-splunk-installer">Download the Splunk Installer&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo -i
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd /tmp
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>wget -O splunk-&amp;lt;version&amp;gt;-&amp;lt;hash&amp;gt;-Linux-x86_64.tgz &lt;span style="color:#e6db74">&amp;#34;https://download.splunk.com/products/splunk/releases/&amp;lt;version&amp;gt;/linux/splunk-&amp;lt;version&amp;gt;-&amp;lt;hash&amp;gt;-Linux-x86_64.tgz&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="transfer-the-installer-to-target-devices">Transfer the Installer to Target Devices&lt;/h3>
-&lt;p>Use WinSCP or similar tools to connect to the device:&lt;/p></description></item></channel></rss>
+&lt;p>You can use the wget command to download the package on the host
+wget -O splunk-&lt;version>-&lt;hash>-Linux-x86_64.tgz &amp;ldquo;&lt;a href="https://download.splunk.com/products/splunk/releases/" target="_blank" rel="noopener">https://download.splunk.com/products/splunk/releases/&lt;/a>&lt;version>/linux/splunk-&lt;version>-&lt;hash>-Linux-x86_64.tgz&amp;rdquo;&lt;/p></description></item></channel></rss>
