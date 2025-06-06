@@ -10,13 +10,11 @@ menu:
 ---
 
 <div style="display: block; width: 100%; max-width: none;">
-<!-- Logrotate: -->
 {{< note title="Logrotate Configuration Cheat Sheet:" >}}
 This cheat sheet provides an extensive list of Logrotate configuration directives, their descriptions, and examples. 
 Use this as a quick reference to master log rotation on Unix-like systems.
 {{< /note >}}
 
-<!-- Logrotate: -->
 {{< note title="Basic structure:" >}}
 Each configuration block is tied to a log file or set of log files. Example:
 ```bash
@@ -33,8 +31,7 @@ Each configuration block is tied to a log file or set of log files. Example:
 
 {{< note title="Configuration Directives & Examples:" >}}
 #### Basic Settings:
-_rotate <count>_
-Keep <count> number of old log files before deleting them.
+`rotate <count>`  Keep <count> number of old log files before deleting them.
 
 ##### daily | weekly | monthly | yearly
 Frequency of rotation.
