@@ -54,12 +54,12 @@ Logrotate’s power lies in its flexibility. You can define global rules in `/et
 
 🔍 What Each Directive Does:  
 
-> daily: 
+`daily:`  
 Rotate logs every day (alternatives: weekly, monthly, or custom intervals).  
+`rotate 14`: Keep 14 archived logs before purging.  
 
-    `rotate 14`: Keep 14 archived logs before purging.  
-
-    `compress`: Gzip old logs to save space.  
+`compress: `
+Gzip old logs to save space.  
 
     `delaycompress`: Wait a cycle before compressing (avoids compressing still-used logs).  
 
