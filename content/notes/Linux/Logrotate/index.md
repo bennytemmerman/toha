@@ -29,7 +29,7 @@ Each configuration block is tied to a log file or set of log files. Example:
 ```
 
 ### Configuration Directives & Examples
-#### Basic Settings:
+#### _Basic Settings:_
 ##### rotate <count>
 Keep <count> number of old log files before deleting them.
 
