@@ -79,11 +79,11 @@ This runs it daily at midnight. You can customize it further with anacron or sys
 
 Even a veteran sysadmin can get tripped up by Logrotate quirks. Here are some frequent headaches and their antidotes:
 ### Problem	Fix
-🔁 Log not rotating?	Check if the cron job runs. Use logrotate -d for dry-run debugging.
-🔒 Permission denied?	Ensure Logrotate has access (run as root or use sudo).
-❌ Syntax error in config?	Run logrotate -v /etc/logrotate.conf to see what it’s doing.
-💾 Disk still filling up?	Reduce rotate count or increase compression aggressiveness.
-🔄 App not releasing log files?	Use copytruncate or restart the service post-rotate.
+🔁 Log not rotating?	Check if the cron job runs. Use logrotate -d for dry-run debugging.  
+🔒 Permission denied?	Ensure Logrotate has access (run as root or use sudo).  
+❌ Syntax error in config?	Run logrotate -v /etc/logrotate.conf to see what it’s doing.  
+💾 Disk still filling up?	Reduce rotate count or increase compression aggressiveness.  
+🔄 App not releasing log files?	Use copytruncate or restart the service post-rotate.  
 
 ## Docker
 Running containers? Docker log files can balloon fast under /var/lib/docker/containers/. You can use logrotate or — better — configure Docker's own json-file driver like this:
