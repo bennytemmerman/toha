@@ -1,12 +1,12 @@
 ---
 title: Splunk searches
-weight: 210
+weight: 301
 menu:
   notes:
     name: SPL
     identifier: notes-splunk-searches
     parent: notes-splunk
-    weight: 10
+    weight: 31
 ---
 
 <div style="display: block; width: 100%; max-width: none;">

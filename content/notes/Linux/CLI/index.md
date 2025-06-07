@@ -1,12 +1,12 @@
 ---
 title: Linux Bash commands
-weight: 210
+weight: 400
 menu:
   notes:
     name: Bash
     identifier: notes-linux-bash
     parent: notes-linux
-    weight: 10
+    weight: 40
 ---
 
 <div style="display: block; width: 100%; max-width: none;">

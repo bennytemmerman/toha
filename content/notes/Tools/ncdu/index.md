@@ -1,12 +1,12 @@
 ---
 title: ncdu
-weight: 210
+weight: 500
 menu:
   notes:
     name: ncdu
     identifier: notes-ncdu
     parent: notes-tools
-    weight: 10
+    weight: 50
 ---
 <div style="display: block; width: 100%; max-width: none;">
 

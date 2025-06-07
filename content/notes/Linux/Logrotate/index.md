@@ -6,7 +6,7 @@ menu:
     name: Logrotate
     identifier: notes-logrotate
     parent: notes-linux
-    weight: 11
+    weight: 41
 ---
 
 <div style="display: block; width: 100%; max-width: none;">
