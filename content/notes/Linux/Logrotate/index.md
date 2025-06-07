@@ -1,6 +1,6 @@
 ---
 title: Logrotate config
-weight: 211
+weight: 401
 menu:
   notes:
     name: Logrotate
