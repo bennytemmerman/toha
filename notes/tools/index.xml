@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SIEMForge</title><link>https://siemforge.xyz/notes/tools/</link><description>Recent content on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><atom:link href="https://siemforge.xyz/notes/tools/index.xml" rel="self" type="application/rss+xml"/><item><title>ncdu</title><link>https://siemforge.xyz/notes/tools/ncdu/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/tools/ncdu/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;!-- Tools: -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>ncdu:&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>Ncdu is a disk usage analyzer with a text-mode user interface. It is designed to find space hogs on a remote server where you don’t have an entire graphical setup available, but it is a useful tool even on regular desktop systems. Ncdu aims to be fast, simple, easy to use, and should be able to run on any POSIX-like system.
+install:&lt;/p></description></item></channel></rss>
