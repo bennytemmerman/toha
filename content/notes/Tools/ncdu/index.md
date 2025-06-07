@@ -22,6 +22,5 @@ usage:
 ```bash
 ncdu <directory_name>
 ```
-
 {{< /note >}}
-
+</div>
