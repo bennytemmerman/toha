@@ -1,73 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Notes on SIEMForge</title><link>https://siemforge.xyz/notes/</link><description>Recent content in Notes on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 08 Jun 2010 08:06:25 +0600</lastBuildDate><atom:link href="https://siemforge.xyz/notes/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Bash commands</title><link>https://siemforge.xyz/notes/linux/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;!-- Troubleshooting: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Troubleshooting (files):&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>Find a file or directory&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>find / -type f -name &lt;span style="color:#e6db74">&amp;#34;filename&amp;#34;&lt;/span> 2&amp;gt;/dev/null
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>find / -type d -name &lt;span style="color:#e6db74">&amp;#34;dirname&amp;#34;&lt;/span> 2&amp;gt;/dev/null
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>find files that contain a pattern&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>find . -type f -exec grep -l &lt;span style="color:#e6db74">&amp;#39;version&amp;#39;&lt;/span> &lt;span style="color:#f92672">{}&lt;/span> &lt;span style="color:#ae81ff">\;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;!-- Troubleshooting: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Troubleshooting (system):&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>Find a file or directory&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>find / -type f -name &lt;span style="color:#e6db74">&amp;#34;filename&amp;#34;&lt;/span> 2&amp;gt;/dev/null
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>find / -type d -name &lt;span style="color:#e6db74">&amp;#34;dirname&amp;#34;&lt;/span> 2&amp;gt;/dev/null
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>check if machine is a vm or barebone&lt;/p></description></item><item><title>ncdu</title><link>https://siemforge.xyz/notes/tools/ncdu/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/tools/ncdu/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>ncdu:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>Ncdu is a disk usage analyzer with a text-mode user interface. It is designed to find space hogs on a remote server where you don’t have an entire graphical setup available, but it is a useful tool even on regular desktop systems. Ncdu aims to be fast, simple, easy to use, and should be able to run on any POSIX-like system.&lt;br>
-install:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://dev.yorhel.nl/download/ncdu-2.8.1-linux-x86_64.tar.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tar -xzf ncdu-2.8.1-linux-x86_64.tar.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo mv ncdu /usr/local/bin/
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>usage:&lt;/p></description></item><item><title>Splunk searches</title><link>https://siemforge.xyz/notes/splunk/spl/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/spl/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;!-- Troubleshooting: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Troubleshooting:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>Errorcheck within Splunk GUI&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#f92672">=&lt;/span>_internal log_level&lt;span style="color:#f92672">=&lt;/span>ERROR source&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;/opt/splunk/var/log/splunk/splunkd.log&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check Splunk version&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| rest splunk_server&lt;span style="color:#f92672">=&lt;/span>* count&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span> /services/server/info
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| table version host
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;!-- Index -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Index&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>List indexes with the retention period&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| rest splunk_server&lt;span style="color:#f92672">=&lt;/span>* /services/data/indexes
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| eval &lt;span style="color:#e6db74">&amp;#34;Retention Period (months)&amp;#34;&lt;/span>&lt;span style="color:#f92672">=&lt;/span>round&lt;span style="color:#f92672">((&lt;/span>frozenTimePeriodInSecs/2628000&lt;span style="color:#f92672">)&lt;/span>,0&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| search NOT title IN &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;_*&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;main&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;history&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;summary&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;splunklogger&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| table title &lt;span style="color:#e6db74">&amp;#34;Retention Period (months)&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| rename title as Index
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">```&lt;/span>&lt;span style="color:#66d9ef">for&lt;/span> years, divide frozenTimePeriodInSecs/31556952; &lt;span style="color:#66d9ef">for&lt;/span> days, divide frozenTimePeriodInSecs/86400&lt;span style="color:#e6db74">```&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;!-- Hosts -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Hosts&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>Overview of hosts sending logs by index&lt;/p></description></item><item><title>Logrotate config</title><link>https://siemforge.xyz/notes/linux/logrotate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/logrotate/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Notes on SIEMForge</title><link>https://siemforge.xyz/notes/</link><description>Recent content in Notes on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 08 Jun 2010 08:06:25 +0600</lastBuildDate><atom:link href="https://siemforge.xyz/notes/index.xml" rel="self" type="application/rss+xml"/><item><title>Logrotate config</title><link>https://siemforge.xyz/notes/linux/logrotate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/logrotate/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
 &lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Logrotate Configuration Cheat Sheet:&lt;/span>&lt;/h5>
@@ -121,7 +52,43 @@ Keep &lt;count> number of old log files before deleting them.&lt;/p></descriptio
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list licenses | grep &lt;span style="color:#e6db74">&amp;#34;expiration_time&amp;#34;&lt;/span> | awk -F&lt;span style="color:#e6db74">&amp;#39;:&amp;#39;&lt;/span> &lt;span style="color:#e6db74">&amp;#39;{print $2}&amp;#39;&lt;/span> | xargs -I&lt;span style="color:#f92672">{}&lt;/span> date -d @&lt;span style="color:#f92672">{}&lt;/span> +&lt;span style="color:#e6db74">&amp;#34;%Y-%m-%d %H:%M:%S&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>List installed apps and their status&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list app
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>List installed apps and their version (if found)&lt;/p></description></item><item><title>Splunk Upgrade procedure</title><link>https://siemforge.xyz/notes/splunk/splunk-upgrade/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/splunk-upgrade/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>List installed apps and their version (if found)&lt;/p></description></item><item><title>Splunk searches</title><link>https://siemforge.xyz/notes/splunk/spl/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/spl/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;!-- Troubleshooting: -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Troubleshooting:&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>Errorcheck within Splunk GUI&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#f92672">=&lt;/span>_internal log_level&lt;span style="color:#f92672">=&lt;/span>ERROR source&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;/opt/splunk/var/log/splunk/splunkd.log&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check Splunk version&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| rest splunk_server&lt;span style="color:#f92672">=&lt;/span>* count&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span> /services/server/info
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| table version host
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Index -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Index&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>List indexes with the retention period&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>| rest splunk_server&lt;span style="color:#f92672">=&lt;/span>* /services/data/indexes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| eval &lt;span style="color:#e6db74">&amp;#34;Retention Period (months)&amp;#34;&lt;/span>&lt;span style="color:#f92672">=&lt;/span>round&lt;span style="color:#f92672">((&lt;/span>frozenTimePeriodInSecs/2628000&lt;span style="color:#f92672">)&lt;/span>,0&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| search NOT title IN &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;_*&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;main&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;history&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;summary&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;splunklogger&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| table title &lt;span style="color:#e6db74">&amp;#34;Retention Period (months)&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| rename title as Index
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">```&lt;/span>&lt;span style="color:#66d9ef">for&lt;/span> years, divide frozenTimePeriodInSecs/31556952; &lt;span style="color:#66d9ef">for&lt;/span> days, divide frozenTimePeriodInSecs/86400&lt;span style="color:#e6db74">```&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Hosts -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Hosts&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>Overview of hosts sending logs by index&lt;/p></description></item><item><title>Splunk Upgrade procedure</title><link>https://siemforge.xyz/notes/splunk/splunk-upgrade/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/splunk-upgrade/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
 &lt;!-- Upgrade procedure: -->
 &lt;div class="note-card ">
 &lt;div class="item">
@@ -150,4 +117,37 @@ Keep &lt;count> number of old log files before deleting them.&lt;/p></descriptio
 &lt;h2 id="2-download-and-transfer-files">2. Download and Transfer Files&lt;/h2>
 &lt;h3 id="download-the-splunk-installer">Download the Splunk Installer&lt;/h3>
 &lt;p>You can use the wget command to download the package on the host
-wget -O splunk-&lt;version>-&lt;hash>-Linux-x86_64.tgz &amp;ldquo;&lt;a href="https://download.splunk.com/products/splunk/releases/" target="_blank" rel="noopener">https://download.splunk.com/products/splunk/releases/&lt;/a>&lt;version>/linux/splunk-&lt;version>-&lt;hash>-Linux-x86_64.tgz&amp;rdquo;&lt;/p></description></item></channel></rss>
+wget -O splunk-&lt;version>-&lt;hash>-Linux-x86_64.tgz &amp;ldquo;&lt;a href="https://download.splunk.com/products/splunk/releases/" target="_blank" rel="noopener">https://download.splunk.com/products/splunk/releases/&lt;/a>&lt;version>/linux/splunk-&lt;version>-&lt;hash>-Linux-x86_64.tgz&amp;rdquo;&lt;/p></description></item><item><title>Linux Bash commands</title><link>https://siemforge.xyz/notes/linux/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;!-- Troubleshooting: -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Troubleshooting (files):&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>Find a file or directory&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>find / -type f -name &lt;span style="color:#e6db74">&amp;#34;filename&amp;#34;&lt;/span> 2&amp;gt;/dev/null
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>find / -type d -name &lt;span style="color:#e6db74">&amp;#34;dirname&amp;#34;&lt;/span> 2&amp;gt;/dev/null
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>find files that contain a pattern&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>find . -type f -exec grep -l &lt;span style="color:#e6db74">&amp;#39;version&amp;#39;&lt;/span> &lt;span style="color:#f92672">{}&lt;/span> &lt;span style="color:#ae81ff">\;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Troubleshooting: -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Troubleshooting (system):&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>Find a file or directory&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>find / -type f -name &lt;span style="color:#e6db74">&amp;#34;filename&amp;#34;&lt;/span> 2&amp;gt;/dev/null
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>find / -type d -name &lt;span style="color:#e6db74">&amp;#34;dirname&amp;#34;&lt;/span> 2&amp;gt;/dev/null
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>check if machine is a vm or barebone&lt;/p></description></item><item><title>ncdu</title><link>https://siemforge.xyz/notes/tools/ncdu/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/tools/ncdu/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>ncdu:&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>Ncdu is a disk usage analyzer with a text-mode user interface. It is designed to find space hogs on a remote server where you don’t have an entire graphical setup available, but it is a useful tool even on regular desktop systems. Ncdu aims to be fast, simple, easy to use, and should be able to run on any POSIX-like system.&lt;br>
+install:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://dev.yorhel.nl/download/ncdu-2.8.1-linux-x86_64.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tar -xzf ncdu-2.8.1-linux-x86_64.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo mv ncdu /usr/local/bin/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>usage:&lt;/p></description></item></channel></rss>
