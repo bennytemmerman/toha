@@ -77,6 +77,7 @@ Enable maintenance mode:</p><div class=highlight><pre tabindex=0 style=color:#f8
 </span></span></code></pre></div><p>stop splunk using systemctl command</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>systemctl stop splunk
 </span></span></code></pre></div><p>Unpack the Installer</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>tar -xvzf /tmp/splunk-9.4.3-237ebbd22314-linux-amd64.tgz -C /opt/
 </span></span></code></pre></div><p>Change the owner of the Splunk folder recursively with the account running Splunk</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>chown -R splunk.splunk /opt/splunk
+</span></span></code></pre></div><p>Since I&rsquo;m using a splunk user account (created without elevated privileges) to run splunk, I am switching to the account</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>su - splunk
 </span></span></code></pre></div><p>Start Splunk with License Acceptance</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>/opt/splunk/bin/splunk start --accept-license --answer-yes
 </span></span></code></pre></div><h2 id=7-post-upgrade-verification>7. Post-Upgrade Verification</h2><p>Check if Splunk is running</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>/opt/splunk/bin/splunk status
 </span></span></code></pre></div><p>Check recent logs for errors</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>tail -20f /opt/splunk/var/log/splunk/splunkd.log
@@ -125,7 +126,50 @@ Enable maintenance mode:</p><div class=highlight><pre tabindex=0 style=color:#f8
 </span></span><span style=display:flex><span>        systemctl reload myapp &gt; /dev/null 2&gt;&amp;<span style=color:#ae81ff>1</span> <span style=color:#f92672>||</span> true
 </span></span><span style=display:flex><span>    endscript
 </span></span><span style=display:flex><span><span style=color:#f92672>}</span>
-</span></span></code></pre></div></div></div></div></div><div class=note-card><div class=item><h5 class=note-title><span>Tips:</span></h5><div class=card><div class=card-body><ul><li>Run <code>logrotate -d &lt;config></code> to debug your config without applying changes.</li><li>Use <code>logrotate -f &lt;config></code> to force rotation for testing.</li><li>Logrotate is typically triggered via cron or systemd timers.</li><li>Keep your config DRY by centralizing shared logic in /etc/logrotate.conf and using includes.</li></ul></div></div></div></div></p></div><div style=display:block;width:100%;max-width:none><div class=note-card><div class=item><h5 class=note-title><span>ncdu:</span></h5><div class=card><div class=card-body><p>Ncdu is a disk usage analyzer with a text-mode user interface. It is designed to find space hogs on a remote server where you don’t have an entire graphical setup available, but it is a useful tool even on regular desktop systems. Ncdu aims to be fast, simple, easy to use, and should be able to run on any POSIX-like system.<br>install:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>wget https://dev.yorhel.nl/download/ncdu-2.8.1-linux-x86_64.tar.gz
+</span></span></code></pre></div></div></div></div></div><div class=note-card><div class=item><h5 class=note-title><span>Tips:</span></h5><div class=card><div class=card-body><ul><li>Run <code>logrotate -d &lt;config></code> to debug your config without applying changes.</li><li>Use <code>logrotate -f &lt;config></code> to force rotation for testing.</li><li>Logrotate is typically triggered via cron or systemd timers.</li><li>Keep your config DRY by centralizing shared logic in /etc/logrotate.conf and using includes.</li></ul></div></div></div></div></p></div><div style=display:block;width:100%;max-width:none><div class=note-card><div class=item><h5 class=note-title><span>Script: add sudo user</span></h5><div class=card><div class=card-body><p>Create a sudo user that won&rsquo;t prompt for password on executing sudo commands.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#!/bin/bash
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Ensure script is run as root</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> $EUID -ne <span style=color:#ae81ff>0</span> <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>   echo <span style=color:#e6db74>&#34;❌ This script must be run as root&#34;</span>
+</span></span><span style=display:flex><span>   exit <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Prompt for new username</span>
+</span></span><span style=display:flex><span>read -p <span style=color:#e6db74>&#34;Enter new username: &#34;</span> username
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Check if user already exists</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> id <span style=color:#e6db74>&#34;</span>$username<span style=color:#e6db74>&#34;</span> &amp;&gt;/dev/null; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;⚠️ User &#39;</span>$username<span style=color:#e6db74>&#39; already exists.&#34;</span>
+</span></span><span style=display:flex><span>    exit <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Prompt for password (silent input)</span>
+</span></span><span style=display:flex><span>read -s -p <span style=color:#e6db74>&#34;Enter password for </span>$username<span style=color:#e6db74>: &#34;</span> password
+</span></span><span style=display:flex><span>echo
+</span></span><span style=display:flex><span>read -s -p <span style=color:#e6db74>&#34;Confirm password: &#34;</span> password_confirm
+</span></span><span style=display:flex><span>echo
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Check passwords match</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> <span style=color:#e6db74>&#34;</span>$password<span style=color:#e6db74>&#34;</span> !<span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;</span>$password_confirm<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;❌ Passwords do not match.&#34;</span>
+</span></span><span style=display:flex><span>    exit <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Create user with home directory and bash shell</span>
+</span></span><span style=display:flex><span>useradd -m -s /bin/bash <span style=color:#e6db74>&#34;</span>$username<span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Set user password</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>username<span style=color:#e6db74>}</span><span style=color:#e6db74>:</span><span style=color:#e6db74>${</span>password<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> | chpasswd
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Add user to sudo group</span>
+</span></span><span style=display:flex><span>usermod -aG sudo <span style=color:#e6db74>&#34;</span>$username<span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Create a sudoers file to allow passwordless sudo</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;</span>$username<span style=color:#e6db74> ALL=(ALL) NOPASSWD:ALL&#34;</span> &gt; <span style=color:#e6db74>&#34;/etc/sudoers.d/</span>$username<span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>chmod <span style=color:#ae81ff>440</span> <span style=color:#e6db74>&#34;/etc/sudoers.d/</span>$username<span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;✅ User &#39;</span>$username<span style=color:#e6db74>&#39; created with bash shell and passwordless sudo access.&#34;</span>
+</span></span></code></pre></div></div></div></div></div></div><div style=display:block;width:100%;max-width:none><div class=note-card><div class=item><h5 class=note-title><span>ncdu:</span></h5><div class=card><div class=card-body><p>Ncdu is a disk usage analyzer with a text-mode user interface. It is designed to find space hogs on a remote server where you don’t have an entire graphical setup available, but it is a useful tool even on regular desktop systems. Ncdu aims to be fast, simple, easy to use, and should be able to run on any POSIX-like system.<br>install:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>wget https://dev.yorhel.nl/download/ncdu-2.8.1-linux-x86_64.tar.gz
 </span></span><span style=display:flex><span>tar -xzf ncdu-2.8.1-linux-x86_64.tar.gz
 </span></span><span style=display:flex><span>sudo mv ncdu /usr/local/bin/
 </span></span></code></pre></div><p>usage:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ncdu &lt;directory_name&gt;
