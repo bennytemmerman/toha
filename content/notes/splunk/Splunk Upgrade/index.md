@@ -122,6 +122,10 @@ Change the owner of the Splunk folder recursively with the account running Splun
 ```bash
 chown -R splunk.splunk /opt/splunk
 ```
+Since I'm using a splunk user account (created without elevated privileges) to run splunk, I am switching to the account
+```bash
+su - splunk
+```
 Start Splunk with License Acceptance
 ```bash
 /opt/splunk/bin/splunk start --accept-license --answer-yes
