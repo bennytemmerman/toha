@@ -107,6 +107,10 @@ Activate the virtual environment
 ```bash
 source venv/bin/activate
 ```
+Get out of the virtual environment
+```bash
+deactivate
+```
 {{< /note >}}
 
 </div>
