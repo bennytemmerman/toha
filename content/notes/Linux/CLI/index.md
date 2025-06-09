@@ -97,4 +97,16 @@ rm -f /tmp/names; for user in $(getent passwd | cut -d: -f1); do count=$((count+
 ```
 {{< /note >}}
 
+<!-- Project: -->
+{{< note title="Python virtual environment:" >}}
+create a virtual environment
+```bash
+python3 -m venv venv
+```
+Activate the virtual environment
+```bash
+source venv/bin/activate
+```
+{{< /note >}}
+
 </div>
