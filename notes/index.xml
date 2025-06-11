@@ -219,4 +219,20 @@ install:&lt;/p>
 &lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item></channel></rss>
+&lt;/div></description></item><item><title>GIT</title><link>https://siemforge.xyz/notes/git/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/git/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;!-- Intro: -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Version control:&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">What is Version Control?&lt;br>
+Version control systems are tools that manage changes made to files and directories in a project. They allow you to keep track of what you did when, undo any changes you decide you don&amp;rsquo;t want, and collaborate at scale with others. This cheat sheet focuses on one of the most popular one, Git.&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Definitions: -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Definitions:&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>&lt;em>Basic definition&lt;/em>&lt;/p></description></item></channel></rss>
