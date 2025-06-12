@@ -49,7 +49,7 @@ a reference name for the latest commit, to save you having to type Commit IDs. H
 {{< note title="How to install:" >}}
 On OS X or Windows — Using an installer
 - Download the installer
-- Follow the prompts  
+- Follow the prompts
 On OS X — Using Homebrew
 ```bash
 brew install git
@@ -112,12 +112,6 @@ gc -m "New commit"
 ```bash
 git config --global alias.ga add
 ```
-{{< /note >}}
-
-<!-- Sources: -->
-{{< note title="sources:" >}}
-[DatacampCheatsheet](https://media.datacamp.com/legacy/image/upload/v1656573882/Marketing/Blog/git_cheat_sheet.pdf)  
-[GitlabCheatsheet](https://about.gitlab.com/images/press/git-cheat-sheet.pdf)
 {{< /note >}}
 
 <!-- Basics: -->
@@ -363,5 +357,11 @@ git reset --hard HEAD~1
 ```bash
 git revert [commit_id]
 ```
+{{< /note >}}
+
+<!-- Sources: -->
+{{< note title="sources:" >}}
+[DatacampCheatsheet](https://media.datacamp.com/legacy/image/upload/v1656573882/Marketing/Blog/git_cheat_sheet.pdf)  
+[GitlabCheatsheet](https://about.gitlab.com/images/press/git-cheat-sheet.pdf)
 {{< /note >}}
 </div>
