@@ -221,14 +221,14 @@ install:&lt;/p>
 &lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item><item><title>GIT</title><link>https://siemforge.xyz/notes/git/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/git/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;/div></description></item><item><title>GIT</title><link>https://siemforge.xyz/notes/coding/git/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/coding/git/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
 &lt;!-- Intro: -->
 &lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Version control:&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">What is Version Control?&lt;br>
-Version control systems are tools that manage changes made to files and directories in a project. They allow you to keep track of what you did when, undo any changes you decide you don&amp;rsquo;t want, and collaborate at scale with others. This cheat sheet focuses on one of the most popular one, Git.&lt;/div>
+&lt;div class="card-body">&lt;h1 id="what-is-version-control">What is Version Control?&lt;/h1>
+&lt;p>Version control systems are tools that manage changes made to files and directories in a project. They allow you to keep track of what you did when, undo any changes you decide you don&amp;rsquo;t want, and collaborate at scale with others. This cheat sheet focuses on one of the most popular one, Git.&lt;/p>&lt;/div>
 &lt;/div>
 &lt;/div>
 &lt;/div>
@@ -237,4 +237,41 @@ Version control systems are tools that manage changes made to files and director
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Definitions:&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;p>&lt;em>Basic definition&lt;/em>&lt;/p></description></item></channel></rss>
+&lt;div class="card-body">&lt;h1 id="basic-definition">Basic definition&lt;/h1>
+&lt;ul>
+&lt;li>Local repo or repository:&lt;br>
+A local directory containing code and files for the project&lt;/li>
+&lt;li>Remote repository:&lt;br>
+An online version of the local repository hosted on services like GitHub, GitLab, and BitBucket&lt;/li>
+&lt;li>Cloning:&lt;br>
+The act of making a clone or copy of a repository in a new directory&lt;/li>
+&lt;li>Commit:&lt;br>
+A snapshot of the project you can come back to&lt;/li>
+&lt;li>Branch:&lt;br>
+A copy of the project used for working in an isolated environment without affecting the main project&lt;/li>
+&lt;li>Git merge:&lt;br>
+The process of combining two branches together&lt;/li>
+&lt;/ul>
+&lt;h1 id="more-advanced-definition">More advanced definition&lt;/h1>
+&lt;ul>
+&lt;li>.gitignore file:&lt;br>
+A file that lists other files you want git not to track (e.g. large data folders, private info, and any local files that shouldn’t be seen by the public)&lt;/li>
+&lt;li>Staging area:&lt;br>
+a cache that holds changes you want to commit next&lt;/li>
+&lt;li>Git stash:&lt;br>
+another type of cache that holds unwanted changes you may want to come back later&lt;/li>
+&lt;li>Commit ID or hash:&lt;br>
+a unique identifier for each commit, used for switching to different save points&lt;/li>
+&lt;li>HEAD (always capitalized letters):&lt;br>
+a reference name for the latest commit, to save you having to type Commit IDs. HEAD&lt;del>n syntax is used to refer to older commits (e.g. HEAD&lt;/del>2 refers to the second-to-last commit)&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Install: -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>How to install:&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>On OS X or Windows — Using an installer&lt;/p></description></item></channel></rss>
