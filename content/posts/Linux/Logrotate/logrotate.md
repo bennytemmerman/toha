@@ -10,7 +10,7 @@ menu:
     name: Logrotate
     identifier: logrotate
     parent: cat-linux
-    weight: 500
+    weight: 300
 ---
 # Mastering Logrotate: The Unsung Hero of Log Management
 
