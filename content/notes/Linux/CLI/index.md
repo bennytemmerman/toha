@@ -24,10 +24,9 @@ find . -type f -exec grep -l 'version' {} \;
 {{< /note >}}
 <!-- Troubleshooting: -->
 {{< note title="Troubleshooting (system):" >}}
-Find a file or directory
+Check logs if a service has executed/failed before (I needed to check if logrotate was running daily, also checked for rsyslog after)
 ```bash
-find / -type f -name "filename" 2>/dev/null
-find / -type d -name "dirname" 2>/dev/null
+journalctl | grep logrotate
 ```
 check if machine is a vm or barebone
 ```bash
