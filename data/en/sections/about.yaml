@@ -45,12 +45,6 @@ resourceLinks:
 # Show your badges
 # You can show your verifiable certificates from https://www.credly.com.
 # You can also show a circular bar indicating the level of expertise on a certain skill
-badges:
-- type: certification
-  name: SiemForge
-  url: "https://siemforge.xyz"
-  image: "https://siemforge.xyz/images/author/john_hu_cab6480e352a309c.png"
-
 - type: certification
   name: Certified Splunk Enterprise Admin
   url: "https://www.credly.com/badges/00c25539-c9df-401a-8c80-f7f95407e13e/linked_in_profile"
