@@ -108,9 +108,8 @@ wget -O splunk-&lt;version>-&lt;hash>-Linux-x86_64.tgz &amp;ldquo;&lt;a href="ht
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Troubleshooting (system):&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;p>Find a file or directory&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>find / -type f -name &lt;span style="color:#e6db74">&amp;#34;filename&amp;#34;&lt;/span> 2&amp;gt;/dev/null
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>find / -type d -name &lt;span style="color:#e6db74">&amp;#34;dirname&amp;#34;&lt;/span> 2&amp;gt;/dev/null
+&lt;div class="card-body">&lt;p>Check logs if a service has executed/failed before (I needed to check if logrotate was running daily, also checked for rsyslog after)&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>journalctl | grep logrotate
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>check if machine is a vm or barebone&lt;/p></description></item><item><title>Logrotate config</title><link>https://siemforge.xyz/notes/linux/logrotate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/logrotate/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
 &lt;div class="note-card ">
 &lt;div class="item">
