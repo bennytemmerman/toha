@@ -21,7 +21,7 @@ As someone constantly tinkering in my **Proxmox-based homelab**, I recently deci
 
 To get started, I spun up a new container and installed **n8n via Portainer**, running it in Docker. For anyone looking to do the same, here's the official n8n install guide for Docker and Portainer:
 
-[Install n8n with Docker & Portainer](https://docs.n8n.io/hosting/installation/docker/)
+[Install n8n with Docker & Portainer](https://docs.n8n.io/hosting/installation/docker/)  
 [Link to environment variables](https://docs.n8n.io/hosting/configuration/environment-variables/deployment/)
 
 ---
@@ -91,7 +91,8 @@ Initially, I tried to go **way too complex** — chaining advanced AI nodes, for
 > The minimal setup: 
 > Schedule Trigger → AI Agent → Discord Webhook
 
-Even at this basic level, the value was clear.
+An AI agent is not fully required as this could have been configured as an automation workflow, this was purely for testing purposes.
+This project provided value and a great learning experience.
 
 ---
 
