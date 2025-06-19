@@ -1,5 +1,5 @@
 ---
-title: "First project"
+title: "My first automation workflow"
 date: 2025-06-18T10:17:23+02:00
 #hero: /images/posts/logrotate.svg
 hero: /images/posts/n8n.jpg
@@ -7,8 +7,8 @@ description: Creating an AI agent to help learn a new language
 theme: Toha
 menu:
   sidebar:
-    name: First project
-    identifier: firstProject
+    name: My first automation workflow
+    identifier: myFirstAutomationWorkflow
     parent: cat-automation
     weight: 400
 ---
