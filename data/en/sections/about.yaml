@@ -49,7 +49,7 @@ badges:
 - type: certification
   name: SiemForge
   url: "https://siemforge.xyz"
-  image: "images/site/main-logo.png"
+  image: "images/site/favicon.png"
 
 - type: certification
   name: Certified Splunk Enterprise Admin
