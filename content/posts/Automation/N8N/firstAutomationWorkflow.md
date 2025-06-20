@@ -93,7 +93,9 @@ Initially, I tried to go **way too complex** — chaining advanced AI nodes, for
 > The minimal setup: 
 > Schedule Trigger → AI Agent → Discord Webhook
 
+<div align="center">
 ![AI agent workflow](images/posts/AIAgent.gif)
+</div>
 
 An AI agent is not fully required as this could have been configured as an automation workflow, this was purely for testing purposes.
 This project provided value and a great learning experience.
