@@ -94,7 +94,6 @@ Initially, I tried to go **way too complex** — chaining advanced AI nodes, for
 > Schedule Trigger → AI Agent → Discord Webhook
 
 ![](images/posts/AIAgent.gif)
-{{< stretchimg src="/images/posts/AIAgent.gif" alt="AI agent workflow" >}}
 
 An AI agent is not fully required as this could have been configured as an automation workflow, this was purely for testing purposes.
 This project provided value and a great learning experience.
