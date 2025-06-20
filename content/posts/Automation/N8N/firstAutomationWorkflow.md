@@ -43,7 +43,7 @@ While experimenting, I had a lightbulb moment: why not use AI to help me learn a
 Here was the concept:
 
 - **Schedule a daily trigger**
-- **Ask an AI agent** (e.g., Google Gemini) for a new sentence in the target language
+- **Use an AI agent to ask a chatmodel** (e.g., Google Gemini) for a new sentence in the target language
 - **Include translation, pronunciation, grammar, and spelling tips**
 - **Send the output to a Discord channel via webhook**
 
@@ -90,6 +90,8 @@ Initially, I tried to go **way too complex** — chaining advanced AI nodes, for
 
 > The minimal setup: 
 > Schedule Trigger → AI Agent → Discord Webhook
+
+![AI agent workflow](images/posts/AIAgent.gif)
 
 An AI agent is not fully required as this could have been configured as an automation workflow, this was purely for testing purposes.
 This project provided value and a great learning experience.
