@@ -93,7 +93,7 @@ Initially, I tried to go **way too complex** — chaining advanced AI nodes, for
 > The minimal setup: 
 > Schedule Trigger → AI Agent → Discord Webhook
 
-<div align="center">
+<div style="text-align: center; padding: 1em 0;">
   <img src="images/posts/AIAgent.gif" alt="AI agent workflow">
 </div>
 
