@@ -1,10 +1,10 @@
 ---
-title: Logrotate config
+title: scriptSudoUser
 weight: 402
 menu:
   notes:
-    name: Logrotate
-    identifier: notes-logrotate
+    name: scriptSusoUser
+    identifier: notes-scriptSudoUser
     parent: notes-linux
     weight: 42
 ---
