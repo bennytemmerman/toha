@@ -47,6 +47,8 @@ Here was the concept:
 - **Include translation, pronunciation, grammar, and spelling tips**
 - **Send the output to a Discord channel via webhook**
 
+![n8n result](images/posts/n8nresult.png)
+
 This felt like the perfect fusion of **AI**, **automation**, and a **personal need**.
 
 ---
