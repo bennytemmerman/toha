@@ -144,7 +144,7 @@ Use this as a quick reference to master log rotation on Unix-like systems.&lt;/p
 &lt;div class="card">
 &lt;div class="card-body">&lt;h4 id="basic-settings">Basic Settings:&lt;/h4>
 &lt;p>&lt;code>rotate &amp;lt;count&amp;gt;&lt;/code>&lt;br>
-Keep &lt;count> number of old log files before deleting them.&lt;/p></description></item><item><title>Logrotate config</title><link>https://siemforge.xyz/notes/linux/scripts/addsudouser/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/scripts/addsudouser/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+Keep &lt;count> number of old log files before deleting them.&lt;/p></description></item><item><title>scriptSudoUser</title><link>https://siemforge.xyz/notes/linux/scripts/addsudouser/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/scripts/addsudouser/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
 &lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Script: add sudo user&lt;/span>&lt;/h5>
