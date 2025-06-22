@@ -176,7 +176,6 @@ LV1 LV2 LV3
 &lt;/div>
 &lt;div class="card">
 &lt;div class="card-body">&lt;h2 id="fdisk-reference-useful-pre-lvm">FDISK Reference (Useful Pre-LVM)&lt;/h2>
-&lt;h3 id="generic-commands-in-fdisk">Generic Commands in &lt;code>fdisk&lt;/code>&lt;/h3>
 &lt;p>| Command | Description |
 |&lt;/p>&lt;/div>
 &lt;/div>
