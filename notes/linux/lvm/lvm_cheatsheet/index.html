@@ -31,34 +31,20 @@ SIEMForge</a>
 </span></span><span style=display:flex><span>vgscan      <span style=color:#75715e># Scan for VGs</span>
 </span></span></code></pre></div><p><strong>Create</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>vgcreate vg0 /dev/sda
 </span></span></code></pre></div><p><strong>Delete</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>vgremove vg_name
-</span></span></code></pre></div><p><strong>Edit</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>vgcfgbackup
-</span></span><span style=display:flex><span>vgcfgrestore
-</span></span><span style=display:flex><span>vgchange     <span style=color:#75715e># Change VG attributes</span>
-</span></span><span style=display:flex><span>vgconvert    <span style=color:#75715e># Metadata format change</span>
-</span></span><span style=display:flex><span>vgexport
-</span></span><span style=display:flex><span>vgimport
-</span></span><span style=display:flex><span>vgimportclone
-</span></span><span style=display:flex><span>vgmerge
-</span></span><span style=display:flex><span>vgsplit
-</span></span><span style=display:flex><span>vgextend vg0 /dev/sdc /dev/sdd
-</span></span><span style=display:flex><span>vgreduce
-</span></span><span style=display:flex><span>vgrename
-</span></span><span style=display:flex><span>vgmknodes
-</span></span></code></pre></div><p>| Command | Description | Comment |
-|</p></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body>-|</div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body>|</div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body>-|
-| vgcfgbackup | Backs up volume group (VG) metadata | Essential for disaster recovery; does not back up actual data, only metadata. |
-| vgcfgrestore | Restores VG metadata from backup | Used to recover from metadata corruption or loss; overwrites current VG metadata. |
-| vgchange | Changes VG attributes | Lets you alter VG properties such as activation state and access mode. |
-| vgconvert | Changes VG metadata format | Converts between metadata formats (e.g., lvm1 to lvm2). |
-| vgexport | Exports a VG to make it unknown to the system| Used before moving a VG to another system; makes VG temporarily unavailable. |
-| vgimport | Imports a VG previously exported | Makes a VG known to the system again after moving or exporting. |
-| vgimportclone | Imports and renames a VG to avoid conflicts | Used when importing duplicate VGs (e.g., cloned storage); renames VG to prevent clashes. |
-| vgmerge | Merges two VGs into one | Combines two volume groups into a single VG. |
-| vgsplit | Splits a VG into two separate VGs | Divides a volume group into two, moving selected physical volumes to the new VG. |
-| vgextend | Adds physical volumes to a VG | Example: <code>vgextend vg0 /dev/sdc /dev/sdd</code> adds disks to VG vg0. |
-| vgreduce | Removes physical volumes from a VG | Removes disks from a volume group; data on removed PVs should be moved first. |
-| vgrename | Renames a VG | Changes the name of a volume group. |
-| vgmknodes | Recreates device nodes for LVM devices | Useful if device nodes are missing or incorrect after kernel or LVM changes. |</div></div><div class=card><div class=card-body><h3 id=4-create-logical-volumes>4. Create Logical Volumes</h3><p><strong>Info</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>lvdisplay    <span style=color:#75715e># Show LV attributes</span>
+</span></span></code></pre></div><p><strong>Edit</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>vgcfgbackup   <span style=color:#75715e># Backs up volume group (VG) metadata</span>
+</span></span><span style=display:flex><span>vgcfgrestore  <span style=color:#75715e># Restores VG metadata from backup</span>
+</span></span><span style=display:flex><span>vgchange      <span style=color:#75715e># Change VG attributes</span>
+</span></span><span style=display:flex><span>vgconvert     <span style=color:#75715e># Metadata format change</span>
+</span></span><span style=display:flex><span>vgexport      <span style=color:#75715e># Exports a VG to make it unknown to the system</span>
+</span></span><span style=display:flex><span>vgimport      <span style=color:#75715e># Imports a VG previously exported</span>
+</span></span><span style=display:flex><span>vgimportclone <span style=color:#75715e># Imports and renames a VG to avoid conflicts</span>
+</span></span><span style=display:flex><span>vgmerge       <span style=color:#75715e># Merges two VGs into one</span>
+</span></span><span style=display:flex><span>vgsplit       <span style=color:#75715e># Splits a VG into two separate VGs</span>
+</span></span><span style=display:flex><span>vgextend vg0 /dev/sdc /dev/sdd  <span style=color:#75715e># Adds physical volumes to a VG</span>
+</span></span><span style=display:flex><span>vgreduce      <span style=color:#75715e># Removes physical volumes from a VG</span>
+</span></span><span style=display:flex><span>vgrename      <span style=color:#75715e># Renames a VG</span>
+</span></span><span style=display:flex><span>vgmknodes     <span style=color:#75715e># Recreates device nodes for LVM devices</span>
+</span></span></code></pre></div></div></div><div class=card><div class=card-body><h3 id=4-create-logical-volumes>4. Create Logical Volumes</h3><p><strong>Info</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>lvdisplay    <span style=color:#75715e># Show LV attributes</span>
 </span></span><span style=display:flex><span>lvmdiskscan  <span style=color:#75715e># Scan for devices</span>
 </span></span><span style=display:flex><span>lvs          <span style=color:#75715e># Report info</span>
 </span></span><span style=display:flex><span>lvscan       <span style=color:#75715e># Scan for LVs</span>
