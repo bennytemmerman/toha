@@ -203,7 +203,7 @@ LV1 LV2 LV3
 &lt;div class="card-body">&lt;/div>
 &lt;/div>
 &lt;div class="card">
-&lt;div class="card-body">&lt;p>-|
+&lt;div class="card-body">&lt;p>&amp;ndash;|
 | &lt;code>d&lt;/code> | Delete a partition |
 | &lt;code>F&lt;/code> | List free space |
 | &lt;code>l&lt;/code> | List known partition types |
