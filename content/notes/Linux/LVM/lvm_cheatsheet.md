@@ -32,7 +32,7 @@ menu:
 ### Generic Commands in `fdisk`
 
 | Command | Description                      |
-|---------|----------------------------------|
+|---------|-----------------------------------|
 | `d`     | Delete a partition               |
 | `F`     | List free space                  |
 | `l`     | List known partition types       |
