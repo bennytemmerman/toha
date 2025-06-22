@@ -10,6 +10,8 @@ menu:
 ---
 <div style="display: block; width: 100%; max-width: none;">
 
+{{< note title="fdisk cheatsheet:" >}}
+
 fdisk is a powerful, text-based utility used to create, delete, and manage disk partitions in Linux systems. It supports MBR (Master Boot Record) partition tables and is best suited for systems not using GPT (GUID Partition Table).
 
 ## Basic Syntax
@@ -165,5 +167,5 @@ mount /dev/sdX1 /mnt/mydisk
 - `man fdisk`
 - `https://wiki.archlinux.org/title/Fdisk`
 
-
+{{< /note >}}
 </div>
