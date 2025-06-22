@@ -57,8 +57,8 @@ enableEmoji: true
 
 # Site parameters
 params:
-  images:
-  - background.jpg
+  opengraph:
+    image: "images/site/background.jpg"
   # Background image of the landing page
   background: /images/site/background.jpg
   # Background image of the landing page for dark theme
