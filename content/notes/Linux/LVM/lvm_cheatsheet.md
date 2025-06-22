@@ -42,6 +42,14 @@ menu:
 | `v`     | Verify partition table           |
 | `i`     | Information about a partition    |
 
+| Feature                | LVM                         | Traditional Partitioning       |
+|------------------------|-----------------------------|--------------------------------|
+| Resizing Volumes       | Dynamic                     | Static                         |
+| Snapshots              | Yes                         | No                             |
+| Disk Spanning          | Yes (via VGs)               | No                             |
+| Performance Overhead   | Slight (negligible in most) | None                           |
+| Complexity             | Moderate                    | Low                            |
+
 ```bash
 sudo fdisk /dev/sdX
 ```
