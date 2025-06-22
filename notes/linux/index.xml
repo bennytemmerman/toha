@@ -107,4 +107,52 @@ Keep &lt;count> number of old log files before deleting them.&lt;/p></descriptio
 &lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item></channel></rss>
+&lt;/div></description></item><item><title/><link>https://siemforge.xyz/notes/linux/lvm/lvm_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/lvm/lvm_cheatsheet/</guid><description>&lt;h1 id="lvm-cheatsheet">LVM Cheatsheet&lt;/h1>
+&lt;h2 id="initialization">Initialization&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Physical Volume&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pvcreate /dev/sdX
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Volume Group&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgcreate vg_name /dev/sdX
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Extend Volume Group&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgextend vg_name /dev/sdY
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="logical-volume-operations">Logical Volume Operations&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Logical Volume&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvcreate -L 10G -n lv_name vg_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Logical Volume using all free space&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvcreate -l 100%FREE -n lv_name vg_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Resize Logical Volume (online)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvextend -L +5G /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>resize2fs /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Reduce Logical Volume&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>umount /mnt
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>e2fsck -f /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>resize2fs /dev/vg_name/lv_name 5G
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvreduce -L 5G /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mount /mnt
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Remove Logical Volume&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvremove /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="snapshots">Snapshots&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Snapshot&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvcreate --size 1G --snapshot --name snap_name /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Restore from Snapshot&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvconvert --merge /dev/vg_name/snap_name
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="information--listing">Information &amp;amp; Listing&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>pvs &lt;span style="color:#75715e"># List physical volumes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgs &lt;span style="color:#75715e"># List volume groups&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvs &lt;span style="color:#75715e"># List logical volumes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvdisplay &lt;span style="color:#75715e"># Show details of logical volumes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgdisplay &lt;span style="color:#75715e"># Show details of volume groups&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pvdisplay &lt;span style="color:#75715e"># Show details of physical volumes&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="removal">Removal&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lvremove /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgremove vg_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pvremove /dev/sdX
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

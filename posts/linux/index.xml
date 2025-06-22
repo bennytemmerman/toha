@@ -1,3 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on SIEMForge</title><link>https://siemforge.xyz/posts/linux/</link><description>Recent content in Linux on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 06 Jun 2025 14:17:23 +0200</lastBuildDate><atom:link href="https://siemforge.xyz/posts/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Logrotate</title><link>https://siemforge.xyz/posts/linux/logrotate/logrotate/</link><pubDate>Fri, 06 Jun 2025 14:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/logrotate/logrotate/</guid><description>&lt;h1 id="mastering-logrotate-the-unsung-hero-of-log-management">Mastering Logrotate: The Unsung Hero of Log Management&lt;/h1>
 &lt;p>In the trenches of system administration, there&amp;rsquo;s one silent guardian that keeps your disk space from imploding under a mountain of logs: &lt;strong>Logrotate&lt;/strong>. Whether you&amp;rsquo;re wrangling logs on a sprawling Kubernetes cluster or just babysitting a single Linux box, Logrotate ensures your logs don’t spiral out of control.&lt;/p>
-&lt;p>In this deep dive, we’ll explore how Logrotate works, why it’s essential, how to configure it like a pro, and how to troubleshoot when it throws a tantrum.&lt;/p></description></item></channel></rss>
+&lt;p>In this deep dive, we’ll explore how Logrotate works, why it’s essential, how to configure it like a pro, and how to troubleshoot when it throws a tantrum.&lt;/p></description></item><item><title/><link>https://siemforge.xyz/posts/linux/lvm/lvm_blogpost/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/posts/linux/lvm/lvm_blogpost/</guid><description>&lt;h1 id="deep-dive-into-lvm-logical-volume-manager">Deep Dive into LVM (Logical Volume Manager)&lt;/h1>
+&lt;h2 id="what-is-lvm">What is LVM?&lt;/h2>
+&lt;p>LVM stands for &lt;strong>Logical Volume Manager&lt;/strong>, a device mapper framework that provides logical volume management for the Linux kernel. LVM allows administrators to create, resize, and delete volumes dynamically, offering more flexibility than traditional partitioning schemes.&lt;/p>
+&lt;h2 id="why-use-lvm">Why Use LVM?&lt;/h2>
+&lt;ul>
+&lt;li>&lt;strong>Dynamic Resizing&lt;/strong>: Easily resize (extend/reduce) logical volumes without unmounting.&lt;/li>
+&lt;li>&lt;strong>Snapshot Support&lt;/strong>: Create point-in-time snapshots for backup or testing.&lt;/li>
+&lt;li>&lt;strong>Volume Grouping&lt;/strong>: Aggregate multiple physical devices into a single storage pool.&lt;/li>
+&lt;li>&lt;strong>Migration&lt;/strong>: Move volumes across physical devices live.&lt;/li>
+&lt;li>&lt;strong>Flexibility&lt;/strong>: Logical volumes can span across multiple disks.&lt;/li>
+&lt;/ul>
+&lt;h2 id="lvm-architecture">LVM Architecture&lt;/h2>
+&lt;p>&lt;img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Lvm.png/800px-Lvm.png" alt="LVM Architecture">&lt;/p></description></item></channel></rss>
