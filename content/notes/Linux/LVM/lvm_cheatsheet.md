@@ -185,6 +185,7 @@ lvconvert --merge /dev/vg0/snap_name
 ```bash
 lvextend -L +10G /dev/vgbackup/lvbackup
 resize2fs /dev/vgbackup/lvbackup
+xfs_growfs /path/to/your/mount/point
 ```
 
 ---
