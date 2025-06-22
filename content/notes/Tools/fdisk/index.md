@@ -27,7 +27,7 @@ Where `/dev/sdX` is the disk you want to operate on (e.g., `/dev/sda`, `/dev/sdb
 
 ---
 
-## Key Commands in `fdisk` Interactive Mode
+## Key commands in `fdisk` interactive mode
 
 | Command | Description                                 |
 |---------|---------------------------------------------|
@@ -42,9 +42,9 @@ Where `/dev/sdX` is the disk you want to operate on (e.g., `/dev/sda`, `/dev/sdb
 
 ---
 {{< note >}}
-## Common Workflow Examples
+## Common workflow examples
 
-**1. View Partition Table**
+**1. View partition table**
 
 ```bash
 sudo fdisk -l
@@ -52,7 +52,7 @@ sudo fdisk -l
 
 Lists all disks and their partitions.
 
-**2. Start fdisk on a Specific Disk**
+**2. Start fdisk on a specific disk**
 
 ```bash
 sudo fdisk /dev/sdX
@@ -60,7 +60,7 @@ sudo fdisk /dev/sdX
 
 Enters interactive mode.
 
-**3. Create a New Partition**
+**3. Create a new partition**
 
 ```bash
 Command (m for help): n
@@ -70,7 +70,7 @@ First sector: [Press Enter to accept default]
 Last sector: +1G  # or specify size like +20G
 ```
 
-**4. Change Partition Type**
+**4. Change partition type**
 
 ```bash
 Command (m for help): t
@@ -78,14 +78,14 @@ Partition number: 1
 Hex code (type L for list): 83  # Linux filesystem
 ```
 
-**5. Set Bootable Flag**
+**5. Set bootable flag**
 
 ```bash
 Command (m for help): a
 Partition number: 1
 ```
 
-**6. Write Changes to Disk**
+**6. Write changes to disk**
 
 ```bash
 Command (m for help): w
@@ -93,7 +93,7 @@ Command (m for help): w
 
 Writes the partition table to disk and exits.
 
-**7. Quit Without Saving**
+**7. Quit without saving**
 
 ```bash
 Command (m for help): q
@@ -103,7 +103,7 @@ Exits without modifying the disk.
 
 ---
 
-## Important Options
+## Important options
 
 ```bash
 -f       # Use a script file
@@ -114,7 +114,7 @@ Exits without modifying the disk.
 
 ---
 
-## Partition Type Codes (Common)
+## Partition type codes
 
 | Code | Filesystem Type       |
 |------|------------------------|
@@ -131,9 +131,8 @@ To list all type codes:
 Command (m for help): L
 ```
 {{< note >}}
----
 
-## Post Partitioning
+## Post partitioning
 
 After creating partitions, always format them:
 
@@ -150,7 +149,7 @@ mount /dev/sdX1 /mnt/mydisk
 
 ---
 
-## Helpful Tips
+## Helpful tips
 
 - Use `partprobe` or reboot after changing partition table:
   ```bash
