@@ -1,4 +1,17 @@
-
+---
+title: "LVM"
+date: 2025-06-022T9:17:23+02:00
+#hero: /images/posts/logrotate.svg
+hero: /images/posts/logrotate.jpg
+description: Explaining LVM configuration
+theme: Toha
+menu:
+  sidebar:
+    name: LVM
+    identifier: lvm
+    parent: cat-linux
+    weight: 301
+---
 # Deep Dive into LVM (Logical Volume Manager)
 
 ## What is LVM?

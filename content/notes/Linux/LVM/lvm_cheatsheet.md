@@ -1,4 +1,15 @@
-
+---
+title: LVM cheatsheet
+weight: 402
+menu:
+  notes:
+    name: LVM cheatsheet
+    identifier: notes-lvmCheatsheet
+    parent: notes-linux
+    weight: 42
+---
+<div style="display: block; width: 100%; max-width: none;">
+{{< note title="Script: add sudo user" >}}
 # LVM Cheatsheet
 
 ## Initialization
@@ -67,4 +78,5 @@ lvremove /dev/vg_name/lv_name
 vgremove vg_name
 pvremove /dev/sdX
 ```
-
+{{< /note >}}
+</div>

@@ -1,12 +1,12 @@
 ---
 title: scriptSudoUser
-weight: 402
+weight: 410
 menu:
   notes:
-    name: scriptSusoUser
+    name: script: SudoUser
     identifier: notes-scriptSudoUser
     parent: notes-linux
-    weight: 42
+    weight: 410
 ---
 <div style="display: block; width: 100%; max-width: none;">
 {{< note title="Script: add sudo user" >}}
