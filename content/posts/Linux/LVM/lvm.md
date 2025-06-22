@@ -62,13 +62,13 @@ A PostgreSQL database needs fast backups and storage flexibility. With LVM:
 
 ## Important!
 
-Extending a logical volume increases the underlying block device size, but the filesystem itself must also be explicitly resized to utilize the newly allocated space. Without this step, the additional storage remains unavailable to the operating system and applications.  
-### XFS
+Extending a logical volume increases the underlying block device size, but the filesystem itself must also be explicitly resized to utilize the newly allocated space. Without this step, the additional storage remains unavailable to the operating system and applications.    
+**XFS**
 XFS filesystems must be mounted to resize. Use xfs_growfs on the mount point
 ```bash
 xfs_growfs /path/to/your/mount/point. 
 ```
-### ext filesystems
+**ext filesystems**
 For ext-based filesystems (ext2/3/4), you can resize the filesystem either by targeting the block device or the mount point (if already mounted)
 ```bash
 resize2fs /dev/vg_name/lv_name
