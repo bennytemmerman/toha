@@ -44,7 +44,7 @@ Where `/dev/sdX` is the disk you want to operate on (e.g., `/dev/sda`, `/dev/sdb
 {{< note >}}
 ## Common Workflow Examples
 
-### 1. View Partition Table
+**1. View Partition Table**
 
 ```bash
 sudo fdisk -l
@@ -52,7 +52,7 @@ sudo fdisk -l
 
 Lists all disks and their partitions.
 
-### 2. Start fdisk on a Specific Disk
+**2. Start fdisk on a Specific Disk**
 
 ```bash
 sudo fdisk /dev/sdX
@@ -60,7 +60,7 @@ sudo fdisk /dev/sdX
 
 Enters interactive mode.
 
-### 3. Create a New Partition
+**3. Create a New Partition**
 
 ```bash
 Command (m for help): n
@@ -70,7 +70,7 @@ First sector: [Press Enter to accept default]
 Last sector: +1G  # or specify size like +20G
 ```
 
-### 4. Change Partition Type
+**4. Change Partition Type**
 
 ```bash
 Command (m for help): t
@@ -78,14 +78,14 @@ Partition number: 1
 Hex code (type L for list): 83  # Linux filesystem
 ```
 
-### 5. Set Bootable Flag
+**5. Set Bootable Flag**
 
 ```bash
 Command (m for help): a
 Partition number: 1
 ```
 
-### 6. Write Changes to Disk
+**6. Write Changes to Disk**
 
 ```bash
 Command (m for help): w
@@ -93,7 +93,7 @@ Command (m for help): w
 
 Writes the partition table to disk and exits.
 
-### 7. Quit Without Saving
+**7. Quit Without Saving**
 
 ```bash
 Command (m for help): q
@@ -161,13 +161,5 @@ mount /dev/sdX1 /mnt/mydisk
   lsblk
   blkid
   ```
-
----
-
-## References
-
-- `man fdisk`
-- `https://wiki.archlinux.org/title/Fdisk`
-
 {{< /note >}}
 </div>
