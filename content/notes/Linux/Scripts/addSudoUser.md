@@ -3,7 +3,7 @@ title: scriptSudoUser
 weight: 410
 menu:
   notes:
-    name: script: SudoUser
+    name: script-SudoUser
     identifier: notes-scriptSudoUser
     parent: notes-linux
     weight: 410
