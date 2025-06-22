@@ -14,7 +14,7 @@ menu:
 
 fdisk is a powerful, text-based utility used to create, delete, and manage disk partitions in Linux systems. It supports MBR (Master Boot Record) partition tables and is best suited for systems not using GPT (GUID Partition Table).
 
-## Basic Syntax
+## Basic syntax
 
 ```bash
 fdisk [options] /dev/sdX
@@ -23,7 +23,7 @@ fdisk [options] /dev/sdX
 Where `/dev/sdX` is the disk you want to operate on (e.g., `/dev/sda`, `/dev/sdb`).
 
 > Always double-check the disk name to avoid data loss.
-
+{{< /note >}}
 ---
 
 ## Key Commands in `fdisk` Interactive Mode
@@ -39,9 +39,8 @@ Where `/dev/sdX` is the disk you want to operate on (e.g., `/dev/sda`, `/dev/sdb
 | w       | Write changes and exit                      |
 | q       | Quit without saving changes                 |
 
-
 ---
-
+{{< note >}}
 ## Common Workflow Examples
 
 ### 1. View Partition Table
@@ -110,6 +109,7 @@ Exits without modifying the disk.
 -l       # List partition tables for all devices
 -u       # Display sectors in cylinders or sectors
 ```
+{{< /note >}}
 
 ---
 
@@ -129,7 +129,7 @@ To list all type codes:
 ```bash
 Command (m for help): L
 ```
-
+{{< note >}}
 ---
 
 ## Post Partitioning
