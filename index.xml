@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SIEMForge</title><link>https://siemforge.xyz/</link><description>Recent content on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 18 Jun 2025 10:17:23 +0200</lastBuildDate><atom:link href="https://siemforge.xyz/index.xml" rel="self" type="application/rss+xml"/><item><title>My first automation workflow</title><link>https://siemforge.xyz/posts/automation/n8n/firstautomationworkflow/</link><pubDate>Wed, 18 Jun 2025 10:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/automation/n8n/firstautomationworkflow/</guid><description>&lt;h1 id="my-first-steps-into-automation-with-ai-agents-using-n8n">My first steps into automation with AI agents using n8n&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SIEMForge</title><link>https://siemforge.xyz/</link><description>Recent content on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 22 Jun 2025 09:17:23 +0200</lastBuildDate><atom:link href="https://siemforge.xyz/index.xml" rel="self" type="application/rss+xml"/><item><title>LVM</title><link>https://siemforge.xyz/posts/linux/lvm/lvm/</link><pubDate>Sun, 22 Jun 2025 09:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/lvm/lvm/</guid><description>&lt;h1 id="deep-dive-into-lvm-logical-volume-manager">Deep Dive into LVM (Logical Volume Manager)&lt;/h1>
+&lt;h2 id="what-is-lvm">What is LVM?&lt;/h2>
+&lt;p>LVM stands for &lt;strong>Logical Volume Manager&lt;/strong>, a device mapper framework that provides logical volume management for the Linux kernel. LVM allows administrators to create, resize, and delete volumes dynamically, offering more flexibility than traditional partitioning schemes.&lt;/p>
+&lt;h2 id="why-use-lvm">Why Use LVM?&lt;/h2>
+&lt;ul>
+&lt;li>&lt;strong>Dynamic Resizing&lt;/strong>: Easily resize (extend/reduce) logical volumes without unmounting.&lt;/li>
+&lt;li>&lt;strong>Snapshot Support&lt;/strong>: Create point-in-time snapshots for backup or testing.&lt;/li>
+&lt;li>&lt;strong>Volume Grouping&lt;/strong>: Aggregate multiple physical devices into a single storage pool.&lt;/li>
+&lt;li>&lt;strong>Migration&lt;/strong>: Move volumes across physical devices live.&lt;/li>
+&lt;li>&lt;strong>Flexibility&lt;/strong>: Logical volumes can span across multiple disks.&lt;/li>
+&lt;/ul>
+&lt;h2 id="lvm-architecture">LVM Architecture&lt;/h2>
+&lt;p>&lt;img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Lvm.png/800px-Lvm.png" alt="LVM Architecture">&lt;/p></description></item><item><title>My first automation workflow</title><link>https://siemforge.xyz/posts/automation/n8n/firstautomationworkflow/</link><pubDate>Wed, 18 Jun 2025 10:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/automation/n8n/firstautomationworkflow/</guid><description>&lt;h1 id="my-first-steps-into-automation-with-ai-agents-using-n8n">My first steps into automation with AI agents using n8n&lt;/h1>
 &lt;h2 id="setting-the-stage-n8n-in-my-homelab">Setting the stage: n8n in my homelab&lt;/h2>
 &lt;p>As someone constantly tinkering in my &lt;strong>Proxmox-based homelab&lt;/strong>, I recently decided to explore &lt;strong>workflow automation with AI agents&lt;/strong> using &lt;a href="https://n8n.io/" target="_blank" rel="noopener">n8n&lt;/a> — a powerful, self-hostable automation tool that connects anything to everything.&lt;/p>
 &lt;p>To get started, I spun up a new container and installed &lt;strong>n8n via Portainer&lt;/strong>, running it in Docker. For anyone looking to do the same, here&amp;rsquo;s the official n8n install guide for Docker and Portainer:&lt;/p></description></item><item><title>Logrotate</title><link>https://siemforge.xyz/posts/linux/logrotate/logrotate/</link><pubDate>Fri, 06 Jun 2025 14:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/logrotate/logrotate/</guid><description>&lt;h1 id="mastering-logrotate-the-unsung-hero-of-log-management">Mastering Logrotate: The Unsung Hero of Log Management&lt;/h1>
@@ -144,7 +156,64 @@ Use this as a quick reference to master log rotation on Unix-like systems.&lt;/p
 &lt;div class="card">
 &lt;div class="card-body">&lt;h4 id="basic-settings">Basic Settings:&lt;/h4>
 &lt;p>&lt;code>rotate &amp;lt;count&amp;gt;&lt;/code>&lt;br>
-Keep &lt;count> number of old log files before deleting them.&lt;/p></description></item><item><title>scriptSudoUser</title><link>https://siemforge.xyz/notes/linux/scripts/addsudouser/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/scripts/addsudouser/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+Keep &lt;count> number of old log files before deleting them.&lt;/p></description></item><item><title>LVM cheatsheet</title><link>https://siemforge.xyz/notes/linux/lvm/lvm_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/lvm/lvm_cheatsheet/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Script: add sudo user&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;h1 id="lvm-cheatsheet">LVM Cheatsheet&lt;/h1>
+&lt;h2 id="initialization">Initialization&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Physical Volume&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pvcreate /dev/sdX
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Volume Group&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgcreate vg_name /dev/sdX
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Extend Volume Group&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgextend vg_name /dev/sdY
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="logical-volume-operations">Logical Volume Operations&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Logical Volume&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvcreate -L 10G -n lv_name vg_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Logical Volume using all free space&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvcreate -l 100%FREE -n lv_name vg_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Resize Logical Volume (online)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvextend -L +5G /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>resize2fs /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Reduce Logical Volume&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>umount /mnt
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>e2fsck -f /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>resize2fs /dev/vg_name/lv_name 5G
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvreduce -L 5G /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mount /mnt
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Remove Logical Volume&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvremove /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="snapshots">Snapshots&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Snapshot&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvcreate --size 1G --snapshot --name snap_name /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Restore from Snapshot&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvconvert --merge /dev/vg_name/snap_name
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="information--listing">Information &amp;amp; Listing&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>pvs &lt;span style="color:#75715e"># List physical volumes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgs &lt;span style="color:#75715e"># List volume groups&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvs &lt;span style="color:#75715e"># List logical volumes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvdisplay &lt;span style="color:#75715e"># Show details of logical volumes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgdisplay &lt;span style="color:#75715e"># Show details of volume groups&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pvdisplay &lt;span style="color:#75715e"># Show details of physical volumes&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="removal">Removal&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lvremove /dev/vg_name/lv_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgremove vg_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pvremove /dev/sdX
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div></description></item><item><title>scriptSudoUser</title><link>https://siemforge.xyz/notes/linux/scripts/addsudouser/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/scripts/addsudouser/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
 &lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Script: add sudo user&lt;/span>&lt;/h5>
@@ -276,64 +345,4 @@ a reference name for the latest commit, to save you having to type Commit IDs. H
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>How to install:&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;p>On OS X or Windows — Using an installer&lt;/p></description></item><item><title/><link>https://siemforge.xyz/notes/linux/lvm/lvm_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/lvm/lvm_cheatsheet/</guid><description>&lt;h1 id="lvm-cheatsheet">LVM Cheatsheet&lt;/h1>
-&lt;h2 id="initialization">Initialization&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Physical Volume&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pvcreate /dev/sdX
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Volume Group&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgcreate vg_name /dev/sdX
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Extend Volume Group&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgextend vg_name /dev/sdY
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="logical-volume-operations">Logical Volume Operations&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Logical Volume&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvcreate -L 10G -n lv_name vg_name
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Logical Volume using all free space&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvcreate -l 100%FREE -n lv_name vg_name
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Resize Logical Volume (online)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvextend -L +5G /dev/vg_name/lv_name
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>resize2fs /dev/vg_name/lv_name
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Reduce Logical Volume&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>umount /mnt
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>e2fsck -f /dev/vg_name/lv_name
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>resize2fs /dev/vg_name/lv_name 5G
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvreduce -L 5G /dev/vg_name/lv_name
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mount /mnt
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Remove Logical Volume&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvremove /dev/vg_name/lv_name
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="snapshots">Snapshots&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create Snapshot&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvcreate --size 1G --snapshot --name snap_name /dev/vg_name/lv_name
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Restore from Snapshot&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvconvert --merge /dev/vg_name/snap_name
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="information--listing">Information &amp;amp; Listing&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>pvs &lt;span style="color:#75715e"># List physical volumes&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgs &lt;span style="color:#75715e"># List volume groups&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvs &lt;span style="color:#75715e"># List logical volumes&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lvdisplay &lt;span style="color:#75715e"># Show details of logical volumes&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgdisplay &lt;span style="color:#75715e"># Show details of volume groups&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pvdisplay &lt;span style="color:#75715e"># Show details of physical volumes&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="removal">Removal&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lvremove /dev/vg_name/lv_name
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vgremove vg_name
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pvremove /dev/sdX
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title/><link>https://siemforge.xyz/posts/linux/lvm/lvm_blogpost/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/posts/linux/lvm/lvm_blogpost/</guid><description>&lt;h1 id="deep-dive-into-lvm-logical-volume-manager">Deep Dive into LVM (Logical Volume Manager)&lt;/h1>
-&lt;h2 id="what-is-lvm">What is LVM?&lt;/h2>
-&lt;p>LVM stands for &lt;strong>Logical Volume Manager&lt;/strong>, a device mapper framework that provides logical volume management for the Linux kernel. LVM allows administrators to create, resize, and delete volumes dynamically, offering more flexibility than traditional partitioning schemes.&lt;/p>
-&lt;h2 id="why-use-lvm">Why Use LVM?&lt;/h2>
-&lt;ul>
-&lt;li>&lt;strong>Dynamic Resizing&lt;/strong>: Easily resize (extend/reduce) logical volumes without unmounting.&lt;/li>
-&lt;li>&lt;strong>Snapshot Support&lt;/strong>: Create point-in-time snapshots for backup or testing.&lt;/li>
-&lt;li>&lt;strong>Volume Grouping&lt;/strong>: Aggregate multiple physical devices into a single storage pool.&lt;/li>
-&lt;li>&lt;strong>Migration&lt;/strong>: Move volumes across physical devices live.&lt;/li>
-&lt;li>&lt;strong>Flexibility&lt;/strong>: Logical volumes can span across multiple disks.&lt;/li>
-&lt;/ul>
-&lt;h2 id="lvm-architecture">LVM Architecture&lt;/h2>
-&lt;p>&lt;img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Lvm.png/800px-Lvm.png" alt="LVM Architecture">&lt;/p></description></item></channel></rss>
+&lt;div class="card-body">&lt;p>On OS X or Windows — Using an installer&lt;/p></description></item></channel></rss>
