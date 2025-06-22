@@ -9,11 +9,9 @@ menu:
     weight: 42
 ---
 <div style="display: block; width: 100%; max-width: none;">
-{{< note title="Script: add sudo user" >}}
+{{< note title="LVM cheatsheet" >}}
 
-# LVM Cheatsheet (Enhanced)
-
-## Acronyms You Must Know
+## Acronyms you must know
 
 - **PV** = Physical Volume
 - **VG** = Volume Group
@@ -23,8 +21,8 @@ menu:
     PV1  PV2   PV3  PV4
       \  |      |  /
        VG1      VG2
-        |        |   
-       LV1      LV2
+        |       |  \ 
+       LV1     LV2  LV3
 ```
 
 ---
@@ -32,15 +30,21 @@ menu:
 ## Step-by-Step LVM Setup
 
 ### 1. Add a Physical Disk
-
+connect a physical/virtual disk to your system.  
+  
+Overview of block devices
 ```bash
-lsblk     # Overview of block devices
-df -h     # Used/available space on mounted filesystems
+lsblk
+```
+  
+Used/available space on mounted filesystems
+```bash
+df -h
 ```
 
 ### 2. Create Physical Volumes
 
-#### Info
+*Info*
 ```bash
 pvck        # Check PV metadata
 pvdisplay   # Display PV attributes
