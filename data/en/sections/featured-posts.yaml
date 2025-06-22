@@ -8,5 +8,4 @@ section:
 
 # posts to feature
 posts:
-#  - myFirstAutomationWorkflow
-#  - logrotate
+  - myFirstAutomationWorkflow
