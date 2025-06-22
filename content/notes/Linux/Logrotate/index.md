@@ -3,7 +3,7 @@ title: Logrotate config
 weight: 401
 menu:
   notes:
-    name: Logrotate
+    name: Logrotate notes
     identifier: notes-logrotate
     parent: notes-linux
     weight: 41
