@@ -79,5 +79,5 @@ resize2fs /mount/point
 ```
 
 ## Cheatsheet
-> A more extensive cheatsheet can be found here: [LVM cheatsheet](/notes/linux/LVM)
+> A more extensive cheatsheet can be found here: [LVM cheatsheet](/notes/linux/lvm/lvm_cheatsheet)
 
