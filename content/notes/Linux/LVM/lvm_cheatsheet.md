@@ -32,33 +32,34 @@ menu:
 ### 1. Add a Physical Disk
 connect a physical/virtual disk to your system.  
   
-Overview of block devices
+**Overview of block devices**
 ```bash
 lsblk
 ```
   
-Used/available space on mounted filesystems
+**Used/available space on mounted filesystems**
 ```bash
 df -h
 ```
 
 ### 2. Create Physical Volumes
 
-*Info*
+**Info**
 ```bash
 pvck        # Check PV metadata
 pvdisplay   # Display PV attributes
 pvs         # Report PV information
 pvscan      # Scan for PVs
 ```
-
-#### Create or Delete
+**Create**
 ```bash
-pvcreate /dev/sda /dev/sdb /dev/sdc /dev/sdd  # Initialize disks
-pvremove /dev/sdX                             # Remove PV
+pvcreate /dev/sda /dev/sdb /dev/sdc /dev/sdd
 ```
-
-#### Edit
+**Delete**
+```bash
+pvremove /dev/sdX
+```
+**Edit**
 ```bash
 pvchange     # Change PV attributes
 pvmove       # Move physical extents
