@@ -8,4 +8,4 @@ section:
 
 # posts to feature
 posts:
-  - linux/logrotate/logrotatepost
+  - logrotatepost
