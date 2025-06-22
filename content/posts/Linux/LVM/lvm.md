@@ -1,6 +1,6 @@
 ---
 title: "LVM"
-date: 2025-06-022T09:17:23+02:00
+date: 2025-06-022T14:17:23+02:00
 #hero: /images/posts/logrotate.svg
 hero: /images/posts/logrotate.jpg
 description: Explaining LVM configuration
