@@ -104,6 +104,21 @@ vgreduce
 vgrename
 vgmknodes
 ```
+| Command        | Description                                 | Comment                                                                                   |
+|----------------|---------------------------------------------|-------------------------------------------------------------------------------------------|
+| vgcfgbackup    | Backs up volume group (VG) metadata         | Essential for disaster recovery; does not back up actual data, only metadata.             |
+| vgcfgrestore   | Restores VG metadata from backup            | Used to recover from metadata corruption or loss; overwrites current VG metadata.         |
+| vgchange       | Changes VG attributes                       | Lets you alter VG properties such as activation state and access mode.                    |
+| vgconvert      | Changes VG metadata format                  | Converts between metadata formats (e.g., lvm1 to lvm2).                                   |
+| vgexport       | Exports a VG to make it unknown to the system| Used before moving a VG to another system; makes VG temporarily unavailable.              |
+| vgimport       | Imports a VG previously exported            | Makes a VG known to the system again after moving or exporting.                           |
+| vgimportclone  | Imports and renames a VG to avoid conflicts | Used when importing duplicate VGs (e.g., cloned storage); renames VG to prevent clashes.  |
+| vgmerge        | Merges two VGs into one                     | Combines two volume groups into a single VG.                                              |
+| vgsplit        | Splits a VG into two separate VGs           | Divides a volume group into two, moving selected physical volumes to the new VG.          |
+| vgextend       | Adds physical volumes to a VG               | Example: `vgextend vg0 /dev/sdc /dev/sdd` adds disks to VG vg0.                          |
+| vgreduce       | Removes physical volumes from a VG          | Removes disks from a volume group; data on removed PVs should be moved first.             |
+| vgrename       | Renames a VG                                | Changes the name of a volume group.                                                       |
+| vgmknodes      | Recreates device nodes for LVM devices      | Useful if device nodes are missing or incorrect after kernel or LVM changes.              |
 
 ---
 
