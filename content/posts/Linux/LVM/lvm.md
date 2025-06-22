@@ -2,7 +2,7 @@
 title: "LVM"
 date: 2025-06-22T9:17:23+02:00
 #hero: /images/posts/logrotate.svg
-hero: /images/posts/logrotate.jpg
+hero: /images/posts/lvmlogo.png
 description: Explaining LVM configuration
 theme: Toha
 menu:
