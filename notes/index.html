@@ -243,14 +243,14 @@ Enable maintenance mode:</p><div class=highlight><pre tabindex=0 style=color:#f8
 </span></span></code></pre></div></div></div></div></div></div><div style=display:block;width:100%;max-width:none><div class=note-card><div class=item><h5 class=note-title><span>fdisk cheatsheet:</span></h5><div class=card><div class=card-body><p>fdisk is a powerful, text-based utility used to create, delete, and manage disk partitions in Linux systems. It supports MBR (Master Boot Record) partition tables and is best suited for systems not using GPT (GUID Partition Table).</p><h2 id=basic-syntax>Basic Syntax</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>fdisk <span style=color:#f92672>[</span>options<span style=color:#f92672>]</span> /dev/sdX
 </span></span></code></pre></div><p>Where <code>/dev/sdX</code> is the disk you want to operate on (e.g., <code>/dev/sda</code>, <code>/dev/sdb</code>).</p><blockquote><p>Always double-check the disk name to avoid data loss.</p></blockquote></div></div><div class=card><div class=card-body><h2 id=key-commands-in-fdisk-interactive-mode>Key Commands in <code>fdisk</code> Interactive Mode</h2><p>| Command | Description |
 |</p></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body>&ndash;|</div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body>&ndash; |
-| <code>m</code> | Print help menu |
-| <code>p</code> | Display existing partition table |
-| <code>n</code> | Create a new partition |
-| <code>d</code> | Delete a partition |
-| <code>t</code> | Change a partition&rsquo;s system ID (type) |
-| <code>a</code> | Toggle bootable flag |
-| <code>w</code> | Write changes and exit |
-| <code>q</code> | Quit without saving changes |</div></div><div class=card><div class=card-body><h2 id=common-workflow-examples>Common Workflow Examples</h2><h3 id=1-view-partition-table>1. View Partition Table</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo fdisk -l
+| m | Print help menu |
+| p | Display existing partition table |
+| n | Create a new partition |
+| d | Delete a partition |
+| t | Change a partition&rsquo;s system ID (type) |
+| a | Toggle bootable flag |
+| w | Write changes and exit |
+| q | Quit without saving changes |</div></div><div class=card><div class=card-body><h2 id=common-workflow-examples>Common Workflow Examples</h2><h3 id=1-view-partition-table>1. View Partition Table</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo fdisk -l
 </span></span></code></pre></div><p>Lists all disks and their partitions.</p><h3 id=2-start-fdisk-on-a-specific-disk>2. Start fdisk on a Specific Disk</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo fdisk /dev/sdX
 </span></span></code></pre></div><p>Enters interactive mode.</p><h3 id=3-create-a-new-partition>3. Create a New Partition</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Command <span style=color:#f92672>(</span>m <span style=color:#66d9ef>for</span> help<span style=color:#f92672>)</span>: n
 </span></span><span style=display:flex><span>Select default or choose primary <span style=color:#f92672>(</span>p<span style=color:#f92672>)</span> or extended <span style=color:#f92672>(</span>e<span style=color:#f92672>)</span>
