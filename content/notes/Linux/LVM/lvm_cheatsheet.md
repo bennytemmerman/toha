@@ -29,8 +29,6 @@ menu:
 
 ## FDISK Reference (Useful Pre-LVM)
 
-### Generic Commands in `fdisk`
-
 | Command | Description                      |
 |---------|----------------------------------|
 | `d`     | Delete a partition               |
