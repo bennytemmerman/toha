@@ -8,5 +8,5 @@ section:
 
 # posts to feature
 posts:
-#  - markdown-sample
-#  - shortcodes
+  - myFirstAutomationWorkflow
+  - logrotate
