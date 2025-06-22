@@ -28,16 +28,17 @@ Where `/dev/sdX` is the disk you want to operate on (e.g., `/dev/sda`, `/dev/sdb
 
 ## Key Commands in `fdisk` Interactive Mode
 
-| Command | Description |
-| --------| ----------- |
-| m     | Print help menu |
-| p     | Display existing partition table |
-| n     | Create a new partition |
-| d     | Delete a partition |
-| t     | Change a partition's system ID (type) |
-| a     | Toggle bootable flag |
-| w     | Write changes and exit |
-| q     | Quit without saving changes |
+| Command | Description                                 |
+|---------|---------------------------------------------|
+| m       | Print help menu                             |
+| p       | Display existing partition table            |
+| n       | Create a new partition                      |
+| d       | Delete a partition                          |
+| t       | Change a partition's system ID (type)       |
+| a       | Toggle bootable flag                        |
+| w       | Write changes and exit                      |
+| q       | Quit without saving changes                 |
+
 
 ---
 
