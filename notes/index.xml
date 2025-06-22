@@ -158,68 +158,18 @@ LV1 LV2 LV3
 &lt;/code>&lt;/pre>&lt;/div>
 &lt;/div>
 &lt;div class="card">
-&lt;div class="card-body">&lt;h2 id="fdisk-reference-useful-pre-lvm">FDISK Reference (Useful Pre-LVM)&lt;/h2>
-&lt;p>| Command | Description |
-|&lt;/p>&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">|&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">-|
-| &lt;code>d&lt;/code> | Delete a partition |
-| &lt;code>F&lt;/code> | List free space |
-| &lt;code>l&lt;/code> | List known partition types |
-| &lt;code>n&lt;/code> | Add a new partition |
-| &lt;code>p&lt;/code> | Print partition table |
-| &lt;code>t&lt;/code> | Change a partition type |
-| &lt;code>v&lt;/code> | Verify partition table |
-| &lt;code>i&lt;/code> | Information about a partition |&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo fdisk /dev/sdX
+&lt;div class="card-body">&lt;h2 id="step-by-step-lvm-setup">Step-by-Step LVM Setup&lt;/h2>
+&lt;h3 id="1-add-a-physical-disk">1. Add a Physical Disk&lt;/h3>
+&lt;p>connect a physical/virtual disk to your system.&lt;/p>
+&lt;p>&lt;strong>Overview of block devices&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lsblk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Used/available space on mounted filesystems&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>df -h
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;div class="card">
-&lt;div class="card-body">&lt;h2 id="step-by-step-lvm-setup">Step-by-Step LVM Setup&lt;/h2>
-&lt;h3 id="1-add-a-physical-disk">1. Add a Physical Disk&lt;/h3>
-&lt;p>connect a physical/virtual disk to your system.&lt;/p></description></item><item><title>scriptSudoUser</title><link>https://siemforge.xyz/notes/linux/scripts/addsudouser/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/scripts/addsudouser/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;div class="card-body">&lt;h3 id="2-create-physical-volumes">2. Create Physical Volumes&lt;/h3>
+&lt;p>&lt;strong>Info&lt;/strong>&lt;/p></description></item><item><title>scriptSudoUser</title><link>https://siemforge.xyz/notes/linux/scripts/addsudouser/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/scripts/addsudouser/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
 &lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Script: add sudo user&lt;/span>&lt;/h5>
