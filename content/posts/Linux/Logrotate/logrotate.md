@@ -8,7 +8,7 @@ theme: Toha
 menu:
   sidebar:
     name: Logrotate
-    identifier: logrotate
+    identifier: Logrotate
     parent: cat-linux
     weight: 300
 ---
