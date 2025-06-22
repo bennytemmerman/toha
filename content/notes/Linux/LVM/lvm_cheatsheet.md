@@ -27,27 +27,6 @@ menu:
 
 ---
 
-## FDISK Reference (Useful Pre-LVM)
-
-| Command | Description                      |
-|---------|----------------------------------|
-| `d`     | Delete a partition               |
-| `F`     | List free space                  |
-| `l`     | List known partition types       |
-| `n`     | Add a new partition              |
-| `p`     | Print partition table            |
-| `t`     | Change a partition type          |
-| `v`     | Verify partition table           |
-| `i`     | Information about a partition    |
-
----
-
-```bash
-sudo fdisk /dev/sdX
-```
-
----
-
 ## Step-by-Step LVM Setup
 
 ### 1. Add a Physical Disk
