@@ -29,7 +29,7 @@ Where `/dev/sdX` is the disk you want to operate on (e.g., `/dev/sda`, `/dev/sdb
 ## Key Commands in `fdisk` Interactive Mode
 
 | Command | Description |
-| :---: | --- |
+| --------| ----------- |
 | `m`     | Print help menu |
 | `p`     | Display existing partition table |
 | `n`     | Create a new partition |
