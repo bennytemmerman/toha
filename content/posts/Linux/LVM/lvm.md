@@ -12,31 +12,31 @@ menu:
     parent: cat-linux
     weight: 301
 ---
-# Deep Dive into LVM (Logical Volume Manager)
+# Deepdive into LVM (Logical Volume Manager)
 
 ## What is LVM?
 
 LVM stands for **Logical Volume Manager**, a device mapper framework that provides logical volume management for the Linux kernel. LVM allows administrators to create, resize, and delete volumes dynamically, offering more flexibility than traditional partitioning schemes.
 
-## Why Use LVM?
+## Why use LVM?
 
-- **Dynamic Resizing**: Easily resize (extend/reduce) logical volumes without unmounting.
-- **Snapshot Support**: Create point-in-time snapshots for backup or testing.
-- **Volume Grouping**: Aggregate multiple physical devices into a single storage pool.
+- **Dynamic resizing**: Easily resize (extend/reduce) logical volumes without unmounting.
+- **Snapshot support**: Create point-in-time snapshots for backup or testing.
+- **Volume grouping**: Aggregate multiple physical devices into a single storage pool.
 - **Migration**: Move volumes across physical devices live.
 - **Flexibility**: Logical volumes can span across multiple disks.
 
-## LVM Architecture
+## LVM architecture
 
-![LVM Architecture](https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Lvm.png/800px-Lvm.png)
+![LVM Architecture](images/posts/lvm.png)
 
 - **Physical Volume (PV)**: Raw physical storage (disk, partition, etc).
 - **Volume Group (VG)**: Pool of storage formed by combining multiple PVs.
-- **Logical Volume (LV)**: Virtual partition carved from the VG.
-- **Physical Extents (PE)**: Smallest unit of storage on a PV.
+- **Logical Volume (LV)**: Virtual partition formed from a part of the VG.
+- **Physical Extents (PE)**: Smallest unit of storage on a PV, a block within the partition/volume
 - **Logical Extents (LE)**: Mapped 1:1 to PEs for simplicity.
 
-## Comparison: LVM vs Traditional Partitioning
+## Comparison: LVM vs traditional partitioning
 
 | Feature                 | LVM                         | Traditional Partitioning       |
 |------------------------|-----------------------------|--------------------------------|
@@ -50,9 +50,9 @@ LVM stands for **Logical Volume Manager**, a device mapper framework that provid
 
 - **ZFS**: Advanced file system with built-in volume management and redundancy.
 - **Btrfs**: Modern Linux filesystem with snapshot and RAID features.
-- **Traditional Partitioning**: Simple, low overhead, but limited flexibility.
+- **Traditional partitioning**: Simple, low overhead, but limited flexibility.
 
-## Use Case: LVM for Database Storage
+## Usecase: LVM for database storage
 
 A PostgreSQL database needs fast backups and storage flexibility. With LVM:
 - Create an LV for the database.
@@ -60,18 +60,20 @@ A PostgreSQL database needs fast backups and storage flexibility. With LVM:
 - Take snapshots before major upgrades: `lvcreate --snapshot`.
 - Extend storage as DB grows with `lvextend`.
 
-## Acronyms
+## Important!
 
-| Acronym | Meaning                         |
-|---------|----------------------------------|
-| LVM     | Logical Volume Manager          |
-| PV      | Physical Volume                 |
-| VG      | Volume Group                    |
-| LV      | Logical Volume                  |
-| PE      | Physical Extent                 |
-| LE      | Logical Extent                  |
+Extending a logical volume increases the underlying block device size, but the filesystem itself must also be explicitly resized to utilize the newly allocated space. Without this step, the additional storage remains unavailable to the operating system and applications.  
+XFS:  XFS filesystems must be mounted to resize. Use xfs_growfs on the mount point
+```bash
+xfs_growfs /path/to/your/mount/point. 
+```
+ext4 (and other ext family filesystems): For ext-based filesystems (ext2/3/4), you can resize the filesystem either by targeting the block device or the mount point (if already mounted)
+```bash
+resize2fs /dev/vg_name/lv_name
+# or
+resize2fs /mount/point
+```
 
-## Animated Overview
-
-![LVM Workflow](https://linuxhint.com/wp-content/uploads/2020/11/01-LVM-Architecture.gif)
+## Cheatsheet
+> A more extensive cheatsheet can be found here: [LVM cheatsheet](/notes/linux/LVM)
 
