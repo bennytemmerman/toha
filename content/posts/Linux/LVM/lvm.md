@@ -38,7 +38,7 @@ LVM stands for **Logical Volume Manager**, a device mapper framework that provid
 
 ## Comparison: LVM vs traditional partitioning
 
-| Feature                 | LVM                         | Traditional Partitioning       |
+| Feature                | LVM                         | Traditional Partitioning       |
 |------------------------|-----------------------------|--------------------------------|
 | Resizing Volumes       | Dynamic                     | Static                         |
 | Snapshots              | Yes                         | No                             |
