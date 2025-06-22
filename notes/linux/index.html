@@ -51,49 +51,75 @@ SIEMForge</a>
 </span></span><span style=display:flex><span>        systemctl reload myapp &gt; /dev/null 2&gt;&amp;<span style=color:#ae81ff>1</span> <span style=color:#f92672>||</span> true
 </span></span><span style=display:flex><span>    endscript
 </span></span><span style=display:flex><span><span style=color:#f92672>}</span>
-</span></span></code></pre></div></div></div></div></div><div class=note-card><div class=item><h5 class=note-title><span>Tips:</span></h5><div class=card><div class=card-body><ul><li>Run <code>logrotate -d &lt;config></code> to debug your config without applying changes.</li><li>Use <code>logrotate -f &lt;config></code> to force rotation for testing.</li><li>Logrotate is typically triggered via cron or systemd timers.</li><li>Keep your config DRY by centralizing shared logic in /etc/logrotate.conf and using includes.</li></ul></div></div></div></div></p></div><div style=display:block;width:100%;max-width:none><div class=note-card><div class=item><h5 class=note-title><span>Script: add sudo user</span></h5><div class=card><div class=card-body><h1 id=lvm-cheatsheet>LVM Cheatsheet</h1><h2 id=initialization>Initialization</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Create Physical Volume</span>
-</span></span><span style=display:flex><span>pvcreate /dev/sdX
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Create Volume Group</span>
-</span></span><span style=display:flex><span>vgcreate vg_name /dev/sdX
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Extend Volume Group</span>
-</span></span><span style=display:flex><span>vgextend vg_name /dev/sdY
-</span></span></code></pre></div><h2 id=logical-volume-operations>Logical Volume Operations</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Create Logical Volume</span>
-</span></span><span style=display:flex><span>lvcreate -L 10G -n lv_name vg_name
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Create Logical Volume using all free space</span>
-</span></span><span style=display:flex><span>lvcreate -l 100%FREE -n lv_name vg_name
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Resize Logical Volume (online)</span>
-</span></span><span style=display:flex><span>lvextend -L +5G /dev/vg_name/lv_name
-</span></span><span style=display:flex><span>resize2fs /dev/vg_name/lv_name
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Reduce Logical Volume</span>
-</span></span><span style=display:flex><span>umount /mnt
-</span></span><span style=display:flex><span>e2fsck -f /dev/vg_name/lv_name
-</span></span><span style=display:flex><span>resize2fs /dev/vg_name/lv_name 5G
-</span></span><span style=display:flex><span>lvreduce -L 5G /dev/vg_name/lv_name
-</span></span><span style=display:flex><span>mount /mnt
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Remove Logical Volume</span>
-</span></span><span style=display:flex><span>lvremove /dev/vg_name/lv_name
-</span></span></code></pre></div><h2 id=snapshots>Snapshots</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Create Snapshot</span>
-</span></span><span style=display:flex><span>lvcreate --size 1G --snapshot --name snap_name /dev/vg_name/lv_name
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Restore from Snapshot</span>
-</span></span><span style=display:flex><span>lvconvert --merge /dev/vg_name/snap_name
-</span></span></code></pre></div><h2 id=information--listing>Information & Listing</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>pvs        <span style=color:#75715e># List physical volumes</span>
-</span></span><span style=display:flex><span>vgs        <span style=color:#75715e># List volume groups</span>
-</span></span><span style=display:flex><span>lvs        <span style=color:#75715e># List logical volumes</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>lvdisplay  <span style=color:#75715e># Show details of logical volumes</span>
-</span></span><span style=display:flex><span>vgdisplay  <span style=color:#75715e># Show details of volume groups</span>
-</span></span><span style=display:flex><span>pvdisplay  <span style=color:#75715e># Show details of physical volumes</span>
-</span></span></code></pre></div><h2 id=removal>Removal</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>lvremove /dev/vg_name/lv_name
+</span></span></code></pre></div></div></div></div></div><div class=note-card><div class=item><h5 class=note-title><span>Tips:</span></h5><div class=card><div class=card-body><ul><li>Run <code>logrotate -d &lt;config></code> to debug your config without applying changes.</li><li>Use <code>logrotate -f &lt;config></code> to force rotation for testing.</li><li>Logrotate is typically triggered via cron or systemd timers.</li><li>Keep your config DRY by centralizing shared logic in /etc/logrotate.conf and using includes.</li></ul></div></div></div></div></p></div><div style=display:block;width:100%;max-width:none><div class=note-card><div class=item><h5 class=note-title><span>Script: add sudo user</span></h5><div class=card><div class=card-body><h1 id=lvm-cheatsheet-enhanced>LVM Cheatsheet (Enhanced)</h1><h2 id=acronyms-you-must-know>Acronyms You Must Know</h2><ul><li><strong>PV</strong> = Physical Volume</li><li><strong>VG</strong> = Volume Group</li><li><strong>LV</strong> = Logical Volume</li></ul><pre tabindex=0><code>    PV1  PV2   PV3  PV4
+      \  |      |  /
+       VG1      VG2
+        |        |   
+       LV1      LV2
+</code></pre></div></div><div class=card><div class=card-body><h2 id=step-by-step-lvm-setup>Step-by-Step LVM Setup</h2><h3 id=1-add-a-physical-disk>1. Add a Physical Disk</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>lsblk     <span style=color:#75715e># Overview of block devices</span>
+</span></span><span style=display:flex><span>df -h     <span style=color:#75715e># Used/available space on mounted filesystems</span>
+</span></span></code></pre></div><h3 id=2-create-physical-volumes>2. Create Physical Volumes</h3><h4 id=info>Info</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>pvck        <span style=color:#75715e># Check PV metadata</span>
+</span></span><span style=display:flex><span>pvdisplay   <span style=color:#75715e># Display PV attributes</span>
+</span></span><span style=display:flex><span>pvs         <span style=color:#75715e># Report PV information</span>
+</span></span><span style=display:flex><span>pvscan      <span style=color:#75715e># Scan for PVs</span>
+</span></span></code></pre></div><h4 id=create-or-delete>Create or Delete</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>pvcreate /dev/sda /dev/sdb /dev/sdc /dev/sdd  <span style=color:#75715e># Initialize disks</span>
+</span></span><span style=display:flex><span>pvremove /dev/sdX                             <span style=color:#75715e># Remove PV</span>
+</span></span></code></pre></div><h4 id=edit>Edit</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>pvchange     <span style=color:#75715e># Change PV attributes</span>
+</span></span><span style=display:flex><span>pvmove       <span style=color:#75715e># Move physical extents</span>
+</span></span><span style=display:flex><span>pvresize     <span style=color:#75715e># Resize PV</span>
+</span></span></code></pre></div></div></div><div class=card><div class=card-body><h3 id=3-create-volume-groups>3. Create Volume Groups</h3><h4 id=info>Info</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>vgck        <span style=color:#75715e># Check VG metadata</span>
+</span></span><span style=display:flex><span>vgdisplay   <span style=color:#75715e># VG attributes</span>
+</span></span><span style=display:flex><span>vgs         <span style=color:#75715e># Report VG info</span>
+</span></span><span style=display:flex><span>vgscan      <span style=color:#75715e># Scan for VGs</span>
+</span></span></code></pre></div><h4 id=create-or-delete>Create or Delete</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>vgcreate vg0 /dev/sda
+</span></span><span style=display:flex><span>vgextend vg0 /dev/sdc /dev/sdd
+</span></span><span style=display:flex><span>vgcreate vgbackup /dev/sdb
 </span></span><span style=display:flex><span>vgremove vg_name
-</span></span><span style=display:flex><span>pvremove /dev/sdX
-</span></span></code></pre></div></div></div></div></div></div><div style=display:block;width:100%;max-width:none><div class=note-card><div class=item><h5 class=note-title><span>Script: add sudo user</span></h5><div class=card><div class=card-body><p>Create a sudo user that won&rsquo;t prompt for password on executing sudo commands.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#!/bin/bash
+</span></span></code></pre></div><h4 id=edit>Edit</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>vgcfgbackup / vgcfgrestore
+</span></span><span style=display:flex><span>vgchange     <span style=color:#75715e># Change VG attributes</span>
+</span></span><span style=display:flex><span>vgconvert    <span style=color:#75715e># Metadata format change</span>
+</span></span><span style=display:flex><span>vgexport / vgimport / vgimportclone
+</span></span><span style=display:flex><span>vgmerge / vgsplit / vgreduce / vgrename / vgmknodes
+</span></span></code></pre></div></div></div><div class=card><div class=card-body><h3 id=4-create-logical-volumes>4. Create Logical Volumes</h3><h4 id=info>Info</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>lvdisplay    <span style=color:#75715e># Show LV attributes</span>
+</span></span><span style=display:flex><span>lvmdiskscan  <span style=color:#75715e># Scan for devices</span>
+</span></span><span style=display:flex><span>lvs          <span style=color:#75715e># Report info</span>
+</span></span><span style=display:flex><span>lvscan       <span style=color:#75715e># Scan for LVs</span>
+</span></span></code></pre></div><h4 id=create--delete>Create / Delete</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>lvcreate -n lvbackup -L 50G vgbackup -r
+</span></span><span style=display:flex><span>lvremove /dev/vg_name/lv_name
+</span></span></code></pre></div><h4 id=edit>Edit</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>lvchange     <span style=color:#75715e># Change LV attributes</span>
+</span></span><span style=display:flex><span>lvconvert    <span style=color:#75715e># Mirror/snapshot conversion</span>
+</span></span><span style=display:flex><span>lvextend     <span style=color:#75715e># Extend size</span>
+</span></span><span style=display:flex><span>lvreduce     <span style=color:#75715e># Reduce size</span>
+</span></span><span style=display:flex><span>lvresize     <span style=color:#75715e># Resize</span>
+</span></span><span style=display:flex><span>lvrename     <span style=color:#75715e># Rename</span>
+</span></span><span style=display:flex><span>resize2fs /dev/vg0/lv_root   <span style=color:#75715e># Resize filesystem</span>
+</span></span></code></pre></div></div></div><div class=card><div class=card-body><h3 id=5-create-a-filesystem>5. Create a Filesystem</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mkfs.ext4 /dev/vgbackup/lvbackup
+</span></span></code></pre></div></div></div><div class=card><div class=card-body><h3 id=6-mounting-the-logical-volume>6. Mounting the Logical Volume</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>blkid /dev/vgbackup/lvbackup    <span style=color:#75715e># Get UUID</span>
+</span></span><span style=display:flex><span>mkdir /path/to/folder           <span style=color:#75715e># Mount point</span>
+</span></span><span style=display:flex><span>vim /etc/fstab                  <span style=color:#75715e># Add entry with UUID</span>
+</span></span><span style=display:flex><span>mount -a                        <span style=color:#75715e># Mount all from fstab</span>
+</span></span></code></pre></div></div></div><div class=card><div class=card-body><h2 id=fdisk-reference-useful-pre-lvm>FDISK Reference (Useful Pre-LVM)</h2><h3 id=generic-commands-in-fdisk>Generic Commands in <code>fdisk</code></h3><p>| Command | Description |
+|</p></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body>|</div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body></div></div><div class=card><div class=card-body><p>-|
+| <code>d</code> | Delete a partition |
+| <code>F</code> | List free space |
+| <code>l</code> | List known partition types |
+| <code>n</code> | Add a new partition |
+| <code>p</code> | Print partition table |
+| <code>t</code> | Change a partition type |
+| <code>v</code> | Verify partition table |
+| <code>i</code> | Information about a partition |</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo fdisk /dev/sdX
+</span></span></code></pre></div></div></div><div class=card><div class=card-body><h2 id=overview-commands>Overview Commands</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>pvs     <span style=color:#75715e># List physical volumes</span>
+</span></span><span style=display:flex><span>vgs     <span style=color:#75715e># List volume groups</span>
+</span></span><span style=display:flex><span>lvs     <span style=color:#75715e># List logical volumes</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>pvdisplay / vgdisplay / lvdisplay
+</span></span></code></pre></div></div></div><div class=card><div class=card-body><h2 id=snapshotting>Snapshotting</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>lvcreate --size 1G --snapshot --name snap_name /dev/vg0/lvdata
+</span></span><span style=display:flex><span>lvconvert --merge /dev/vg0/snap_name
+</span></span></code></pre></div></div></div><div class=card><div class=card-body><h2 id=filesystem-resize-after-lv-resize>Filesystem Resize After LV Resize</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>lvextend -L +10G /dev/vgbackup/lvbackup
+</span></span><span style=display:flex><span>resize2fs /dev/vgbackup/lvbackup
+</span></span></code></pre></div></div></div><div class=card><div class=card-body><h2 id=helpful-tips>Helpful Tips</h2><ul><li>Always back up metadata:<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>vgcfgbackup
+</span></span></code></pre></div></li><li>Reload partition tables without rebooting:<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>partprobe /dev/sdX
+</span></span></code></pre></div></li></ul></div></div></div></div></div><div style=display:block;width:100%;max-width:none><div class=note-card><div class=item><h5 class=note-title><span>Script: add sudo user</span></h5><div class=card><div class=card-body><p>Create a sudo user that won&rsquo;t prompt for password on executing sudo commands.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#!/bin/bash
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span>
 </span></span><span style=display:flex><span><span style=color:#75715e># Ensure script is run as root</span>
 </span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> $EUID -ne <span style=color:#ae81ff>0</span> <span style=color:#f92672>]]</span>; <span style=color:#66d9ef>then</span>
