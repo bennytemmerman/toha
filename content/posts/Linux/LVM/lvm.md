@@ -68,7 +68,8 @@ Extending a logical volume increases the underlying block device size, but the f
 XFS filesystems must be mounted to resize. Use xfs_growfs on the mount point
 ```bash
 xfs_growfs /path/to/your/mount/point. 
-```  
+```
+  
 **ext filesystems**  
 For ext-based filesystems (ext2/3/4), you can resize the filesystem either by targeting the block device or the mount point (if already mounted)
 ```bash
