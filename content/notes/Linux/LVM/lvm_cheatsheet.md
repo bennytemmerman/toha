@@ -10,73 +10,197 @@ menu:
 ---
 <div style="display: block; width: 100%; max-width: none;">
 {{< note title="Script: add sudo user" >}}
-# LVM Cheatsheet
 
-## Initialization
+# LVM Cheatsheet (Enhanced)
 
-```bash
-# Create Physical Volume
-pvcreate /dev/sdX
+## Acronyms You Must Know
 
-# Create Volume Group
-vgcreate vg_name /dev/sdX
+- **PV** = Physical Volume
+- **VG** = Volume Group
+- **LV** = Logical Volume
 
-# Extend Volume Group
-vgextend vg_name /dev/sdY
+```
+    PV1  PV2   PV3  PV4
+      \  |      |  /
+       VG1      VG2
+        |        |   
+       LV1      LV2
 ```
 
-## Logical Volume Operations
+---
+
+## Step-by-Step LVM Setup
+
+### 1. Add a Physical Disk
 
 ```bash
-# Create Logical Volume
-lvcreate -L 10G -n lv_name vg_name
-
-# Create Logical Volume using all free space
-lvcreate -l 100%FREE -n lv_name vg_name
-
-# Resize Logical Volume (online)
-lvextend -L +5G /dev/vg_name/lv_name
-resize2fs /dev/vg_name/lv_name
-
-# Reduce Logical Volume
-umount /mnt
-e2fsck -f /dev/vg_name/lv_name
-resize2fs /dev/vg_name/lv_name 5G
-lvreduce -L 5G /dev/vg_name/lv_name
-mount /mnt
-
-# Remove Logical Volume
-lvremove /dev/vg_name/lv_name
+lsblk     # Overview of block devices
+df -h     # Used/available space on mounted filesystems
 ```
 
-## Snapshots
+### 2. Create Physical Volumes
 
+#### Info
 ```bash
-# Create Snapshot
-lvcreate --size 1G --snapshot --name snap_name /dev/vg_name/lv_name
-
-# Restore from Snapshot
-lvconvert --merge /dev/vg_name/snap_name
+pvck        # Check PV metadata
+pvdisplay   # Display PV attributes
+pvs         # Report PV information
+pvscan      # Scan for PVs
 ```
 
-## Information & Listing
-
+#### Create or Delete
 ```bash
-pvs        # List physical volumes
-vgs        # List volume groups
-lvs        # List logical volumes
-
-lvdisplay  # Show details of logical volumes
-vgdisplay  # Show details of volume groups
-pvdisplay  # Show details of physical volumes
+pvcreate /dev/sda /dev/sdb /dev/sdc /dev/sdd  # Initialize disks
+pvremove /dev/sdX                             # Remove PV
 ```
 
-## Removal
-
+#### Edit
 ```bash
-lvremove /dev/vg_name/lv_name
+pvchange     # Change PV attributes
+pvmove       # Move physical extents
+pvresize     # Resize PV
+```
+
+---
+
+### 3. Create Volume Groups
+
+#### Info
+```bash
+vgck        # Check VG metadata
+vgdisplay   # VG attributes
+vgs         # Report VG info
+vgscan      # Scan for VGs
+```
+
+#### Create or Delete
+```bash
+vgcreate vg0 /dev/sda
+vgextend vg0 /dev/sdc /dev/sdd
+vgcreate vgbackup /dev/sdb
 vgremove vg_name
-pvremove /dev/sdX
 ```
+
+#### Edit
+```bash
+vgcfgbackup / vgcfgrestore
+vgchange     # Change VG attributes
+vgconvert    # Metadata format change
+vgexport / vgimport / vgimportclone
+vgmerge / vgsplit / vgreduce / vgrename / vgmknodes
+```
+
+---
+
+### 4. Create Logical Volumes
+
+#### Info
+```bash
+lvdisplay    # Show LV attributes
+lvmdiskscan  # Scan for devices
+lvs          # Report info
+lvscan       # Scan for LVs
+```
+
+#### Create / Delete
+```bash
+lvcreate -n lvbackup -L 50G vgbackup -r
+lvremove /dev/vg_name/lv_name
+```
+
+#### Edit
+```bash
+lvchange     # Change LV attributes
+lvconvert    # Mirror/snapshot conversion
+lvextend     # Extend size
+lvreduce     # Reduce size
+lvresize     # Resize
+lvrename     # Rename
+resize2fs /dev/vg0/lv_root   # Resize filesystem
+```
+
+---
+
+### 5. Create a Filesystem
+
+```bash
+mkfs.ext4 /dev/vgbackup/lvbackup
+```
+
+---
+
+### 6. Mounting the Logical Volume
+
+```bash
+blkid /dev/vgbackup/lvbackup    # Get UUID
+mkdir /path/to/folder           # Mount point
+vim /etc/fstab                  # Add entry with UUID
+mount -a                        # Mount all from fstab
+```
+
+---
+
+## FDISK Reference (Useful Pre-LVM)
+
+### Generic Commands in `fdisk`
+
+| Command | Description                      |
+|---------|----------------------------------|
+| `d`     | Delete a partition               |
+| `F`     | List free space                  |
+| `l`     | List known partition types       |
+| `n`     | Add a new partition              |
+| `p`     | Print partition table            |
+| `t`     | Change a partition type          |
+| `v`     | Verify partition table           |
+| `i`     | Information about a partition    |
+
+```bash
+sudo fdisk /dev/sdX
+```
+
+---
+
+## Overview Commands
+
+```bash
+pvs     # List physical volumes
+vgs     # List volume groups
+lvs     # List logical volumes
+
+pvdisplay / vgdisplay / lvdisplay
+```
+
+---
+
+## Snapshotting
+
+```bash
+lvcreate --size 1G --snapshot --name snap_name /dev/vg0/lvdata
+lvconvert --merge /dev/vg0/snap_name
+```
+
+---
+
+## Filesystem Resize After LV Resize
+
+```bash
+lvextend -L +10G /dev/vgbackup/lvbackup
+resize2fs /dev/vgbackup/lvbackup
+```
+
+---
+
+## Helpful Tips
+
+- Always back up metadata:
+  ```bash
+  vgcfgbackup
+  ```
+- Reload partition tables without rebooting:
+  ```bash
+  partprobe /dev/sdX
+  ```
+
 {{< /note >}}
 </div>
