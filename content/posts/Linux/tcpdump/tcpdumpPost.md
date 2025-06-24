@@ -48,7 +48,7 @@ make
 sudo make install
 ```
 
-## Basic Usage Examples
+## Basic usage examples
 
 Capture traffic on eth0
 ```bash
@@ -92,12 +92,19 @@ tcpdump -i eth0 -nn -s 0 -v tcp port 80
 ```
 This captures HTTP requests in verbose mode, disables hostname and port name resolution, and captures the entire packet.
 
-## Security Consideration
+## Security consideration
 
 You need elevated privileges to run tcpdump. Consider creating a dedicated group or using capabilities:
 ```bash
 sudo setcap cap_net_raw,cap_net_admin=eip $(which tcpdump)
 ```
+
+## Important notice!
+While troubleshooting tickets, I have now encountered twice the issue where we did not receive any logs. Further investigation using tcpdump provided insight on packets that were received. Comparing to other data coming in we see that valid incoming data has a length > 0, while the other logsource only has packets of length 0. After restarting the syslog service on the host sending the data, we saw new data ingesting in our SIEM.
+
+![Example TCPDump output](images/posts/ex_tcpdump.png)
+
+> Be aware that length 0 could indicate 2 things: either the data could be encrypted OR in the example given: the packets could be used to keep the connection alive.
 
 ## Conclusion
 Whether you're a network administrator, security professional, or developer, tcpdump is a skill worth mastering. Its ability to dissect network traffic at the most granular level makes it indispensable in any Linux environment.
