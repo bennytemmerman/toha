@@ -36,8 +36,8 @@ tcpdump [options] [expression]
 | net         | tcpdump net 10.1.1.0/16                   | Capture files from network subnet                                    |
 | src         | tcpdump src 10.1.1.100                    | Capture from a specific source address                               |
 | dst         | tcpdump dst 10.1.1.100                    | Capture from a specific destination address                          |
-| <service>   | tcpdump http                              | Filter traffic based on a port number for a service                  |
-| <port>      | tcpdump port 80                           | Filter traffic based on a service                                    |
+| `<service>` | tcpdump http                              | Filter traffic based on a port number for a service                  |
+| `<port>`    | tcpdump port 80                           | Filter traffic based on a service                                    |
 | port range  | tcpdump portrange 21-125                  | Filter based on port range                                           |
 | -S          | tcpdump -S http                           | Display entire packet                                                |
 | ipv6        | tcpdunp -IPV6                             | Show only IPV6 packets                                               |
@@ -64,7 +64,7 @@ tcpdump [options] [expression]
 | Switch  | Description                                                 |
 |---------|-------------------------------------------------------------|
 | -q      | Quite and less verbose mode display less details            |
-| #VALUE! | Do not print time stamp details in dump                     |
+| -t      | Do not print time stamp details in dump                     |
 | -v      | Little verbose output                                       |
 | -vv     | More verbose output                                         |
 | -vvv    | Most verbose output                                         |
