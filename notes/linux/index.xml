@@ -190,12 +190,12 @@ LV1 LV2 LV3
 &lt;td>Capture from a specific destination address&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;service>&lt;/td>
+&lt;td>&lt;code>&amp;lt;service&amp;gt;&lt;/code>&lt;/td>
 &lt;td>tcpdump http&lt;/td>
 &lt;td>Filter traffic based on a port number for a service&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;port>&lt;/td>
+&lt;td>&lt;code>&amp;lt;port&amp;gt;&lt;/code>&lt;/td>
 &lt;td>tcpdump port 80&lt;/td>
 &lt;td>Filter traffic based on a service&lt;/td>
 &lt;/tr>
@@ -308,7 +308,7 @@ LV1 LV2 LV3
 &lt;td>Quite and less verbose mode display less details&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>#VALUE!&lt;/td>
+&lt;td>-t&lt;/td>
 &lt;td>Do not print time stamp details in dump&lt;/td>
 &lt;/tr>
 &lt;tr>
