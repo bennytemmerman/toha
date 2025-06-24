@@ -84,7 +84,326 @@ LV1 LV2 LV3
 &lt;/div>
 &lt;div class="card">
 &lt;div class="card-body">&lt;h3 id="2-create-physical-volumes">2. Create Physical Volumes&lt;/h3>
-&lt;p>&lt;strong>Info&lt;/strong>&lt;/p></description></item><item><title>scriptSudoUser</title><link>https://siemforge.xyz/notes/linux/scripts/addsudouser/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/scripts/addsudouser/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;p>&lt;strong>Info&lt;/strong>&lt;/p></description></item><item><title>fdisk</title><link>https://siemforge.xyz/notes/linux/fdisk/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/fdisk/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>fdisk cheatsheet:&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>fdisk is a powerful, text-based utility used to create, delete, and manage disk partitions in Linux systems. It supports MBR (Master Boot Record) partition tables and is best suited for systems not using GPT (GUID Partition Table).&lt;/p>
+&lt;h2 id="basic-syntax">Basic syntax&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>fdisk &lt;span style="color:#f92672">[&lt;/span>options&lt;span style="color:#f92672">]&lt;/span> /dev/sdX
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Where &lt;code>/dev/sdX&lt;/code> is the disk you want to operate on (e.g., &lt;code>/dev/sda&lt;/code>, &lt;code>/dev/sdb&lt;/code>).&lt;/p>
+&lt;blockquote>
+&lt;p>Always double-check the disk name to avoid data loss.&lt;/p></description></item><item><title>TCPDump cheatsheet</title><link>https://siemforge.xyz/notes/linux/tcpdump/tcpdump_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/tcpdump/tcpdump_cheatsheet/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>TCPDump cheatsheet&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;h1 id="general-syntax">General Syntax&lt;/h1>
+&lt;p>tcpdump [options] [expression]&lt;/p>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;h1 id="packet-capturing-options">Packet Capturing Options&lt;/h1>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Switch&lt;/th>
+&lt;th>Syntax&lt;/th>
+&lt;th>Description&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>-i any&lt;/td>
+&lt;td>tcpdump -i any&lt;/td>
+&lt;td>Capture from all interfaces&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-i eth0&lt;/td>
+&lt;td>tcpdump -i eth0&lt;/td>
+&lt;td>Capture from specific interface ( Ex Eth0)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-c&lt;/td>
+&lt;td>tcpdump -i eth0 -c 10&lt;/td>
+&lt;td>Capture first 10 packets and exit&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-D&lt;/td>
+&lt;td>tcpdump -D&lt;/td>
+&lt;td>Show available interfaces&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-A&lt;/td>
+&lt;td>tcpdump -i eth0 -A&lt;/td>
+&lt;td>Print in ASCII&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-w&lt;/td>
+&lt;td>tcpdump -i eth0 -w tcpdump.txt&lt;/td>
+&lt;td>To save capture to a file&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-r&lt;/td>
+&lt;td>tcpdump -r tcpdump.txt&lt;/td>
+&lt;td>Read and analyze saved capture file&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>#VALUE!&lt;/td>
+&lt;td>tcpdump -n -I eth0&lt;/td>
+&lt;td>Do not resolve host names&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-nn&lt;/td>
+&lt;td>tcpdump -n -i eth0&lt;/td>
+&lt;td>Stop Domain name translation and lookups (Host names or port names )&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>tcp&lt;/td>
+&lt;td>tcpdump -i eth0 -c 10 -w tcpdump.pcap tcp&lt;/td>
+&lt;td>Capture TCP packets only&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>port&lt;/td>
+&lt;td>tcpdump -i eth0 port 80&lt;/td>
+&lt;td>Capture traffic from a defined port only&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>host&lt;/td>
+&lt;td>tcpdump host 192.168.1.100&lt;/td>
+&lt;td>Capture packets from specific host&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>net&lt;/td>
+&lt;td>tcpdump net 10.1.1.0/16&lt;/td>
+&lt;td>Capture files from network subnet&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>src&lt;/td>
+&lt;td>tcpdump src 10.1.1.100&lt;/td>
+&lt;td>Capture from a specific source address&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>dst&lt;/td>
+&lt;td>tcpdump dst 10.1.1.100&lt;/td>
+&lt;td>Capture from a specific destination address&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;service>&lt;/td>
+&lt;td>tcpdump http&lt;/td>
+&lt;td>Filter traffic based on a port number for a service&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;port>&lt;/td>
+&lt;td>tcpdump port 80&lt;/td>
+&lt;td>Filter traffic based on a service&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>port range&lt;/td>
+&lt;td>tcpdump portrange 21-125&lt;/td>
+&lt;td>Filter based on port range&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-S&lt;/td>
+&lt;td>tcpdump -S http&lt;/td>
+&lt;td>Display entire packet&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>ipv6&lt;/td>
+&lt;td>tcpdunp -IPV6&lt;/td>
+&lt;td>Show only IPV6 packets&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-d&lt;/td>
+&lt;td>tcpdump -d tcpdump.pcap&lt;/td>
+&lt;td>display human readable form in standard output&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-F&lt;/td>
+&lt;td>tcpdump -F tcpdump.pcap&lt;/td>
+&lt;td>Use the given file as input for filter&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-I&lt;/td>
+&lt;td>tcpdump -I eth0&lt;/td>
+&lt;td>set interface as monitor mode&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-L&lt;/td>
+&lt;td>tcpdump -L&lt;/td>
+&lt;td>Display data link types for the interface&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>#VALUE!&lt;/td>
+&lt;td>tcpdump -N tcpdump.pcap&lt;/td>
+&lt;td>not printing domian names&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-K&lt;/td>
+&lt;td>tcpdump -K tcpdump.pcap&lt;/td>
+&lt;td>Do not verify checksum&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-p&lt;/td>
+&lt;td>tcpdump -p -i eth0&lt;/td>
+&lt;td>Not capturing in promiscuous mode&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h1 id="logical-operators">Logical Operators&lt;/h1>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Operator&lt;/th>
+&lt;th>Syntax&lt;/th>
+&lt;th>Example&lt;/th>
+&lt;th>Description&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>AND&lt;/td>
+&lt;td>and, &amp;amp;&amp;amp;&lt;/td>
+&lt;td>tcpdump -n src 192.168.1.1 and dst port 21&lt;/td>
+&lt;td>Combine filtering options&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>OR&lt;/td>
+&lt;td>or,&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>EXCEPT&lt;/td>
+&lt;td>not, !&lt;/td>
+&lt;td>tcpdump dst 10.1.1.1 and not icmp&lt;/td>
+&lt;td>Negation of the condition&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>LESS&lt;/td>
+&lt;td>&amp;lt;&lt;/td>
+&lt;td>tcpdump &amp;lt;32&lt;/td>
+&lt;td>Shows packets size less than 32&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>GREATER&lt;/td>
+&lt;td>&amp;gt;&lt;/td>
+&lt;td>tcpdump &amp;gt;=32&lt;/td>
+&lt;td>Shows packets size greater than 32&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h1 id="output-options">Output options&lt;/h1>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Switch&lt;/th>
+&lt;th>Description&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>-q&lt;/td>
+&lt;td>Quite and less verbose mode display less details&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>#VALUE!&lt;/td>
+&lt;td>Do not print time stamp details in dump&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-v&lt;/td>
+&lt;td>Little verbose output&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-vv&lt;/td>
+&lt;td>More verbose output&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-vvv&lt;/td>
+&lt;td>Most verbose output&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-x&lt;/td>
+&lt;td>Print data and headers in HEX format&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-xx&lt;/td>
+&lt;td>Print data with link headers in HEX format&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-X&lt;/td>
+&lt;td>Print output in HEX and ASCII format excluding link headers&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-XX&lt;/td>
+&lt;td>Print output in HEX and ASCII format including link headers&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-e&lt;/td>
+&lt;td>Print Link (Ethernet) headers&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-S&lt;/td>
+&lt;td>Print sequence numbers in exact format&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h1 id="protocols">Protocols&lt;/h1>
+&lt;ul>
+&lt;li>Ether&lt;/li>
+&lt;li>fddi&lt;/li>
+&lt;li>icmp&lt;/li>
+&lt;li>ip&lt;/li>
+&lt;li>ip6&lt;/li>
+&lt;li>ppp&lt;/li>
+&lt;li>radio&lt;/li>
+&lt;li>rarp&lt;/li>
+&lt;li>slip&lt;/li>
+&lt;li>tcp&lt;/li>
+&lt;li>udp&lt;/li>
+&lt;li>wlan&lt;/li>
+&lt;/ul>
+&lt;h1 id="common-commands-with-protocols-for-filtering-captures">Common Commands with Protocols for Filtering Captures&lt;/h1>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Command&lt;/th>
+&lt;th>Description&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>src/ dsthost (host name or IP)&lt;/td>
+&lt;td>Filter by source or destination IP address or host&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>ether src/ dst host (ethernet host name or IP)&lt;/td>
+&lt;td>Ethernet host filtering by source or destination&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>src/ dstnet (subnet mask in CIDR)&lt;/td>
+&lt;td>Filter by subnet&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>tcp/udp src/dst port ( port number)&lt;/td>
+&lt;td>Filter TCP or UDP packets by source or destination port&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>tcp/udp src/dst port range ( port number range)&lt;/td>
+&lt;td>Filter TCP or UDP packets by source or destination port range&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>ether/ip broadcast&lt;/td>
+&lt;td>Filter for Ethernet or IP broadcasts&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>ether/ip multicast&lt;/td>
+&lt;td>Filter for Ethernet or IP multicasts&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;/div></description></item><item><title>scriptSudoUser</title><link>https://siemforge.xyz/notes/linux/scripts/addsudouser/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/linux/scripts/addsudouser/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
 &lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Script: add sudo user&lt;/span>&lt;/h5>
