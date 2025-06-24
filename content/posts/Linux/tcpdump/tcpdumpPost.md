@@ -108,3 +108,6 @@ During troubleshooting, I encountered an issue on two occasions where no logs we
 
 ## Conclusion
 Whether you're a network administrator, security professional, or developer, tcpdump is a skill worth mastering. Its ability to dissect network traffic at the most granular level makes it indispensable in any Linux environment.
+
+## Cheatsheet
+> A more extensive cheatsheet can be found here: [TCPDump cheatsheet](/notes/linux/tcpdump/tcpdump_cheatsheet/)
