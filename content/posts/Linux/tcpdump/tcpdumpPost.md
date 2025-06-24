@@ -2,7 +2,7 @@
 title: "TCPDump"
 date: 2025-06-24T10:25:15+02:00
 #hero: /images/posts/logrotate.svg
-#hero: /images/posts/tcpdump.png
+hero: /images/posts/tcpdump.png
 description: TCPDump usage
 theme: Toha
 menu:
