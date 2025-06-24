@@ -252,7 +252,7 @@ LV1 LV2 LV3
 &lt;td>Read and analyze saved capture file&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>#VALUE!&lt;/td>
+&lt;td>-n&lt;/td>
 &lt;td>tcpdump -n -I eth0&lt;/td>
 &lt;td>Do not resolve host names&lt;/td>
 &lt;/tr>
@@ -337,7 +337,7 @@ LV1 LV2 LV3
 &lt;td>Display data link types for the interface&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>#VALUE!&lt;/td>
+&lt;td>-N&lt;/td>
 &lt;td>tcpdump -N tcpdump.pcap&lt;/td>
 &lt;td>not printing domian names&lt;/td>
 &lt;/tr>
