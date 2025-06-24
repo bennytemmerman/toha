@@ -28,7 +28,7 @@ tcpdump [options] [expression]
 | -A          | tcpdump -i eth0 -A                        | Print in ASCII                                                       |
 | -w          | tcpdump -i eth0 -w tcpdump.txt            | To save capture to a file                                            |
 | -r          | tcpdump -r tcpdump.txt                    | Read and analyze saved capture file                                  |
-| -n          | tcpdump -n -I eth0                        | Do not resolve host names                                            |
+| "-n"        | tcpdump -n -I eth0                        | Do not resolve host names                                            |
 | -nn         | tcpdump -n -i eth0                        | Stop Domain name translation and lookups (Host names or port names ) |
 | tcp         | tcpdump -i eth0 -c 10 -w tcpdump.pcap tcp | Capture TCP packets only                                             |
 | port        | tcpdump -i eth0 port 80                   | Capture traffic from a defined port only                             |
@@ -45,7 +45,7 @@ tcpdump [options] [expression]
 | -F          | tcpdump -F tcpdump.pcap                   | Use the given file as input for filter                               |
 | -I          | tcpdump -I eth0                           | set interface as monitor mode                                        |
 | -L          | tcpdump -L                                | Display data link types for the interface                            |
-| -N          | tcpdump -N tcpdump.pcap                   | not printing domian names                                            |
+| "-N"        | tcpdump -N tcpdump.pcap                   | not printing domian names                                            |
 | -K          | tcpdump -K tcpdump.pcap                   | Do not verify checksum                                               |
 | -p          | tcpdump -p -i eth0                        | Not capturing in promiscuous mode                                    |
 
