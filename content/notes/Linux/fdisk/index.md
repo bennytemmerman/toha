@@ -1,12 +1,12 @@
 ---
 title: fdisk
-weight: 501
+weight: 403
 menu:
   notes:
     name: fdisk
     identifier: notes-fdisk
     parent: notes-tools
-    weight: 51
+    weight: 43
 ---
 <div style="display: block; width: 100%; max-width: none;">
 {{< note title="fdisk cheatsheet:" >}}
