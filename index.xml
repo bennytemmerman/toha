@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SIEMForge</title><link>https://siemforge.xyz/</link><description>Recent content on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 24 Jun 2025 10:25:15 +0200</lastBuildDate><atom:link href="https://siemforge.xyz/index.xml" rel="self" type="application/rss+xml"/><item><title>LVM</title><link>https://siemforge.xyz/posts/linux/lvm/lvmpost/</link><pubDate>Sun, 22 Jun 2025 07:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/lvm/lvmpost/</guid><description>&lt;h1 id="deepdive-into-lvm-logical-volume-manager">Deepdive into LVM (Logical Volume Manager)&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SIEMForge</title><link>https://siemforge.xyz/</link><description>Recent content on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 24 Jun 2025 10:25:15 +0200</lastBuildDate><atom:link href="https://siemforge.xyz/index.xml" rel="self" type="application/rss+xml"/><item><title>TCPDump</title><link>https://siemforge.xyz/posts/linux/tcpdump/tcpdumppost/</link><pubDate>Tue, 24 Jun 2025 10:25:15 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/tcpdump/tcpdumppost/</guid><description>&lt;h1 id="tcpdump-deepdive-for-linux-engineers">TCPDump deepdive for Linux engineers&lt;/h1>
+&lt;p>As a SIEM platform administrator, one of the most invaluable tools in my troubleshooting arsenal is tcpdump. It allows the user to display TCP/IP and other packets being transmitted or received over a network. Despite its simplicity, it is incredibly powerful for debugging complex network issues, monitoring traffic, or simply learning how different protocols behave.&lt;/p>
+&lt;h2 id="why-use-tcpdump">Why use tcpdump&lt;/h2>
+&lt;ul>
+&lt;li>Real-time packet inspection&lt;/li>
+&lt;li>Lightweight and scriptable&lt;/li>
+&lt;li>No need for a GUI&lt;/li>
+&lt;li>Useful for security auditing and troubleshooting&lt;/li>
+&lt;/ul>
+&lt;h2 id="how-to-install-tcpdump">How to install tcpdump&lt;/h2>
+&lt;p>On Debian/Ubuntu-based systems:&lt;/p></description></item><item><title>LVM</title><link>https://siemforge.xyz/posts/linux/lvm/lvmpost/</link><pubDate>Sun, 22 Jun 2025 07:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/lvm/lvmpost/</guid><description>&lt;h1 id="deepdive-into-lvm-logical-volume-manager">Deepdive into LVM (Logical Volume Manager)&lt;/h1>
 &lt;h2 id="what-is-lvm">What is LVM?&lt;/h2>
 &lt;p>LVM stands for &lt;strong>Logical Volume Manager&lt;/strong>, a device mapper framework that provides logical volume management for the Linux kernel. LVM allows administrators to create, resize, and delete volumes dynamically, offering more flexibility than traditional partitioning schemes.&lt;/p>
 &lt;h2 id="why-use-lvm">Why use LVM?&lt;/h2>
