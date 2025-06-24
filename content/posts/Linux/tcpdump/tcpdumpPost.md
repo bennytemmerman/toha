@@ -100,11 +100,11 @@ sudo setcap cap_net_raw,cap_net_admin=eip $(which tcpdump)
 ```
 
 ## Important notice!
-While troubleshooting tickets, I have now encountered twice the issue where we did not receive any logs. Further investigation using tcpdump provided insight on packets that were received. Comparing to other data coming in we see that valid incoming data has a length > 0, while the other logsource only has packets of length 0. After restarting the syslog service on the host sending the data, we saw new data ingesting in our SIEM.
+During troubleshooting, I encountered an issue on two occasions where no logs were received. Further investigation with tcpdump revealed insights into the packets that were received. When comparing incoming data, it was observed that the data had a length greater than zero, whereas the other log source only showed packets of length zero. After restarting the syslog service on the host that stopped sending data, new data was successfully ingested into our SIEM.
 
 ![Example TCPDump output](images/posts/ex_tcpdump.png)
 
-> Be aware that length 0 could indicate 2 things: either the data could be encrypted OR in the example given: the packets could be used to keep the connection alive.
+> Please note that a packet length of zero can indicate two possibilities: the data might be encrypted, or, as in the example provided, the packets could be used to maintain the connection (keep-alive packets).
 
 ## Conclusion
 Whether you're a network administrator, security professional, or developer, tcpdump is a skill worth mastering. Its ability to dissect network traffic at the most granular level makes it indispensable in any Linux environment.
