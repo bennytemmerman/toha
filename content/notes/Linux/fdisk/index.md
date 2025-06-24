@@ -5,7 +5,7 @@ menu:
   notes:
     name: fdisk
     identifier: notes-fdisk
-    parent: notes-tools
+    parent: notes-linux
     weight: 43
 ---
 <div style="display: block; width: 100%; max-width: none;">
