@@ -39,7 +39,7 @@ List indexes with the retention period
 
 <!-- Sourcetype  -->
 {{< note title="Sourcetypes:" >}}
-Compare sourcetypes last 15 minutes with same 15 minutes last week
+Compare amount of events per sourcetype last 15 minutes with same 15 minutes last week
 ```bash
 index=* earliest=-15m@m latest=@m
 | stats min(_time) as _time count as Count by sourcetype, index
