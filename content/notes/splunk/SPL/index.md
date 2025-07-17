@@ -37,6 +37,21 @@ List indexes with the retention period
 ```
 {{< /note >}}
 
+<!-- Sourcetype  -->
+{{< note title="Sourcetypes:" >}}
+Compare sourcetypes last 15 minutes with same 15 minutes last week
+```bash
+index=* earliest=-15m@m latest=@m
+| stats min(_time) as _time count as Count by sourcetype, index
+| eval Day="Today" 
+| fields Day, _time, Count, sourcetype, index
+| append [ search index=* earliest=-1w@m-15m latest=-1w@m 
+    | stats min(_time) as _time count as Count by sourcetype, index
+    | eval Day="Last week" 
+    | fields Day, _time, Count, sourcetype, index] 
+| sort sourcetype```
+{{< /note >}}
+
 <!-- Hosts -->
 {{< note title="Hosts" >}}
 Overview of hosts sending logs by index
