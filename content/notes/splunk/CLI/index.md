@@ -11,74 +11,70 @@ menu:
 
 <div style="display: block; width: 100%; max-width: none;">
 
-<!-- Maintenance: -->
-{{< note title="Maintenance:" >}}
-Start Splunk
+<!-- CLI commands: -->
+{{< note title="CLI commands:" >}}
+These are some basic commands to use in CLI, while a gui is available, I like to do most things using the command line interface.
 ```bash
 /opt/splunk/bin/splunk start
 ```
-Stop Splunk
+Start Splunk
 ```bash
 /opt/splunk/bin/splunk stop
 ```
-Restart Splunk
+Stop Splunk
 ```bash
 /opt/splunk/bin/splunk restart
 ```
-Check if Splunk is running
+Restart Splunk
 ```bash
 /opt/splunk/bin/splunk status
 ```
-Reload a serverclass to push deployment apps without restarting Splunk"
+Check if Splunk is running
 ```bash
 /opt/splunk/bin/splunk reload deploy-server -class [serverclass-name]
 ```
-Check license expiration date
+Reload a serverclass to push deployment apps without restarting Splunk"
 ```bash
 /opt/splunk/bin/splunk list licenses | grep "expiration_time" | awk -F':' '{print $2}' | xargs -I{} date -d @{} +"%Y-%m-%d %H:%M:%S"
 ```
-List installed apps and their status
+Check license expiration date
 ```bash
 /opt/splunk/bin/splunk list app
 ```
+List installed apps and their status
 List installed apps and their version (if found)
 ```bash
 /opt/splunk/bin/splunk list app | grep version /opt/splunk/etc/apps/*/default/app.conf
 ```
-Install an app
+List installed apps and their version (if found)
 ```bash
 /splunk install app <path to app.package>
 ```
-Update an app
+Install an app
 ```bash
 /splunk install app <path to app.package> -update 1
 ```
-Remove an app
+Update an app
 ```bash
 /opt/splunk/bin/splunk remove app [appname]
 ```
-Check Splunk admins
+Remove an app
 ```bash
 /opt/splunk/bin/splunk list user | grep admin -B2
 ```
-{{< /note >}}
-<!-- Basic config: -->
-{{< note title="Basic config:" >}}
-Enable Splunk service to start when the host boots up
+Check Splunk admins
 ```bash
 /opt/splunk/bin/splunk enable
 ```
-Disable Splunk service so it doesn't start when the host boots up
+Enable Splunk service to start when the host boots up
 ```bash
 /opt/splunk/bin/splunk disable
 ```
-{{< /note >}}
-<!-- Extra: -->
-{{< note title="Extra:" >}}
-Find the startup message
+Disable Splunk service so it doesn't start when the host boots up
 ```bash
 cat /opt/splunk/var/log/splunk/splunkd_stdout.log | grep "Splunk>" | tail -n 1
 ```
+Find the startup message
 {{< /note >}}
 
 </div>
