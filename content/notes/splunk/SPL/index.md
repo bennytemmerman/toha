@@ -10,10 +10,9 @@ menu:
 ---
 
 <div style="display: block; width: 100%; max-width: none;">
-
+> Most queries are tested on my onprem homelab servers. Sometimes rights might be limited for example in SplunkCloud for "| rest" queries.  
 <!-- Troubleshooting:  -->
 {{< note title="Troubleshooting:" >}}
->> most queries are tested on my onprem homelab servers. Sometimes rights might be limited for example in SplunkCloud for "| rest" queries.  
 When troubleshooting I mostly start with this query:
 ```bash
 index=_internal log_level=ERROR source="/opt/splunk/var/log/splunk/splunkd.log"
@@ -113,10 +112,7 @@ List all knowledgeobjects
 | tstats values(sourcetype) as sourcetype WHERE index=* OR index=_* by index 
 ```
 List sourcetypes per index
-
-
 {{< /note >}}
-
 <!-- Maintenance  -->
 {{< note title="Maintenance:" >}}
 Using the following query, it is often used after a Splunk version or app/addon upgrade to compare the amount of logs.  
