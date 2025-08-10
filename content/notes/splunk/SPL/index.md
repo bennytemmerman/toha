@@ -65,9 +65,9 @@ List indexes with the retention period
 {{< /note >}}
 
 <!-- Maintenance  -->
+{{< note title="Maintenance:" >}}
 Using the following query, it is often used after a Splunk version or app/addon upgrade to compare the amount of logs.  
 Keep in mind that it is using stats, so big pools of data might slow the search down.
-{{< note title="Maintenance:" >}}
 ```bash
 index=* earliest=-1mon@m-15m latest=-1mon@m
 | stats min(_time) as _time count as Count by sourcetype, index
