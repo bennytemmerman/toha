@@ -12,7 +12,7 @@ menu:
     parent: cat-linux
     weight: 300
 ---
-# Mastering Logrotate: The Unsung Hero of Log Management
+# Mastering Logrotate: The unsung hero of log management
 
 In the trenches of system administration, there's one silent guardian that keeps your disk space from imploding under a mountain of logs: **Logrotate**. Whether you're wrangling logs on a sprawling Kubernetes cluster or just babysitting a single Linux box, Logrotate ensures your logs don’t spiral out of control.
 
@@ -24,13 +24,13 @@ In this deep dive, we’ll explore how Logrotate works, why it’s essential, ho
 
 At its core, **Logrotate** is a Unix utility designed to automatically rotate, compress, and remove log files. Think of it as your log janitor — sweeping away old logs, zipping them up neatly, and ensuring your system never runs out of space due to runaway logging.
 
-### Why It Matters:
+### Why it matters:
 
 Imagine you’re running NGINX on a production server handling thousands of requests per second. Without log rotation, your access and error logs could balloon into gigabytes overnight. That’s a **disk I/O nightmare** waiting to happen.
 
 ---
 
-## Logrotate Configuration: From Basics to Battle-Hardened
+## Logrotate configuration: From basics to battle-hardened
 
 Logrotate’s power lies in its flexibility. You can define global rules in `/etc/logrotate.conf`, or per-service rules in `/etc/logrotate.d/`.
 
@@ -52,7 +52,7 @@ Logrotate’s power lies in its flexibility. You can define global rules in `/et
 }
 ```
 
-## What Each Directive Does:  
+## What each directive does:  
 
 `daily: `Rotate logs every day (alternatives: weekly, monthly, or custom intervals).  
 `rotate 14: `Keep 14 archived logs before purging.  
@@ -66,7 +66,7 @@ Logrotate’s power lies in its flexibility. You can define global rules in `/et
 
 > Pro Tip: Use copytruncate if your app won’t release the log file handle — useful for apps that don't support log reopening on SIGHUP.
 
-## Automating with Cron
+## Automating with cron
 
 Logrotate is typically triggered by cron, so unless you're into manual rotations (why?), make sure this line exists in your cron jobs:
 
@@ -75,10 +75,10 @@ Logrotate is typically triggered by cron, so unless you're into manual rotations
 ```
 
 This runs it daily at midnight. You can customize it further with anacron or systemd timers if you're using newer systems like RHEL 8+ or Ubuntu 22.04+.
-## Common Pitfalls and How to Debug Like a Boss
+## Common pitfalls and how to debug like a boss
 
 Even a veteran sysadmin can get tripped up by Logrotate quirks. Here are some frequent headaches and their antidotes:
-### Problem	Fix
+### Problem	fix
 🔁 Log not rotating?	Check if the cron job runs. Use logrotate -d for dry-run debugging.  
 🔒 Permission denied?	Ensure Logrotate has access (run as root or use sudo).  
 ❌ Syntax error in config?	Run logrotate -v /etc/logrotate.conf to see what it’s doing.  
@@ -97,12 +97,12 @@ Running containers? Docker log files can balloon fast under /var/lib/docker/cont
 }
 ```
 Boom — Docker will auto-rotate logs per container.
-## Final Thoughts
+## Final thoughts
 
 Logrotate might not be flashy, but it’s a critical piece of your system's hygiene. Treat it like a core dependency — because it is. With smart configurations, regular checks, and a few advanced tweaks, you can keep your logs lean, searchable, and under control.
 
 > Whether you're taming Apache logs, managing containerized chaos, or just keeping your home lab in shape, Logrotate will be your quiet, powerful ally.
-## TL;DR Cheat Sheet
+## TL;DR cheat sheet
 
 - Config files: /etc/logrotate.conf, /etc/logrotate.d/*
 
