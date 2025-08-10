@@ -10,7 +10,9 @@ menu:
 ---
 
 <div style="display: block; width: 100%; max-width: none;">
+{{< note >}}
 > Most queries are tested on my onprem homelab servers. Sometimes rights might be limited for example in SplunkCloud for "| rest" queries.  
+{{< /note >}}
 <!-- Troubleshooting:  -->
 {{< note title="Troubleshooting:" >}}
 When troubleshooting I mostly start with this query:
@@ -37,7 +39,8 @@ index=_internal sourcetype=splunkd group=tcpin_connections version=* os=* arch=*
 List universal forwarders and their version
 
 ```bash
-| rest /services/server/info | eval LastStartupTime=strftime(startup_time, "%Y/%m/%d  %H:%M:%S")
+| rest /services/server/info 
+| eval LastStartupTime=strftime(startup_time, "%Y/%m/%d  %H:%M:%S")
 | eval timenow=now()
 | eval daysup = round((timenow - startup_time) / 86400,0)
 | eval Uptime = tostring(daysup) + " Days"
@@ -67,7 +70,9 @@ Usage per day by index + percentages
 Overview of hosts sending logs by index
 
 ```bash
-index=_internal source=*metrics.log group=tcpin_connections | stats  sum(kb) as total_kb by host, hostname   | table  hostname, host, total_kb
+index=_internal source=*metrics.log group=tcpin_connections 
+| stats  sum(kb) as total_kb by host, hostname   
+| table  hostname, host, total_kb
 ```
 List which hosts are sending through which server/forwarder + volume of data
 
@@ -109,17 +114,27 @@ List information about Licenses, including expiration dates.
 List serverclasses and apps
 
 ```bash
-| rest /services/apps/local | search disabled IN ("false",0)| table title version description splunk_server
+| rest /services/apps/local 
+| search disabled IN ("false",0)
+| table title version description splunk_server
 ```
 List all apps
 
 ```bash
-| rest /services/data/transforms/extractions | table eai:acl.app, title, SOURCE_KEY, REGEX, FORMAT, DEST_KEY | sort eai:acl.app title | eval DEST_KEY=if(DEST_KEY="","N/A",DEST_KEY) | rename eai:acl.app as App, title as Title, SOURCE_KEY as "Source Key", REGEX as RegEx, FORMAT as Format, DEST_KEY as "Dest Key"  
+| rest /services/data/transforms/extractions 
+| table eai:acl.app, title, SOURCE_KEY, REGEX, FORMAT, DEST_KEY 
+| sort eai:acl.app title 
+| eval DEST_KEY=if(DEST_KEY="","N/A",DEST_KEY) 
+| rename eai:acl.app as App, title as Title, SOURCE_KEY as "Source Key", REGEX as RegEx, FORMAT as Format, DEST_KEY as "Dest Key"  
 ```
 List all extractions
 
 ```bash
-| rest /servicesNS/-/-/admin/directory count=0 splunk_server=local | rename eai:* as *, acl.* as * | eval updated=strptime(updated,"%Y-%m-%dT%H:%M:%S%Z"), updated=if(isnull(updated),"Never",strftime(updated,"%d %b %Y"))| sort type | stats list(title) as title, list(type) as type, list(orphaned) as orphaned, list(sharing) as sharing, list(owner) as owner, list(updated) as updated by app 
+| rest /servicesNS/-/-/admin/directory count=0 splunk_server=local 
+| rename eai:* as *, acl.* as * 
+| eval updated=strptime(updated,"%Y-%m-%dT%H:%M:%S%Z"), updated=if(isnull(updated),"Never",strftime(updated,"%d %b %Y"))
+| sort type 
+| stats list(title) as title, list(type) as type, list(orphaned) as orphaned, list(sharing) as sharing, list(owner) as owner, list(updated) as updated by app 
 ```
 List all knowledgeobjects
 
