@@ -42,7 +42,6 @@ Check license expiration date
 /opt/splunk/bin/splunk list app
 ```
 List installed apps and their status
-List installed apps and their version (if found)
 ```bash
 /opt/splunk/bin/splunk list app | grep version /opt/splunk/etc/apps/*/default/app.conf
 ```
@@ -76,5 +75,4 @@ cat /opt/splunk/var/log/splunk/splunkd_stdout.log | grep "Splunk>" | tail -n 1
 ```
 Find the startup message
 {{< /note >}}
-
 </div>
