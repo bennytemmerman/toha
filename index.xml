@@ -26,7 +26,15 @@
 &lt;p>To get started, I spun up a new container and installed &lt;strong>n8n via Portainer&lt;/strong>, running it in Docker. For anyone looking to do the same, here&amp;rsquo;s the official n8n install guide for Docker and Portainer:&lt;/p></description></item><item><title>Logrotate</title><link>https://siemforge.xyz/posts/linux/logrotate/logrotatepost/</link><pubDate>Fri, 06 Jun 2025 14:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/logrotate/logrotatepost/</guid><description>&lt;h1 id="mastering-logrotate-the-unsung-hero-of-log-management">Mastering Logrotate: The unsung hero of log management&lt;/h1>
 &lt;p>In the trenches of system administration, there&amp;rsquo;s one silent guardian that keeps your disk space from imploding under a mountain of logs: &lt;strong>Logrotate&lt;/strong>. Whether you&amp;rsquo;re wrangling logs on a sprawling Kubernetes cluster or just babysitting a single Linux box, Logrotate ensures your logs don’t spiral out of control.&lt;/p>
 &lt;p>In this deep dive, we’ll explore how Logrotate works, why it’s essential, how to configure it like a pro, and how to troubleshoot when it throws a tantrum.&lt;/p></description></item><item><title>Splunk searches</title><link>https://siemforge.xyz/notes/splunk/spl/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/splunk/spl/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-> Most queries are tested on my onprem homelab servers. Sometimes rights might be limited for example in SplunkCloud for "| rest" queries.
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;blockquote>
+&lt;p>Most queries are tested on my onprem homelab servers. Sometimes rights might be limited for example in SplunkCloud for &amp;ldquo;| rest&amp;rdquo; queries.&lt;/p>&lt;/blockquote>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
 &lt;!-- Troubleshooting: -->
 &lt;div class="note-card ">
 &lt;div class="item">
