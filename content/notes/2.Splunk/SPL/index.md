@@ -165,7 +165,7 @@ find sourcetypes used in specific datamodel
 | search dependency IN (<data_model1>, <data_model2>)
 ```
 Find alerts related to datamodels 
-> Mind that this is something custome and might not work in your environment. This is more of a sidenote for me to reference to.
+> Mind that this is something custom and might not work in your environment. This is more of a sidenote for me to reference to.
 
 ### Licenses
 ```bash
