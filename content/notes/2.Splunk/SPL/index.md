@@ -27,7 +27,7 @@ Errorcheck Splunkd.log within Splunk GUI
 <!-- Reporting:  -->
 {{< note title="Reporting:" >}}
 When checking the health status of the environment, I use the following queries to provide insight:
-###General
+### General
 ```bash
 | rest splunk_server=* count=1 /services/server/info 
 | table version host
@@ -51,7 +51,7 @@ List server uptime
 ```
 List users and their roles
 
-###Universal forwarders
+### Universal forwarders
 ```bash
 index=_internal sourcetype=splunkd group=tcpin_connections version=* os=* arch=* build=* hostname=* source=*metrics.log 
 | stats latest(version) as version,latest(arch) as arch,latest(os) as os,latest(build) as build by hostname
@@ -70,7 +70,7 @@ index=_internal source=*metrics.log group=tcpin_connections
 ```
 List which hosts are sending through which server/forwarder + volume of data
 
-###Indexes + sourcetypes
+### Indexes + sourcetypes
 ```bash
 index=_internal source=*license_usage.log type="Usage"
 | bin _time span=1d
@@ -128,7 +128,7 @@ index=eu_cato
 ```
 Quick and dirty example log extraction per sourcetype
 
-###Datamodels
+### Datamodels
 ```bash
 | tstats count FROM datamodel=<datamode_name> BY sourcetype
 ```
@@ -167,7 +167,7 @@ find sourcetypes used in specific datamodel
 Find alerts related to datamodels 
 > Mind that this is something custome and might not work in your environment. This is more of a sidenote for me to reference to.
 
-###Licenses
+### Licenses
 ```bash
 | rest splunk_server=local "/services/licenser/licenses"
 | eval creation_time=strftime(creation_time,"%d-%m-%Y"), days_until_expiration=round((expiration_time-now())/86400) , expiration=strftime(expiration_time,"%d-%m-%Y") ,quota = ('quota'/1024/1024/1024), Volume = quota+" GB", is_unlimited =if('is_unlimited'==0,"no","yes")
@@ -181,7 +181,7 @@ Find alerts related to datamodels
 ```
 List information about Licenses, including expiration dates.
 
-###Deployment server + apps
+### Deployment server + apps
 ```bash
 | rest /services/deployment/server/applications
 | stats list(title), count(title) by serverclasses
@@ -196,7 +196,7 @@ List serverclasses and apps
 ```
 List all apps
 
-###Parsing + knowledge objects
+### Parsing + knowledge objects
 ```bash
 | rest /services/data/transforms/extractions 
 | table eai:acl.app, title, SOURCE_KEY, REGEX, FORMAT, DEST_KEY 
