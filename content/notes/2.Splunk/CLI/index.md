@@ -1,12 +1,12 @@
 ---
 title: Splunk CLI commands
-weight: 302
+weight: 202
 menu:
   notes:
     name: CLI
     identifier: notes-splunk-CLI
     parent: notes-splunk
-    weight: 32
+    weight: 22
 ---
 
 <div style="display: block; width: 100%; max-width: none;">
