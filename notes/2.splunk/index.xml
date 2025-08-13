@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Splunk Notes on SIEMForge</title><link>https://siemforge.xyz/notes/2.splunk/</link><description>Recent content in Splunk Notes on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><atom:link href="https://siemforge.xyz/notes/2.splunk/index.xml" rel="self" type="application/rss+xml"/><item><title>Splunk searches</title><link>https://siemforge.xyz/notes/2.splunk/spl/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/spl/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;blockquote>
+&lt;p>Most queries are tested on my onprem homelab servers. Sometimes rights might be limited for example in SplunkCloud for &amp;ldquo;| rest&amp;rdquo; queries.&lt;br>
+Using tstats is faster to search in large datapools.&lt;/p>&lt;/blockquote>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Troubleshooting: -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Troubleshooting:&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>When troubleshooting I mostly start with this query:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#f92672">=&lt;/span>_internal log_level&lt;span style="color:#f92672">=&lt;/span>ERROR source&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;/opt/splunk/var/log/splunk/splunkd.log&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Errorcheck Splunkd.log within Splunk GUI&lt;/p>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;!-- Reporting: -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Reporting:&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>When checking the health status of the environment, I use the following queries to provide insight:
+###General&lt;/p></description></item><item><title>Splunk CLI commands</title><link>https://siemforge.xyz/notes/2.splunk/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;!-- CLI commands: -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>CLI commands:&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;p>These are some basic commands to use in CLI, while a gui is available, I like to do most things using the command line interface.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk start
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Start Splunk&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk stop
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Stop Splunk&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk restart
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Restart Splunk&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk status
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check if Splunk is running&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk reload deploy-server -class &lt;span style="color:#f92672">[&lt;/span>serverclass-name&lt;span style="color:#f92672">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Reload a serverclass to push deployment apps without restarting Splunk&amp;quot;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list licenses | grep &lt;span style="color:#e6db74">&amp;#34;expiration_time&amp;#34;&lt;/span> | awk -F&lt;span style="color:#e6db74">&amp;#39;:&amp;#39;&lt;/span> &lt;span style="color:#e6db74">&amp;#39;{print $2}&amp;#39;&lt;/span> | xargs -I&lt;span style="color:#f92672">{}&lt;/span> date -d @&lt;span style="color:#f92672">{}&lt;/span> +&lt;span style="color:#e6db74">&amp;#34;%Y-%m-%d %H:%M:%S&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check license expiration date&lt;/p></description></item><item><title>Splunk Upgrade procedure</title><link>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
+&lt;!-- Upgrade procedure: -->
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Upgrade procedure:&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;h1 id="splunk-upgrade-guide">Splunk Upgrade Guide&lt;/h1>
+&lt;p>This document provides a step-by-step procedure to upgrade Splunk from an existing version to a newer release. Follow each section carefully to ensure a smooth upgrade process.&lt;/p>
+&lt;h2 id="table-of-contents">Table of Contents&lt;/h2>
+&lt;ol>
+&lt;li>Preparation&lt;/li>
+&lt;li>Download and Transfer Files&lt;/li>
+&lt;li>Pre-Upgrade Checks&lt;/li>
+&lt;li>Device State Management&lt;/li>
+&lt;li>Backup Current Configuration&lt;/li>
+&lt;li>Install the New Version&lt;/li>
+&lt;li>Post-Upgrade Verification&lt;/li>
+&lt;li>Documentation and Communication&lt;/li>
+&lt;/ol>
+&lt;h2 id="1-preparation">1. Preparation&lt;/h2>
+&lt;ul>
+&lt;li>Ensure you have access to the target devices and necessary permissions.&lt;/li>
+&lt;li>Confirm the current Splunk version.&lt;/li>
+&lt;li>Notify customer and colleagues about the upcoming upgrade.&lt;/li>
+&lt;li>Review release notes for the target version.&lt;/li>
+&lt;/ul>
+&lt;h2 id="2-download-and-transfer-files">2. Download and Transfer Files&lt;/h2>
+&lt;h3 id="download-the-splunk-installer">Download the Splunk Installer&lt;/h3>
+&lt;p>You can use the wget command to download the package on the host
+wget -O splunk-&lt;version>-&lt;hash>-Linux-x86_64.tgz &amp;ldquo;&lt;a href="https://download.splunk.com/products/splunk/releases/" target="_blank" rel="noopener">https://download.splunk.com/products/splunk/releases/&lt;/a>&lt;version>/linux/splunk-&lt;version>-&lt;hash>-Linux-x86_64.tgz&amp;rdquo;&lt;/p></description></item></channel></rss>
