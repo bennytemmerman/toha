@@ -12,6 +12,7 @@ menu:
 <div style="display: block; width: 100%; max-width: none;">
 {{< note >}}
 > Most queries are tested on my onprem homelab servers. Sometimes rights might be limited for example in SplunkCloud for "| rest" queries.  
+> Using tstats is faster to search in large datapools.
 {{< /note >}}
 <!-- Troubleshooting:  -->
 {{< note title="Troubleshooting:" >}}
@@ -20,23 +21,18 @@ When troubleshooting I mostly start with this query:
 ```bash
 index=_internal log_level=ERROR source="/opt/splunk/var/log/splunk/splunkd.log"
 ```
-Errorcheck within Splunk GUI
+Errorcheck Splunkd.log within Splunk GUI
 {{< /note >}}
+
 <!-- Reporting:  -->
 {{< note title="Reporting:" >}}
 When checking the health status of the environment, I use the following queries to provide insight:
-
+###General
 ```bash
 | rest splunk_server=* count=1 /services/server/info 
 | table version host
 ```
 Check Splunk version 
-
-```bash
-index=_internal sourcetype=splunkd group=tcpin_connections version=* os=* arch=* build=* hostname=* source=*metrics.log 
-| stats latest(version) as version,latest(arch) as arch,latest(os) as os,latest(build) as build by hostname
-```
-List universal forwarders and their version
 
 ```bash
 | rest /services/server/info 
@@ -48,6 +44,33 @@ List universal forwarders and their version
 ```
 List server uptime
 
+```bash
+| rest /services/authentication/users splunk_server=local
+| fields title roles email
+| rename title as username
+```
+List users and their roles
+
+###Universal forwarders
+```bash
+index=_internal sourcetype=splunkd group=tcpin_connections version=* os=* arch=* build=* hostname=* source=*metrics.log 
+| stats latest(version) as version,latest(arch) as arch,latest(os) as os,latest(build) as build by hostname
+```
+List universal forwarders and their version
+
+```bash
+| tstats values(host) where index=* by index
+```
+Overview of hosts sending logs by index
+
+```bash
+index=_internal source=*metrics.log group=tcpin_connections 
+| stats  sum(kb) as total_kb by host, hostname   
+| table  hostname, host, total_kb
+```
+List which hosts are sending through which server/forwarder + volume of data
+
+###Indexes + sourcetypes
 ```bash
 index=_internal source=*license_usage.log type="Usage"
 | bin _time span=1d
@@ -65,25 +88,6 @@ index=_internal source=*license_usage.log type="Usage"
 Usage per day by index + percentages
 
 ```bash
-| tstats values(host) where index=* by index
-```
-Overview of hosts sending logs by index
-
-```bash
-index=_internal source=*metrics.log group=tcpin_connections 
-| stats  sum(kb) as total_kb by host, hostname   
-| table  hostname, host, total_kb
-```
-List which hosts are sending through which server/forwarder + volume of data
-
-```bash
-| rest /services/authentication/users splunk_server=local
-| fields title roles email
-| rename title as username
-```
-List users and their roles
-
-```bash
 | rest splunk_server=* /services/data/indexes 
 | eval "Retention Period (months)"=round((frozenTimePeriodInSecs/2628000),0)
 | search NOT title IN ("_*", "main", "history", "summary", "splunklogger") 
@@ -93,6 +97,77 @@ List users and their roles
 ```
 List indexes with the retention period
 
+```bash
+| tstats values(sourcetype) as sourcetype WHERE index=* OR index=_* by index 
+```
+List sourcetypes per index
+
+```bash
+| metadata type=sourcetypes index=<index_name>
+| table sourcetype
+```
+List sourcetypes in specific index
+
+```bash
+index=_internal source=*license_usage.log type="Usage" idx=<index_name>
+| stats sum(b) as b by st
+| eval GB=round((b/1024/1024/1024),2)
+| eventstats sum(GB) as total_GB
+| eval percentage=round((GB/total_GB)*100,2)
+| sort -GB
+| fields - b, total_GB
+| rename st as "Sourcetype", GB as "Size (GB)", percentage as "Percentage (%)"
+| fields "Sourcetype", "Size (GB)", "Percentage (%)"
+```
+List sourcetypes in specific index by volume per sourcetype
+
+```bash
+index=eu_cato
+| dedup sourcetype
+| table _time sourcetype _raw
+```
+Quick and dirty example log extraction per sourcetype
+
+###Datamodels
+```bash
+| tstats count FROM datamodel=<datamode_name> BY sourcetype
+```
+find sourcetypes used in specific datamodel
+
+```bash
+| rest /servicesNS/-/-/saved/searches splunk_server=local
+| rex field=title "^(standard|custom)\-production\-alert\-(?<SPA>.*)"
+| where SPA!=""
+| rex field=qualifiedSearch "collect\sindex=(?<into_index>(sla|slad))\s.*"
+| eval into_index = coalesce(into_index, 'action.logevent.param.index')
+| fillnull value="-" into_index
+| search into_index=* eai:acl.app=<app_name>
+| eval is_scheduled=if(is_scheduled==1 AND disabled==0,"Active","Not active")
+| rex field=description "(?<use_case>^([^.]+))"
+| rex field=search "(FROM datamodel=(\")?(?<tstats_datamodel>\w+))"
+| rex field=search "(WHERE nodename=\"(\w+\.)?(?<tstats_nodename>\w+))"
+| rex field=search "(?<first_row>[^\r\n].*)"
+| rex field=first_row "(\`(?<macro>.*?)\`)|(\| from datamodel (?<datamodel>.*))|(index=\"?(?<index>\w+)\"?)|(sourcetype=\"?(?<sourcetype>\w+(:\w+)?)\"?)"
+| eval dependency_tmp = case(isnotnull(tstats_datamodel) AND isnotnull(tstats_nodename), tstats_datamodel + "." + tstats_nodename,
+    isnotnull(tstats_datamodel) AND isnull(tstats_nodename), tstats_datamodel,
+    isnotnull(macro), "`" + macro + "`")
+| eval dependency = coalesce(dependency_tmp, datamodel, index, sourcetype)
+| eval indicator_type = case(isnotnull(tstats_datamodel) OR isnotnull(tstats_nodename), "tstats",
+    isnotnull(macro), "macro",
+    isnotnull(datamodel), "datamodel",
+    isnotnull(index), "index",
+    isnotnull(sourcetype), "sourcetype",
+    true(), "other")
+| table title, SPA, use_case, indicator_type, dependency, is_scheduled, into_index, cron_schedule,
+| rename use_case AS "use case"
+| sort + SPA
+| fields - SPA
+| search dependency IN (<data_model1>, <data_model2>)
+```
+Find alerts related to datamodels 
+> Mind that this is something custome and might not work in your environment. This is more of a sidenote for me to reference to.
+
+###Licenses
 ```bash
 | rest splunk_server=local "/services/licenser/licenses"
 | eval creation_time=strftime(creation_time,"%d-%m-%Y"), days_until_expiration=round((expiration_time-now())/86400) , expiration=strftime(expiration_time,"%d-%m-%Y") ,quota = ('quota'/1024/1024/1024), Volume = quota+" GB", is_unlimited =if('is_unlimited'==0,"no","yes")
@@ -106,6 +181,7 @@ List indexes with the retention period
 ```
 List information about Licenses, including expiration dates.
 
+###Deployment server + apps
 ```bash
 | rest /services/deployment/server/applications
 | stats list(title), count(title) by serverclasses
@@ -120,6 +196,7 @@ List serverclasses and apps
 ```
 List all apps
 
+###Parsing + knowledge objects
 ```bash
 | rest /services/data/transforms/extractions 
 | table eai:acl.app, title, SOURCE_KEY, REGEX, FORMAT, DEST_KEY 
@@ -136,12 +213,7 @@ List all extractions
 | sort type 
 | stats list(title) as title, list(type) as type, list(orphaned) as orphaned, list(sharing) as sharing, list(owner) as owner, list(updated) as updated by app 
 ```
-List all knowledgeobjects
-
-```bash
-| tstats values(sourcetype) as sourcetype WHERE index=* OR index=_* by index 
-```
-List sourcetypes per index
+List all knowledge objects
 {{< /note >}}
 
 <!-- Maintenance  -->
