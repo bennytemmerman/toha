@@ -1,5 +1,5 @@
 ---
-title: Splunk Notes
+title: Splunk notes
 menu:
   notes:
     name: Splunk

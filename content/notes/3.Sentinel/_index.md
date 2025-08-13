@@ -1,5 +1,5 @@
 ---
-title: Sentinel
+title: Sentinel notes
 menu:
   notes:
     name: Sentinel
