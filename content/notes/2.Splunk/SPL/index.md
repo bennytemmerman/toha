@@ -72,6 +72,15 @@ List which hosts are sending through which server/forwarder + volume of data
 
 ### Indexes + sourcetypes
 ```bash
+index=_internal source=*license_usage.log type="Usage" earliest=-7d@d latest=@d
+| eval _time=strftime(_time, "%Y-%m-%d")
+| stats sum(b) as bytes by _time
+| eval GB=round(bytes/1024/1024/1024,2)
+| table _time GB
+| sort - _time
+```
+total volume per day for past 7 days
+```bash
 index=_internal source=*license_usage.log type="Usage"
 | bin _time span=1d
 | stats sum(b) as b by idx, _time
@@ -205,7 +214,6 @@ List all apps
 | rename eai:acl.app as App, title as Title, SOURCE_KEY as "Source Key", REGEX as RegEx, FORMAT as Format, DEST_KEY as "Dest Key"  
 ```
 List all extractions
-
 ```bash
 | rest /servicesNS/-/-/admin/directory count=0 splunk_server=local 
 | rename eai:* as *, acl.* as * 
