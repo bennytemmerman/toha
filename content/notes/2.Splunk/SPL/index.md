@@ -50,7 +50,15 @@ List server uptime
 | rename title as username
 ```
 List users and their roles
-
+### Logsources
+```bash
+| tstats values(host) as recent_host where index=* by host, index, sourcetype
+| search NOT [| inputlookup monitored_systems.csv | fields host | rename host as recent_host]
+| table recent_host, index, sourcetype
+```
+Overview of non-monitored hosts:
+Using a lookupfile to keep track of hosts that we monitor. An alert is used to trigger if a host is not sending logs for a certain threshold.  
+This search compares the hosts found that are currently sending logs in the configured timewindow and compares them to the alreadt monitored hosts in the lookupfile.
 ### Universal forwarders
 ```bash
 index=_internal sourcetype=splunkd group=tcpin_connections version=* os=* arch=* build=* hostname=* source=*metrics.log 
