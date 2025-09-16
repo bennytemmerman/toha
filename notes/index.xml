@@ -84,12 +84,12 @@ Orders the results by the most recent events first.&lt;/p&gt;</description></ite
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logrestart&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;systemctl restart logstash&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logstatus&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;systemctl status logstash&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logsamp&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;cd /usr/share/logstash/samples&amp;#39;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;logtail:&lt;/strong&gt; Continuously displays new entries in the Logstash log file.
-&lt;strong&gt;logconf:&lt;/strong&gt; Navigates to the Logstash configuration directory.
-&lt;strong&gt;logstart:&lt;/strong&gt; Starts the Logstash service.
-&lt;strong&gt;logstop:&lt;/strong&gt; Stops the Logstash service.
-&lt;strong&gt;logrestart:&lt;/strong&gt; Restarts the Logstash service.
-&lt;strong&gt;logstatus:&lt;/strong&gt; Checks the current status of the Logstash service.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;logtail:&lt;/strong&gt; Continuously displays new entries in the Logstash log file.&lt;br&gt;
+&lt;strong&gt;logconf:&lt;/strong&gt; Navigates to the Logstash configuration directory.&lt;br&gt;
+&lt;strong&gt;logstart:&lt;/strong&gt; Starts the Logstash service.&lt;br&gt;
+&lt;strong&gt;logstop:&lt;/strong&gt; Stops the Logstash service.&lt;br&gt;
+&lt;strong&gt;logrestart:&lt;/strong&gt; Restarts the Logstash service.&lt;br&gt;
+&lt;strong&gt;logstatus:&lt;/strong&gt; Checks the current status of the Logstash service.&lt;br&gt;
 &lt;strong&gt;logsamp:&lt;/strong&gt; Navigates to the directory containing sample Logstash configurations.&lt;/p&gt;</description></item><item><title>Splunk Upgrade procedure</title><link>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;!-- Upgrade procedure: --&gt;
 &lt;div class="note-card "&gt;
