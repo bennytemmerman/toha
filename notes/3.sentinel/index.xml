@@ -1,21 +1,32 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sentinel notes on SIEMForge</title><link>https://siemforge.xyz/notes/3.sentinel/</link><description>Recent content in Sentinel notes on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><atom:link href="https://siemforge.xyz/notes/3.sentinel/index.xml" rel="self" type="application/rss+xml"/><item><title>Kusto query language</title><link>https://siemforge.xyz/notes/3.sentinel/kql/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/kql/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;blockquote>
-&lt;p>Coming soon!&lt;/p>&lt;/blockquote>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div></description></item><item><title>Logstash CLI commands</title><link>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;blockquote>
-&lt;p>Coming soon!&lt;/p>&lt;/blockquote>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sentinel notes on SIEMForge</title><link>https://siemforge.xyz/notes/3.sentinel/</link><description>Recent content in Sentinel notes on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><atom:link href="https://siemforge.xyz/notes/3.sentinel/index.xml" rel="self" type="application/rss+xml"/><item><title>Kusto query language</title><link>https://siemforge.xyz/notes/3.sentinel/kql/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/kql/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h3 id="troubleshooting"&gt;Troubleshooting&lt;/h3&gt;
+&lt;p&gt;A collection of KQL I use to troubleshoot incidents in Sentinel.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SentinelHealth
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where SentinelResourceName in &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Successful logon from IP and failure from a different IP&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where Status &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Failure&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| project TimeGenerated, SentinelResourceName, Status
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort by TimeGenerated desc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;SentinelHealth&lt;/strong&gt;
+Selects data from the SentinelHealth table.
+&lt;strong&gt;| where SentinelResourceName in (&amp;ldquo;Successful logon from IP and failure from a different IP&amp;rdquo;)&lt;/strong&gt;
+Filters records to include only those with specific resource names related to logon success and failure.
+&lt;strong&gt;| where Status == &amp;ldquo;Failure&amp;rdquo;&lt;/strong&gt;
+Further filters the data to include only failed login attempts.
+&lt;strong&gt;| project TimeGenerated, SentinelResourceName, Status&lt;/strong&gt;
+Selects only the columns for the time of the event, resource name, and status.
+&lt;strong&gt;| sort by TimeGenerated desc&lt;/strong&gt;
+Orders the results by the most recent events first.&lt;/p&gt;</description></item><item><title>Logstash CLI commands</title><link>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;blockquote&gt;
+&lt;p&gt;Coming soon!&lt;/p&gt;&lt;/blockquote&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item></channel></rss>

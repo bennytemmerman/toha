@@ -1,636 +1,647 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Notes on SIEMForge</title><link>https://siemforge.xyz/notes/</link><description>Recent content in Notes on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 08 Jun 2010 08:06:25 +0600</lastBuildDate><atom:link href="https://siemforge.xyz/notes/index.xml" rel="self" type="application/rss+xml"/><item><title>Splunk searches</title><link>https://siemforge.xyz/notes/2.splunk/spl/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/spl/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;blockquote>
-&lt;p>Most queries are tested on my onprem homelab servers. Sometimes rights might be limited for example in SplunkCloud for &amp;ldquo;| rest&amp;rdquo; queries.&lt;br>
-Using tstats is faster to search in large datapools.&lt;/p>&lt;/blockquote>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;!-- Troubleshooting: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Troubleshooting:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>When troubleshooting I mostly start with this query:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#f92672">=&lt;/span>_internal log_level&lt;span style="color:#f92672">=&lt;/span>ERROR source&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;/opt/splunk/var/log/splunk/splunkd.log&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Errorcheck Splunkd.log within Splunk GUI&lt;/p>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;!-- Reporting: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Reporting:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>When checking the health status of the environment, I use the following queries to provide insight:&lt;/p></description></item><item><title>Splunk CLI commands</title><link>https://siemforge.xyz/notes/2.splunk/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;!-- CLI commands: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>CLI commands:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>These are some commands to use in CLI, while a gui is available, I like to do most things using the command line interface.&lt;/p>
-&lt;h3 id="basic-operations">Basic operations&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk start
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Start Splunk&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk stop
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Stop Splunk&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk restart
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Restart Splunk&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk status
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check if Splunk is running&lt;/p>
-&lt;h3 id="general-checks">General checks&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk list user | grep admin -B2
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check Splunk admins&lt;/p>
-&lt;h3 id="splunk-service-setup">Splunk service setup&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/opt/splunk/bin/splunk enable
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Enable Splunk service to start when the host boots up&lt;/p></description></item><item><title>Kusto query language</title><link>https://siemforge.xyz/notes/3.sentinel/kql/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/kql/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;blockquote>
-&lt;p>Coming soon!&lt;/p>&lt;/blockquote>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div></description></item><item><title>Logstash CLI commands</title><link>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;blockquote>
-&lt;p>Coming soon!&lt;/p>&lt;/blockquote>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div></description></item><item><title>Splunk Upgrade procedure</title><link>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;!-- Upgrade procedure: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Upgrade procedure:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;h1 id="splunk-upgrade-guide">Splunk Upgrade Guide&lt;/h1>
-&lt;p>This document provides a step-by-step procedure to upgrade Splunk from an existing version to a newer release. Follow each section carefully to ensure a smooth upgrade process.&lt;/p>
-&lt;h2 id="table-of-contents">Table of Contents&lt;/h2>
-&lt;ol>
-&lt;li>Preparation&lt;/li>
-&lt;li>Download and Transfer Files&lt;/li>
-&lt;li>Pre-Upgrade Checks&lt;/li>
-&lt;li>Device State Management&lt;/li>
-&lt;li>Backup Current Configuration&lt;/li>
-&lt;li>Install the New Version&lt;/li>
-&lt;li>Post-Upgrade Verification&lt;/li>
-&lt;li>Documentation and Communication&lt;/li>
-&lt;/ol>
-&lt;h2 id="1-preparation">1. Preparation&lt;/h2>
-&lt;ul>
-&lt;li>Ensure you have access to the target devices and necessary permissions.&lt;/li>
-&lt;li>Confirm the current Splunk version.&lt;/li>
-&lt;li>Notify customer and colleagues about the upcoming upgrade.&lt;/li>
-&lt;li>Review release notes for the target version.&lt;/li>
-&lt;/ul>
-&lt;h2 id="2-download-and-transfer-files">2. Download and Transfer Files&lt;/h2>
-&lt;h3 id="download-the-splunk-installer">Download the Splunk Installer&lt;/h3>
-&lt;p>You can use the wget command to download the package on the host
-wget -O splunk-&lt;version>-&lt;hash>-Linux-x86_64.tgz &amp;ldquo;&lt;a href="https://download.splunk.com/products/splunk/releases/" target="_blank" rel="noopener">https://download.splunk.com/products/splunk/releases/&lt;/a>&lt;version>/linux/splunk-&lt;version>-&lt;hash>-Linux-x86_64.tgz&amp;rdquo;&lt;/p></description></item><item><title>Linux Bash commands</title><link>https://siemforge.xyz/notes/4.linux/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;!-- Troubleshooting: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Troubleshooting (files):&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>Find a file or directory&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>find / -type f -name &lt;span style="color:#e6db74">&amp;#34;filename&amp;#34;&lt;/span> 2&amp;gt;/dev/null
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>find / -type d -name &lt;span style="color:#e6db74">&amp;#34;dirname&amp;#34;&lt;/span> 2&amp;gt;/dev/null
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>find files that contain a pattern&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>find . -type f -exec grep -l &lt;span style="color:#e6db74">&amp;#39;version&amp;#39;&lt;/span> &lt;span style="color:#f92672">{}&lt;/span> &lt;span style="color:#ae81ff">\;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;!-- Troubleshooting: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Troubleshooting (system):&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>Check logs if a service has executed/failed before (I needed to check if logrotate was running daily, also checked for rsyslog after)&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>journalctl | grep logrotate
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>check if machine is a vm or barebone&lt;/p></description></item><item><title>Logrotate config</title><link>https://siemforge.xyz/notes/4.linux/logrotate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/logrotate/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Logrotate Configuration Cheat Sheet:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;blockquote>
-&lt;p>This cheat sheet provides an extensive list of Logrotate configuration directives, their descriptions, and examples.&lt;br>
-Use this as a quick reference to master log rotation on Unix-like systems.&lt;/p>&lt;/blockquote>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Basic structure:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>Each configuration block is tied to a log file or set of log files. Example:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>/var/log/example.log &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> daily
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> rotate &lt;span style="color:#ae81ff">7&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compress
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> missingok
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> notifempty
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> create &lt;span style="color:#ae81ff">0640&lt;/span> root adm
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;p>&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Configuration Directives &amp;amp; Examples:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;h4 id="basic-settings">Basic Settings:&lt;/h4>
-&lt;p>&lt;code>rotate &amp;lt;count&amp;gt;&lt;/code>&lt;br>
-Keep &lt;count> number of old log files before deleting them.&lt;/p></description></item><item><title>LVM cheatsheet</title><link>https://siemforge.xyz/notes/4.linux/lvm/lvm_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/lvm/lvm_cheatsheet/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>LVM cheatsheet&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;h2 id="acronyms-you-must-know">Acronyms you must know&lt;/h2>
-&lt;ul>
-&lt;li>&lt;strong>PV&lt;/strong> = Physical Volume&lt;/li>
-&lt;li>&lt;strong>VG&lt;/strong> = Volume Group&lt;/li>
-&lt;li>&lt;strong>LV&lt;/strong> = Logical Volume&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code> PV1 PV2 PV3 PV4
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Notes on SIEMForge</title><link>https://siemforge.xyz/notes/</link><description>Recent content in Notes on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 08 Jun 2010 08:06:25 +0600</lastBuildDate><atom:link href="https://siemforge.xyz/notes/index.xml" rel="self" type="application/rss+xml"/><item><title>Splunk searches</title><link>https://siemforge.xyz/notes/2.splunk/spl/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/spl/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;blockquote&gt;
+&lt;p&gt;Most queries are tested on my onprem homelab servers. Sometimes rights might be limited for example in SplunkCloud for &amp;ldquo;| rest&amp;rdquo; queries.&lt;br&gt;
+Using tstats is faster to search in large datapools.&lt;/p&gt;&lt;/blockquote&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Troubleshooting: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Troubleshooting:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;When troubleshooting I mostly start with this query:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_internal log_level&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ERROR source&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;/opt/splunk/var/log/splunk/splunkd.log&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Errorcheck Splunkd.log within Splunk GUI&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Reporting: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Reporting:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;When checking the health status of the environment, I use the following queries to provide insight:&lt;/p&gt;</description></item><item><title>Splunk CLI commands</title><link>https://siemforge.xyz/notes/2.splunk/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;!-- CLI commands: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;CLI commands:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;These are some commands to use in CLI, while a gui is available, I like to do most things using the command line interface.&lt;/p&gt;
+&lt;h3 id="basic-operations"&gt;Basic operations&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk start
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Start Splunk&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk stop
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Stop Splunk&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk restart
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Restart Splunk&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk status
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check if Splunk is running&lt;/p&gt;
+&lt;h3 id="general-checks"&gt;General checks&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk list user | grep admin -B2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check Splunk admins&lt;/p&gt;
+&lt;h3 id="splunk-service-setup"&gt;Splunk service setup&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk enable
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Enable Splunk service to start when the host boots up&lt;/p&gt;</description></item><item><title>Kusto query language</title><link>https://siemforge.xyz/notes/3.sentinel/kql/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/kql/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h3 id="troubleshooting"&gt;Troubleshooting&lt;/h3&gt;
+&lt;p&gt;A collection of KQL I use to troubleshoot incidents in Sentinel.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SentinelHealth
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where SentinelResourceName in &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Successful logon from IP and failure from a different IP&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where Status &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Failure&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| project TimeGenerated, SentinelResourceName, Status
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort by TimeGenerated desc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;SentinelHealth&lt;/strong&gt;
+Selects data from the SentinelHealth table.
+&lt;strong&gt;| where SentinelResourceName in (&amp;ldquo;Successful logon from IP and failure from a different IP&amp;rdquo;)&lt;/strong&gt;
+Filters records to include only those with specific resource names related to logon success and failure.
+&lt;strong&gt;| where Status == &amp;ldquo;Failure&amp;rdquo;&lt;/strong&gt;
+Further filters the data to include only failed login attempts.
+&lt;strong&gt;| project TimeGenerated, SentinelResourceName, Status&lt;/strong&gt;
+Selects only the columns for the time of the event, resource name, and status.
+&lt;strong&gt;| sort by TimeGenerated desc&lt;/strong&gt;
+Orders the results by the most recent events first.&lt;/p&gt;</description></item><item><title>Logstash CLI commands</title><link>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;blockquote&gt;
+&lt;p&gt;Coming soon!&lt;/p&gt;&lt;/blockquote&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Splunk Upgrade procedure</title><link>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;!-- Upgrade procedure: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Upgrade procedure:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h1 id="splunk-upgrade-guide"&gt;Splunk Upgrade Guide&lt;/h1&gt;
+&lt;p&gt;This document provides a step-by-step procedure to upgrade Splunk from an existing version to a newer release. Follow each section carefully to ensure a smooth upgrade process.&lt;/p&gt;
+&lt;h2 id="table-of-contents"&gt;Table of Contents&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Preparation&lt;/li&gt;
+&lt;li&gt;Download and Transfer Files&lt;/li&gt;
+&lt;li&gt;Pre-Upgrade Checks&lt;/li&gt;
+&lt;li&gt;Device State Management&lt;/li&gt;
+&lt;li&gt;Backup Current Configuration&lt;/li&gt;
+&lt;li&gt;Install the New Version&lt;/li&gt;
+&lt;li&gt;Post-Upgrade Verification&lt;/li&gt;
+&lt;li&gt;Documentation and Communication&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="1-preparation"&gt;1. Preparation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Ensure you have access to the target devices and necessary permissions.&lt;/li&gt;
+&lt;li&gt;Confirm the current Splunk version.&lt;/li&gt;
+&lt;li&gt;Notify customer and colleagues about the upcoming upgrade.&lt;/li&gt;
+&lt;li&gt;Review release notes for the target version.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="2-download-and-transfer-files"&gt;2. Download and Transfer Files&lt;/h2&gt;
+&lt;h3 id="download-the-splunk-installer"&gt;Download the Splunk Installer&lt;/h3&gt;
+&lt;p&gt;You can use the wget command to download the package on the host
+wget -O splunk-&lt;version&gt;-&lt;hash&gt;-Linux-x86_64.tgz &amp;ldquo;&lt;a href="https://download.splunk.com/products/splunk/releases/" target="_blank" rel="noopener"&gt;https://download.splunk.com/products/splunk/releases/&lt;/a&gt;&lt;version&gt;/linux/splunk-&lt;version&gt;-&lt;hash&gt;-Linux-x86_64.tgz&amp;rdquo;&lt;/p&gt;</description></item><item><title>Linux Bash commands</title><link>https://siemforge.xyz/notes/4.linux/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;!-- Troubleshooting: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Troubleshooting (files):&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;Find a file or directory&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find / -type f -name &lt;span style="color:#e6db74"&gt;&amp;#34;filename&amp;#34;&lt;/span&gt; 2&amp;gt;/dev/null
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find / -type d -name &lt;span style="color:#e6db74"&gt;&amp;#34;dirname&amp;#34;&lt;/span&gt; 2&amp;gt;/dev/null
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;find files that contain a pattern&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find . -type f -exec grep -l &lt;span style="color:#e6db74"&gt;&amp;#39;version&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;{}&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Troubleshooting: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Troubleshooting (system):&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;Check logs if a service has executed/failed before (I needed to check if logrotate was running daily, also checked for rsyslog after)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;journalctl | grep logrotate
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;check if machine is a vm or barebone&lt;/p&gt;</description></item><item><title>Logrotate config</title><link>https://siemforge.xyz/notes/4.linux/logrotate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/logrotate/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Logrotate Configuration Cheat Sheet:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;blockquote&gt;
+&lt;p&gt;This cheat sheet provides an extensive list of Logrotate configuration directives, their descriptions, and examples.&lt;br&gt;
+Use this as a quick reference to master log rotation on Unix-like systems.&lt;/p&gt;&lt;/blockquote&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Basic structure:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;Each configuration block is tied to a log file or set of log files. Example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/var/log/example.log &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; daily
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; rotate &lt;span style="color:#ae81ff"&gt;7&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compress
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; missingok
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; notifempty
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; create &lt;span style="color:#ae81ff"&gt;0640&lt;/span&gt; root adm
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Configuration Directives &amp;amp; Examples:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h4 id="basic-settings"&gt;Basic Settings:&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;rotate &amp;lt;count&amp;gt;&lt;/code&gt;&lt;br&gt;
+Keep &lt;count&gt; number of old log files before deleting them.&lt;/p&gt;</description></item><item><title>LVM cheatsheet</title><link>https://siemforge.xyz/notes/4.linux/lvm/lvm_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/lvm/lvm_cheatsheet/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;LVM cheatsheet&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h2 id="acronyms-you-must-know"&gt;Acronyms you must know&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;PV&lt;/strong&gt; = Physical Volume&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;VG&lt;/strong&gt; = Volume Group&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;LV&lt;/strong&gt; = Logical Volume&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt; PV1 PV2 PV3 PV4
 \ | | /
 VG1 VG2
 | | \
 LV1 LV2 LV3
-&lt;/code>&lt;/pre>&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;h2 id="step-by-step-lvm-setup">Step-by-Step LVM Setup&lt;/h2>
-&lt;h3 id="1-add-a-physical-disk">1. Add a Physical Disk&lt;/h3>
-&lt;p>connect a physical/virtual disk to your system.&lt;/p>
-&lt;p>&lt;strong>Overview of block devices&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lsblk
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Used/available space on mounted filesystems&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>df -h
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;div class="card">
-&lt;div class="card-body">&lt;h3 id="2-create-physical-volumes">2. Create Physical Volumes&lt;/h3>
-&lt;p>&lt;strong>Info&lt;/strong>&lt;/p></description></item><item><title>fdisk</title><link>https://siemforge.xyz/notes/4.linux/fdisk/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/fdisk/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>fdisk cheatsheet:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>fdisk is a powerful, text-based utility used to create, delete, and manage disk partitions in Linux systems. It supports MBR (Master Boot Record) partition tables and is best suited for systems not using GPT (GUID Partition Table).&lt;/p>
-&lt;h2 id="basic-syntax">Basic syntax&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>fdisk &lt;span style="color:#f92672">[&lt;/span>options&lt;span style="color:#f92672">]&lt;/span> /dev/sdX
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Where &lt;code>/dev/sdX&lt;/code> is the disk you want to operate on (e.g., &lt;code>/dev/sda&lt;/code>, &lt;code>/dev/sdb&lt;/code>).&lt;/p>
-&lt;blockquote>
-&lt;p>Always double-check the disk name to avoid data loss.&lt;/p></description></item><item><title>TCPDump cheatsheet</title><link>https://siemforge.xyz/notes/4.linux/tcpdump/tcpdump_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/tcpdump/tcpdump_cheatsheet/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>TCPDump cheatsheet&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;h1 id="general-syntax">General Syntax&lt;/h1>
-&lt;p>tcpdump [options] [expression]&lt;/p>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;h1 id="packet-capturing-options">Packet Capturing Options&lt;/h1>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Switch&lt;/th>
-&lt;th>Syntax&lt;/th>
-&lt;th>Description&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>-i any&lt;/td>
-&lt;td>tcpdump -i any&lt;/td>
-&lt;td>Capture from all interfaces&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-i eth0&lt;/td>
-&lt;td>tcpdump -i eth0&lt;/td>
-&lt;td>Capture from specific interface ( Ex Eth0)&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-c&lt;/td>
-&lt;td>tcpdump -i eth0 -c 10&lt;/td>
-&lt;td>Capture first 10 packets and exit&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-D&lt;/td>
-&lt;td>tcpdump -D&lt;/td>
-&lt;td>Show available interfaces&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-A&lt;/td>
-&lt;td>tcpdump -i eth0 -A&lt;/td>
-&lt;td>Print in ASCII&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-w&lt;/td>
-&lt;td>tcpdump -i eth0 -w tcpdump.txt&lt;/td>
-&lt;td>To save capture to a file&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-r&lt;/td>
-&lt;td>tcpdump -r tcpdump.txt&lt;/td>
-&lt;td>Read and analyze saved capture file&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-n&lt;/td>
-&lt;td>tcpdump -n -I eth0&lt;/td>
-&lt;td>Do not resolve host names&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-nn&lt;/td>
-&lt;td>tcpdump -n -i eth0&lt;/td>
-&lt;td>Stop Domain name translation and lookups (Host names or port names )&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>tcp&lt;/td>
-&lt;td>tcpdump -i eth0 -c 10 -w tcpdump.pcap tcp&lt;/td>
-&lt;td>Capture TCP packets only&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>port&lt;/td>
-&lt;td>tcpdump -i eth0 port 80&lt;/td>
-&lt;td>Capture traffic from a defined port only&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>host&lt;/td>
-&lt;td>tcpdump host 192.168.1.100&lt;/td>
-&lt;td>Capture packets from specific host&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>net&lt;/td>
-&lt;td>tcpdump net 10.1.1.0/16&lt;/td>
-&lt;td>Capture files from network subnet&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>src&lt;/td>
-&lt;td>tcpdump src 10.1.1.100&lt;/td>
-&lt;td>Capture from a specific source address&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>dst&lt;/td>
-&lt;td>tcpdump dst 10.1.1.100&lt;/td>
-&lt;td>Capture from a specific destination address&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;code>&amp;lt;service&amp;gt;&lt;/code>&lt;/td>
-&lt;td>tcpdump http&lt;/td>
-&lt;td>Filter traffic based on a port number for a service&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;code>&amp;lt;port&amp;gt;&lt;/code>&lt;/td>
-&lt;td>tcpdump port 80&lt;/td>
-&lt;td>Filter traffic based on a service&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>port range&lt;/td>
-&lt;td>tcpdump portrange 21-125&lt;/td>
-&lt;td>Filter based on port range&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-S&lt;/td>
-&lt;td>tcpdump -S http&lt;/td>
-&lt;td>Display entire packet&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>ipv6&lt;/td>
-&lt;td>tcpdunp -IPV6&lt;/td>
-&lt;td>Show only IPV6 packets&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-d&lt;/td>
-&lt;td>tcpdump -d tcpdump.pcap&lt;/td>
-&lt;td>display human readable form in standard output&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-F&lt;/td>
-&lt;td>tcpdump -F tcpdump.pcap&lt;/td>
-&lt;td>Use the given file as input for filter&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-I&lt;/td>
-&lt;td>tcpdump -I eth0&lt;/td>
-&lt;td>set interface as monitor mode&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-L&lt;/td>
-&lt;td>tcpdump -L&lt;/td>
-&lt;td>Display data link types for the interface&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-N&lt;/td>
-&lt;td>tcpdump -N tcpdump.pcap&lt;/td>
-&lt;td>not printing domian names&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-K&lt;/td>
-&lt;td>tcpdump -K tcpdump.pcap&lt;/td>
-&lt;td>Do not verify checksum&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-p&lt;/td>
-&lt;td>tcpdump -p -i eth0&lt;/td>
-&lt;td>Not capturing in promiscuous mode&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h1 id="logical-operators">Logical Operators&lt;/h1>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Operator&lt;/th>
-&lt;th>Syntax&lt;/th>
-&lt;th>Example&lt;/th>
-&lt;th>Description&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>AND&lt;/td>
-&lt;td>and, &amp;amp;&amp;amp;&lt;/td>
-&lt;td>tcpdump -n src 192.168.1.1 and dst port 21&lt;/td>
-&lt;td>Combine filtering options&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>OR&lt;/td>
-&lt;td>or,&lt;/td>
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>EXCEPT&lt;/td>
-&lt;td>not, !&lt;/td>
-&lt;td>tcpdump dst 10.1.1.1 and not icmp&lt;/td>
-&lt;td>Negation of the condition&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>LESS&lt;/td>
-&lt;td>&amp;lt;&lt;/td>
-&lt;td>tcpdump &amp;lt;32&lt;/td>
-&lt;td>Shows packets size less than 32&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>GREATER&lt;/td>
-&lt;td>&amp;gt;&lt;/td>
-&lt;td>tcpdump &amp;gt;=32&lt;/td>
-&lt;td>Shows packets size greater than 32&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h1 id="output-options">Output options&lt;/h1>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Switch&lt;/th>
-&lt;th>Description&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>-q&lt;/td>
-&lt;td>Quite and less verbose mode display less details&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-t&lt;/td>
-&lt;td>Do not print time stamp details in dump&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-v&lt;/td>
-&lt;td>Little verbose output&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-vv&lt;/td>
-&lt;td>More verbose output&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-vvv&lt;/td>
-&lt;td>Most verbose output&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-x&lt;/td>
-&lt;td>Print data and headers in HEX format&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-xx&lt;/td>
-&lt;td>Print data with link headers in HEX format&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-X&lt;/td>
-&lt;td>Print output in HEX and ASCII format excluding link headers&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-XX&lt;/td>
-&lt;td>Print output in HEX and ASCII format including link headers&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-e&lt;/td>
-&lt;td>Print Link (Ethernet) headers&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>-S&lt;/td>
-&lt;td>Print sequence numbers in exact format&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h1 id="protocols">Protocols&lt;/h1>
-&lt;ul>
-&lt;li>Ether&lt;/li>
-&lt;li>fddi&lt;/li>
-&lt;li>icmp&lt;/li>
-&lt;li>ip&lt;/li>
-&lt;li>ip6&lt;/li>
-&lt;li>ppp&lt;/li>
-&lt;li>radio&lt;/li>
-&lt;li>rarp&lt;/li>
-&lt;li>slip&lt;/li>
-&lt;li>tcp&lt;/li>
-&lt;li>udp&lt;/li>
-&lt;li>wlan&lt;/li>
-&lt;/ul>
-&lt;h1 id="common-commands-with-protocols-for-filtering-captures">Common Commands with Protocols for Filtering Captures&lt;/h1>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Command&lt;/th>
-&lt;th>Description&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>src/ dsthost (host name or IP)&lt;/td>
-&lt;td>Filter by source or destination IP address or host&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>ether src/ dst host (ethernet host name or IP)&lt;/td>
-&lt;td>Ethernet host filtering by source or destination&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>src/ dstnet (subnet mask in CIDR)&lt;/td>
-&lt;td>Filter by subnet&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>tcp/udp src/dst port ( port number)&lt;/td>
-&lt;td>Filter TCP or UDP packets by source or destination port&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>tcp/udp src/dst port range ( port number range)&lt;/td>
-&lt;td>Filter TCP or UDP packets by source or destination port range&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>ether/ip broadcast&lt;/td>
-&lt;td>Filter for Ethernet or IP broadcasts&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>ether/ip multicast&lt;/td>
-&lt;td>Filter for Ethernet or IP multicasts&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;/div></description></item><item><title>scriptSudoUser</title><link>https://siemforge.xyz/notes/4.linux/scripts/addsudouser/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/scripts/addsudouser/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Script: add sudo user&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>Create a sudo user that won&amp;rsquo;t prompt for password on executing sudo commands.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/bin/bash
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Ensure script is run as root&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[[&lt;/span> $EUID -ne &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#f92672">]]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;❌ This script must be run as root&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exit &lt;span style="color:#ae81ff">1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">fi&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Prompt for new username&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>read -p &lt;span style="color:#e6db74">&amp;#34;Enter new username: &amp;#34;&lt;/span> username
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Check if user already exists&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> id &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$username&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &amp;amp;&amp;gt;/dev/null; &lt;span style="color:#66d9ef">then&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;⚠️ User &amp;#39;&lt;/span>$username&lt;span style="color:#e6db74">&amp;#39; already exists.&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exit &lt;span style="color:#ae81ff">1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">fi&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Prompt for password (silent input)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>read -s -p &lt;span style="color:#e6db74">&amp;#34;Enter password for &lt;/span>$username&lt;span style="color:#e6db74">: &amp;#34;&lt;/span> password
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>read -s -p &lt;span style="color:#e6db74">&amp;#34;Confirm password: &amp;#34;&lt;/span> password_confirm
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Check passwords match&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[[&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$password&lt;span style="color:#e6db74">&amp;#34;&lt;/span> !&lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$password_confirm&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#f92672">]]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;❌ Passwords do not match.&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exit &lt;span style="color:#ae81ff">1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">fi&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create user with home directory and bash shell&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>useradd -m -s /bin/bash &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$username&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Set user password&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>username&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">:&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>password&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> | chpasswd
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Add user to sudo group&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>usermod -aG sudo &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$username&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Create a sudoers file to allow passwordless sudo&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$username&lt;span style="color:#e6db74"> ALL=(ALL) NOPASSWD:ALL&amp;#34;&lt;/span> &amp;gt; &lt;span style="color:#e6db74">&amp;#34;/etc/sudoers.d/&lt;/span>$username&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>chmod &lt;span style="color:#ae81ff">440&lt;/span> &lt;span style="color:#e6db74">&amp;#34;/etc/sudoers.d/&lt;/span>$username&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;✅ User &amp;#39;&lt;/span>$username&lt;span style="color:#e6db74">&amp;#39; created with bash shell and passwordless sudo access.&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div></description></item><item><title>ncdu</title><link>https://siemforge.xyz/notes/5.tools/ncdu/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/5.tools/ncdu/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>ncdu:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>Ncdu is a disk usage analyzer with a text-mode user interface. It is designed to find space hogs on a remote server where you don’t have an entire graphical setup available, but it is a useful tool even on regular desktop systems. Ncdu aims to be fast, simple, easy to use, and should be able to run on any POSIX-like system.&lt;br>
-install:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://dev.yorhel.nl/download/ncdu-2.8.1-linux-x86_64.tar.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tar -xzf ncdu-2.8.1-linux-x86_64.tar.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo mv ncdu /usr/local/bin/
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>usage:&lt;/p></description></item><item><title>Python</title><link>https://siemforge.xyz/notes/6.coding/python/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/6.coding/python/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;!-- Project: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Python virtual environment:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>create a virtual environment&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>python3 -m venv venv
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Activate the virtual environment&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>source venv/bin/activate
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Get out of the virtual environment&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>deactivate
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div></description></item><item><title>GIT</title><link>https://siemforge.xyz/notes/6.coding/git/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/6.coding/git/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;">
-&lt;!-- Intro: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Version control:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;h1 id="what-is-version-control">What is Version Control?&lt;/h1>
-&lt;p>Version control systems are tools that manage changes made to files and directories in a project. They allow you to keep track of what you did when, undo any changes you decide you don&amp;rsquo;t want, and collaborate at scale with others. This cheat sheet focuses on one of the most popular one, Git.&lt;/p>&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;!-- Definitions: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Definitions:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;h1 id="basic-definition">Basic definition&lt;/h1>
-&lt;ul>
-&lt;li>Local repo or repository:&lt;br>
-A local directory containing code and files for the project&lt;/li>
-&lt;li>Remote repository:&lt;br>
-An online version of the local repository hosted on services like GitHub, GitLab, and BitBucket&lt;/li>
-&lt;li>Cloning:&lt;br>
-The act of making a clone or copy of a repository in a new directory&lt;/li>
-&lt;li>Commit:&lt;br>
-A snapshot of the project you can come back to&lt;/li>
-&lt;li>Branch:&lt;br>
-A copy of the project used for working in an isolated environment without affecting the main project&lt;/li>
-&lt;li>Git merge:&lt;br>
-The process of combining two branches together&lt;/li>
-&lt;/ul>
-&lt;h1 id="more-advanced-definition">More advanced definition&lt;/h1>
-&lt;ul>
-&lt;li>.gitignore file:&lt;br>
-A file that lists other files you want git not to track (e.g. large data folders, private info, and any local files that shouldn’t be seen by the public)&lt;/li>
-&lt;li>Staging area:&lt;br>
-a cache that holds changes you want to commit next&lt;/li>
-&lt;li>Git stash:&lt;br>
-another type of cache that holds unwanted changes you may want to come back later&lt;/li>
-&lt;li>Commit ID or hash:&lt;br>
-a unique identifier for each commit, used for switching to different save points&lt;/li>
-&lt;li>HEAD (always capitalized letters):&lt;br>
-a reference name for the latest commit, to save you having to type Commit IDs. HEAD&lt;del>n syntax is used to refer to older commits (e.g. HEAD&lt;/del>2 refers to the second-to-last commit)&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;/div>
-&lt;!-- Install: -->
-&lt;div class="note-card ">
-&lt;div class="item">
-&lt;h5 class="note-title">&lt;span>How to install:&lt;/span>&lt;/h5>
-&lt;div class="card">
-&lt;div class="card-body">&lt;p>On OS X or Windows — Using an installer&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h2 id="step-by-step-lvm-setup"&gt;Step-by-Step LVM Setup&lt;/h2&gt;
+&lt;h3 id="1-add-a-physical-disk"&gt;1. Add a Physical Disk&lt;/h3&gt;
+&lt;p&gt;connect a physical/virtual disk to your system.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Overview of block devices&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lsblk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Used/available space on mounted filesystems&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;df -h
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h3 id="2-create-physical-volumes"&gt;2. Create Physical Volumes&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Info&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>fdisk</title><link>https://siemforge.xyz/notes/4.linux/fdisk/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/fdisk/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;fdisk cheatsheet:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;fdisk is a powerful, text-based utility used to create, delete, and manage disk partitions in Linux systems. It supports MBR (Master Boot Record) partition tables and is best suited for systems not using GPT (GUID Partition Table).&lt;/p&gt;
+&lt;h2 id="basic-syntax"&gt;Basic syntax&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fdisk &lt;span style="color:#f92672"&gt;[&lt;/span&gt;options&lt;span style="color:#f92672"&gt;]&lt;/span&gt; /dev/sdX
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Where &lt;code&gt;/dev/sdX&lt;/code&gt; is the disk you want to operate on (e.g., &lt;code&gt;/dev/sda&lt;/code&gt;, &lt;code&gt;/dev/sdb&lt;/code&gt;).&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Always double-check the disk name to avoid data loss.&lt;/p&gt;</description></item><item><title>TCPDump cheatsheet</title><link>https://siemforge.xyz/notes/4.linux/tcpdump/tcpdump_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/tcpdump/tcpdump_cheatsheet/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;TCPDump cheatsheet&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h1 id="general-syntax"&gt;General Syntax&lt;/h1&gt;
+&lt;p&gt;tcpdump [options] [expression]&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h1 id="packet-capturing-options"&gt;Packet Capturing Options&lt;/h1&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Switch&lt;/th&gt;
+&lt;th&gt;Syntax&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;-i any&lt;/td&gt;
+&lt;td&gt;tcpdump -i any&lt;/td&gt;
+&lt;td&gt;Capture from all interfaces&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-i eth0&lt;/td&gt;
+&lt;td&gt;tcpdump -i eth0&lt;/td&gt;
+&lt;td&gt;Capture from specific interface ( Ex Eth0)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-c&lt;/td&gt;
+&lt;td&gt;tcpdump -i eth0 -c 10&lt;/td&gt;
+&lt;td&gt;Capture first 10 packets and exit&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-D&lt;/td&gt;
+&lt;td&gt;tcpdump -D&lt;/td&gt;
+&lt;td&gt;Show available interfaces&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-A&lt;/td&gt;
+&lt;td&gt;tcpdump -i eth0 -A&lt;/td&gt;
+&lt;td&gt;Print in ASCII&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-w&lt;/td&gt;
+&lt;td&gt;tcpdump -i eth0 -w tcpdump.txt&lt;/td&gt;
+&lt;td&gt;To save capture to a file&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-r&lt;/td&gt;
+&lt;td&gt;tcpdump -r tcpdump.txt&lt;/td&gt;
+&lt;td&gt;Read and analyze saved capture file&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-n&lt;/td&gt;
+&lt;td&gt;tcpdump -n -I eth0&lt;/td&gt;
+&lt;td&gt;Do not resolve host names&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-nn&lt;/td&gt;
+&lt;td&gt;tcpdump -n -i eth0&lt;/td&gt;
+&lt;td&gt;Stop Domain name translation and lookups (Host names or port names )&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;tcp&lt;/td&gt;
+&lt;td&gt;tcpdump -i eth0 -c 10 -w tcpdump.pcap tcp&lt;/td&gt;
+&lt;td&gt;Capture TCP packets only&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;port&lt;/td&gt;
+&lt;td&gt;tcpdump -i eth0 port 80&lt;/td&gt;
+&lt;td&gt;Capture traffic from a defined port only&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;host&lt;/td&gt;
+&lt;td&gt;tcpdump host 192.168.1.100&lt;/td&gt;
+&lt;td&gt;Capture packets from specific host&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;net&lt;/td&gt;
+&lt;td&gt;tcpdump net 10.1.1.0/16&lt;/td&gt;
+&lt;td&gt;Capture files from network subnet&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;src&lt;/td&gt;
+&lt;td&gt;tcpdump src 10.1.1.100&lt;/td&gt;
+&lt;td&gt;Capture from a specific source address&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;dst&lt;/td&gt;
+&lt;td&gt;tcpdump dst 10.1.1.100&lt;/td&gt;
+&lt;td&gt;Capture from a specific destination address&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;service&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;tcpdump http&lt;/td&gt;
+&lt;td&gt;Filter traffic based on a port number for a service&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;port&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;tcpdump port 80&lt;/td&gt;
+&lt;td&gt;Filter traffic based on a service&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;port range&lt;/td&gt;
+&lt;td&gt;tcpdump portrange 21-125&lt;/td&gt;
+&lt;td&gt;Filter based on port range&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-S&lt;/td&gt;
+&lt;td&gt;tcpdump -S http&lt;/td&gt;
+&lt;td&gt;Display entire packet&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ipv6&lt;/td&gt;
+&lt;td&gt;tcpdunp -IPV6&lt;/td&gt;
+&lt;td&gt;Show only IPV6 packets&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-d&lt;/td&gt;
+&lt;td&gt;tcpdump -d tcpdump.pcap&lt;/td&gt;
+&lt;td&gt;display human readable form in standard output&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-F&lt;/td&gt;
+&lt;td&gt;tcpdump -F tcpdump.pcap&lt;/td&gt;
+&lt;td&gt;Use the given file as input for filter&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-I&lt;/td&gt;
+&lt;td&gt;tcpdump -I eth0&lt;/td&gt;
+&lt;td&gt;set interface as monitor mode&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-L&lt;/td&gt;
+&lt;td&gt;tcpdump -L&lt;/td&gt;
+&lt;td&gt;Display data link types for the interface&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-N&lt;/td&gt;
+&lt;td&gt;tcpdump -N tcpdump.pcap&lt;/td&gt;
+&lt;td&gt;not printing domian names&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-K&lt;/td&gt;
+&lt;td&gt;tcpdump -K tcpdump.pcap&lt;/td&gt;
+&lt;td&gt;Do not verify checksum&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-p&lt;/td&gt;
+&lt;td&gt;tcpdump -p -i eth0&lt;/td&gt;
+&lt;td&gt;Not capturing in promiscuous mode&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id="logical-operators"&gt;Logical Operators&lt;/h1&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Operator&lt;/th&gt;
+&lt;th&gt;Syntax&lt;/th&gt;
+&lt;th&gt;Example&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;AND&lt;/td&gt;
+&lt;td&gt;and, &amp;amp;&amp;amp;&lt;/td&gt;
+&lt;td&gt;tcpdump -n src 192.168.1.1 and dst port 21&lt;/td&gt;
+&lt;td&gt;Combine filtering options&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OR&lt;/td&gt;
+&lt;td&gt;or,&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;EXCEPT&lt;/td&gt;
+&lt;td&gt;not, !&lt;/td&gt;
+&lt;td&gt;tcpdump dst 10.1.1.1 and not icmp&lt;/td&gt;
+&lt;td&gt;Negation of the condition&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;LESS&lt;/td&gt;
+&lt;td&gt;&amp;lt;&lt;/td&gt;
+&lt;td&gt;tcpdump &amp;lt;32&lt;/td&gt;
+&lt;td&gt;Shows packets size less than 32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;GREATER&lt;/td&gt;
+&lt;td&gt;&amp;gt;&lt;/td&gt;
+&lt;td&gt;tcpdump &amp;gt;=32&lt;/td&gt;
+&lt;td&gt;Shows packets size greater than 32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id="output-options"&gt;Output options&lt;/h1&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Switch&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;-q&lt;/td&gt;
+&lt;td&gt;Quite and less verbose mode display less details&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-t&lt;/td&gt;
+&lt;td&gt;Do not print time stamp details in dump&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-v&lt;/td&gt;
+&lt;td&gt;Little verbose output&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-vv&lt;/td&gt;
+&lt;td&gt;More verbose output&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-vvv&lt;/td&gt;
+&lt;td&gt;Most verbose output&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-x&lt;/td&gt;
+&lt;td&gt;Print data and headers in HEX format&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-xx&lt;/td&gt;
+&lt;td&gt;Print data with link headers in HEX format&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-X&lt;/td&gt;
+&lt;td&gt;Print output in HEX and ASCII format excluding link headers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-XX&lt;/td&gt;
+&lt;td&gt;Print output in HEX and ASCII format including link headers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-e&lt;/td&gt;
+&lt;td&gt;Print Link (Ethernet) headers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-S&lt;/td&gt;
+&lt;td&gt;Print sequence numbers in exact format&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id="protocols"&gt;Protocols&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Ether&lt;/li&gt;
+&lt;li&gt;fddi&lt;/li&gt;
+&lt;li&gt;icmp&lt;/li&gt;
+&lt;li&gt;ip&lt;/li&gt;
+&lt;li&gt;ip6&lt;/li&gt;
+&lt;li&gt;ppp&lt;/li&gt;
+&lt;li&gt;radio&lt;/li&gt;
+&lt;li&gt;rarp&lt;/li&gt;
+&lt;li&gt;slip&lt;/li&gt;
+&lt;li&gt;tcp&lt;/li&gt;
+&lt;li&gt;udp&lt;/li&gt;
+&lt;li&gt;wlan&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="common-commands-with-protocols-for-filtering-captures"&gt;Common Commands with Protocols for Filtering Captures&lt;/h1&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Command&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;src/ dsthost (host name or IP)&lt;/td&gt;
+&lt;td&gt;Filter by source or destination IP address or host&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ether src/ dst host (ethernet host name or IP)&lt;/td&gt;
+&lt;td&gt;Ethernet host filtering by source or destination&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;src/ dstnet (subnet mask in CIDR)&lt;/td&gt;
+&lt;td&gt;Filter by subnet&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;tcp/udp src/dst port ( port number)&lt;/td&gt;
+&lt;td&gt;Filter TCP or UDP packets by source or destination port&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;tcp/udp src/dst port range ( port number range)&lt;/td&gt;
+&lt;td&gt;Filter TCP or UDP packets by source or destination port range&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ether/ip broadcast&lt;/td&gt;
+&lt;td&gt;Filter for Ethernet or IP broadcasts&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ether/ip multicast&lt;/td&gt;
+&lt;td&gt;Filter for Ethernet or IP multicasts&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;</description></item><item><title>scriptSudoUser</title><link>https://siemforge.xyz/notes/4.linux/scripts/addsudouser/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/scripts/addsudouser/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Script: add sudo user&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;Create a sudo user that won&amp;rsquo;t prompt for password on executing sudo commands.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#!/bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Ensure script is run as root&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#f92672"&gt;[[&lt;/span&gt; $EUID -ne &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#f92672"&gt;]]&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;❌ This script must be run as root&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; exit &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Prompt for new username&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;read -p &lt;span style="color:#e6db74"&gt;&amp;#34;Enter new username: &amp;#34;&lt;/span&gt; username
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Check if user already exists&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; id &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$username&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; &amp;amp;&amp;gt;/dev/null; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;⚠️ User &amp;#39;&lt;/span&gt;$username&lt;span style="color:#e6db74"&gt;&amp;#39; already exists.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; exit &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Prompt for password (silent input)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;read -s -p &lt;span style="color:#e6db74"&gt;&amp;#34;Enter password for &lt;/span&gt;$username&lt;span style="color:#e6db74"&gt;: &amp;#34;&lt;/span&gt; password
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;read -s -p &lt;span style="color:#e6db74"&gt;&amp;#34;Confirm password: &amp;#34;&lt;/span&gt; password_confirm
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Check passwords match&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#f92672"&gt;[[&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$password&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; !&lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$password_confirm&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;]]&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;❌ Passwords do not match.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; exit &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Create user with home directory and bash shell&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;useradd -m -s /bin/bash &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$username&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Set user password&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;username&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;:&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;password&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; | chpasswd
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Add user to sudo group&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;usermod -aG sudo &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$username&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Create a sudoers file to allow passwordless sudo&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$username&lt;span style="color:#e6db74"&gt; ALL=(ALL) NOPASSWD:ALL&amp;#34;&lt;/span&gt; &amp;gt; &lt;span style="color:#e6db74"&gt;&amp;#34;/etc/sudoers.d/&lt;/span&gt;$username&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;chmod &lt;span style="color:#ae81ff"&gt;440&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;/etc/sudoers.d/&lt;/span&gt;$username&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;✅ User &amp;#39;&lt;/span&gt;$username&lt;span style="color:#e6db74"&gt;&amp;#39; created with bash shell and passwordless sudo access.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>ncdu</title><link>https://siemforge.xyz/notes/5.tools/ncdu/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/5.tools/ncdu/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;ncdu:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;Ncdu is a disk usage analyzer with a text-mode user interface. It is designed to find space hogs on a remote server where you don’t have an entire graphical setup available, but it is a useful tool even on regular desktop systems. Ncdu aims to be fast, simple, easy to use, and should be able to run on any POSIX-like system.&lt;br&gt;
+install:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://dev.yorhel.nl/download/ncdu-2.8.1-linux-x86_64.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tar -xzf ncdu-2.8.1-linux-x86_64.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mv ncdu /usr/local/bin/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;usage:&lt;/p&gt;</description></item><item><title>Python</title><link>https://siemforge.xyz/notes/6.coding/python/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/6.coding/python/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;!-- Project: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Python virtual environment:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;create a virtual environment&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;python3 -m venv venv
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Activate the virtual environment&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;source venv/bin/activate
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Get out of the virtual environment&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;deactivate
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>GIT</title><link>https://siemforge.xyz/notes/6.coding/git/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/6.coding/git/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;!-- Intro: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Version control:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h1 id="what-is-version-control"&gt;What is Version Control?&lt;/h1&gt;
+&lt;p&gt;Version control systems are tools that manage changes made to files and directories in a project. They allow you to keep track of what you did when, undo any changes you decide you don&amp;rsquo;t want, and collaborate at scale with others. This cheat sheet focuses on one of the most popular one, Git.&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Definitions: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Definitions:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h1 id="basic-definition"&gt;Basic definition&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Local repo or repository:&lt;br&gt;
+A local directory containing code and files for the project&lt;/li&gt;
+&lt;li&gt;Remote repository:&lt;br&gt;
+An online version of the local repository hosted on services like GitHub, GitLab, and BitBucket&lt;/li&gt;
+&lt;li&gt;Cloning:&lt;br&gt;
+The act of making a clone or copy of a repository in a new directory&lt;/li&gt;
+&lt;li&gt;Commit:&lt;br&gt;
+A snapshot of the project you can come back to&lt;/li&gt;
+&lt;li&gt;Branch:&lt;br&gt;
+A copy of the project used for working in an isolated environment without affecting the main project&lt;/li&gt;
+&lt;li&gt;Git merge:&lt;br&gt;
+The process of combining two branches together&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="more-advanced-definition"&gt;More advanced definition&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;.gitignore file:&lt;br&gt;
+A file that lists other files you want git not to track (e.g. large data folders, private info, and any local files that shouldn’t be seen by the public)&lt;/li&gt;
+&lt;li&gt;Staging area:&lt;br&gt;
+a cache that holds changes you want to commit next&lt;/li&gt;
+&lt;li&gt;Git stash:&lt;br&gt;
+another type of cache that holds unwanted changes you may want to come back later&lt;/li&gt;
+&lt;li&gt;Commit ID or hash:&lt;br&gt;
+a unique identifier for each commit, used for switching to different save points&lt;/li&gt;
+&lt;li&gt;HEAD (always capitalized letters):&lt;br&gt;
+a reference name for the latest commit, to save you having to type Commit IDs. HEAD&lt;del&gt;n syntax is used to refer to older commits (e.g. HEAD&lt;/del&gt;2 refers to the second-to-last commit)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Install: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;How to install:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;On OS X or Windows — Using an installer&lt;/p&gt;</description></item></channel></rss>

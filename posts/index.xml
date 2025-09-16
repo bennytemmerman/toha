@@ -1,28 +1,28 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on SIEMForge</title><link>https://siemforge.xyz/posts/</link><description>Recent content in Posts on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 24 Jun 2025 10:25:15 +0200</lastBuildDate><atom:link href="https://siemforge.xyz/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>TCPDump</title><link>https://siemforge.xyz/posts/linux/tcpdump/tcpdumppost/</link><pubDate>Tue, 24 Jun 2025 10:25:15 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/tcpdump/tcpdumppost/</guid><description>&lt;h1 id="tcpdump-deepdive-for-linux-engineers">TCPDump deepdive for Linux engineers&lt;/h1>
-&lt;p>As a SIEM platform administrator, one of the most invaluable tools in my troubleshooting arsenal is tcpdump. It allows the user to display TCP/IP and other packets being transmitted or received over a network. Despite its simplicity, it is incredibly powerful for debugging complex network issues, monitoring traffic, or simply learning how different protocols behave.&lt;/p>
-&lt;h2 id="why-use-tcpdump">Why use tcpdump&lt;/h2>
-&lt;ul>
-&lt;li>Real-time packet inspection&lt;/li>
-&lt;li>Lightweight and scriptable&lt;/li>
-&lt;li>No need for a GUI&lt;/li>
-&lt;li>Useful for security auditing and troubleshooting&lt;/li>
-&lt;/ul>
-&lt;h2 id="how-to-install-tcpdump">How to install tcpdump&lt;/h2>
-&lt;p>On Debian/Ubuntu-based systems:&lt;/p></description></item><item><title>LVM</title><link>https://siemforge.xyz/posts/linux/lvm/lvmpost/</link><pubDate>Sun, 22 Jun 2025 07:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/lvm/lvmpost/</guid><description>&lt;h1 id="deepdive-into-lvm-logical-volume-manager">Deepdive into LVM (Logical Volume Manager)&lt;/h1>
-&lt;h2 id="what-is-lvm">What is LVM?&lt;/h2>
-&lt;p>LVM stands for &lt;strong>Logical Volume Manager&lt;/strong>, a device mapper framework that provides logical volume management for the Linux kernel. LVM allows administrators to create, resize, and delete volumes dynamically, offering more flexibility than traditional partitioning schemes.&lt;/p>
-&lt;h2 id="why-use-lvm">Why use LVM?&lt;/h2>
-&lt;ul>
-&lt;li>&lt;strong>Dynamic resizing&lt;/strong>: Easily resize (extend/reduce) logical volumes without unmounting.&lt;/li>
-&lt;li>&lt;strong>Snapshot support&lt;/strong>: Create point-in-time snapshots for backup or testing.&lt;/li>
-&lt;li>&lt;strong>Volume grouping&lt;/strong>: Aggregate multiple physical devices into a single storage pool.&lt;/li>
-&lt;li>&lt;strong>Migration&lt;/strong>: Move volumes across physical devices live.&lt;/li>
-&lt;li>&lt;strong>Flexibility&lt;/strong>: Logical volumes can span across multiple disks.&lt;/li>
-&lt;/ul>
-&lt;h2 id="lvm-architecture">LVM architecture&lt;/h2>
-&lt;p>&lt;img src="https://siemforge.xyz/images/posts/lvm.png" alt="LVM Architecture">&lt;/p></description></item><item><title>My first automation workflow</title><link>https://siemforge.xyz/posts/automation/n8n/firstautomationworkflow/</link><pubDate>Wed, 18 Jun 2025 10:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/automation/n8n/firstautomationworkflow/</guid><description>&lt;h1 id="my-first-steps-into-automation-with-ai-agents-using-n8n">My first steps into automation with AI agents using n8n&lt;/h1>
-&lt;h2 id="setting-the-stage-n8n-in-my-homelab">Setting the stage: n8n in my homelab&lt;/h2>
-&lt;p>As someone constantly tinkering in my &lt;strong>Proxmox-based homelab&lt;/strong>, I recently decided to explore &lt;strong>workflow automation with AI agents&lt;/strong> using &lt;a href="https://n8n.io/" target="_blank" rel="noopener">n8n&lt;/a> — a powerful, self-hostable automation tool that connects anything to everything.&lt;/p>
-&lt;p>To get started, I spun up a new container and installed &lt;strong>n8n via Portainer&lt;/strong>, running it in Docker. For anyone looking to do the same, here&amp;rsquo;s the official n8n install guide for Docker and Portainer:&lt;/p></description></item><item><title>Logrotate</title><link>https://siemforge.xyz/posts/linux/logrotate/logrotatepost/</link><pubDate>Fri, 06 Jun 2025 14:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/logrotate/logrotatepost/</guid><description>&lt;h1 id="mastering-logrotate-the-unsung-hero-of-log-management">Mastering Logrotate: The unsung hero of log management&lt;/h1>
-&lt;p>In the trenches of system administration, there&amp;rsquo;s one silent guardian that keeps your disk space from imploding under a mountain of logs: &lt;strong>Logrotate&lt;/strong>. Whether you&amp;rsquo;re wrangling logs on a sprawling Kubernetes cluster or just babysitting a single Linux box, Logrotate ensures your logs don’t spiral out of control.&lt;/p>
-&lt;p>In this deep dive, we’ll explore how Logrotate works, why it’s essential, how to configure it like a pro, and how to troubleshoot when it throws a tantrum.&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on SIEMForge</title><link>https://siemforge.xyz/posts/</link><description>Recent content in Posts on SIEMForge</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 24 Jun 2025 10:25:15 +0200</lastBuildDate><atom:link href="https://siemforge.xyz/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>TCPDump</title><link>https://siemforge.xyz/posts/linux/tcpdump/tcpdumppost/</link><pubDate>Tue, 24 Jun 2025 10:25:15 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/tcpdump/tcpdumppost/</guid><description>&lt;h1 id="tcpdump-deepdive-for-linux-engineers"&gt;TCPDump deepdive for Linux engineers&lt;/h1&gt;
+&lt;p&gt;As a SIEM platform administrator, one of the most invaluable tools in my troubleshooting arsenal is tcpdump. It allows the user to display TCP/IP and other packets being transmitted or received over a network. Despite its simplicity, it is incredibly powerful for debugging complex network issues, monitoring traffic, or simply learning how different protocols behave.&lt;/p&gt;
+&lt;h2 id="why-use-tcpdump"&gt;Why use tcpdump&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Real-time packet inspection&lt;/li&gt;
+&lt;li&gt;Lightweight and scriptable&lt;/li&gt;
+&lt;li&gt;No need for a GUI&lt;/li&gt;
+&lt;li&gt;Useful for security auditing and troubleshooting&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="how-to-install-tcpdump"&gt;How to install tcpdump&lt;/h2&gt;
+&lt;p&gt;On Debian/Ubuntu-based systems:&lt;/p&gt;</description></item><item><title>LVM</title><link>https://siemforge.xyz/posts/linux/lvm/lvmpost/</link><pubDate>Sun, 22 Jun 2025 07:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/lvm/lvmpost/</guid><description>&lt;h1 id="deepdive-into-lvm-logical-volume-manager"&gt;Deepdive into LVM (Logical Volume Manager)&lt;/h1&gt;
+&lt;h2 id="what-is-lvm"&gt;What is LVM?&lt;/h2&gt;
+&lt;p&gt;LVM stands for &lt;strong&gt;Logical Volume Manager&lt;/strong&gt;, a device mapper framework that provides logical volume management for the Linux kernel. LVM allows administrators to create, resize, and delete volumes dynamically, offering more flexibility than traditional partitioning schemes.&lt;/p&gt;
+&lt;h2 id="why-use-lvm"&gt;Why use LVM?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Dynamic resizing&lt;/strong&gt;: Easily resize (extend/reduce) logical volumes without unmounting.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Snapshot support&lt;/strong&gt;: Create point-in-time snapshots for backup or testing.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Volume grouping&lt;/strong&gt;: Aggregate multiple physical devices into a single storage pool.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Migration&lt;/strong&gt;: Move volumes across physical devices live.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Flexibility&lt;/strong&gt;: Logical volumes can span across multiple disks.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="lvm-architecture"&gt;LVM architecture&lt;/h2&gt;
+&lt;p&gt;&lt;img src="https://siemforge.xyz/images/posts/lvm.png" alt="LVM Architecture"&gt;&lt;/p&gt;</description></item><item><title>My first automation workflow</title><link>https://siemforge.xyz/posts/automation/n8n/firstautomationworkflow/</link><pubDate>Wed, 18 Jun 2025 10:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/automation/n8n/firstautomationworkflow/</guid><description>&lt;h1 id="my-first-steps-into-automation-with-ai-agents-using-n8n"&gt;My first steps into automation with AI agents using n8n&lt;/h1&gt;
+&lt;h2 id="setting-the-stage-n8n-in-my-homelab"&gt;Setting the stage: n8n in my homelab&lt;/h2&gt;
+&lt;p&gt;As someone constantly tinkering in my &lt;strong&gt;Proxmox-based homelab&lt;/strong&gt;, I recently decided to explore &lt;strong&gt;workflow automation with AI agents&lt;/strong&gt; using &lt;a href="https://n8n.io/" target="_blank" rel="noopener"&gt;n8n&lt;/a&gt; — a powerful, self-hostable automation tool that connects anything to everything.&lt;/p&gt;
+&lt;p&gt;To get started, I spun up a new container and installed &lt;strong&gt;n8n via Portainer&lt;/strong&gt;, running it in Docker. For anyone looking to do the same, here&amp;rsquo;s the official n8n install guide for Docker and Portainer:&lt;/p&gt;</description></item><item><title>Logrotate</title><link>https://siemforge.xyz/posts/linux/logrotate/logrotatepost/</link><pubDate>Fri, 06 Jun 2025 14:17:23 +0200</pubDate><guid>https://siemforge.xyz/posts/linux/logrotate/logrotatepost/</guid><description>&lt;h1 id="mastering-logrotate-the-unsung-hero-of-log-management"&gt;Mastering Logrotate: The unsung hero of log management&lt;/h1&gt;
+&lt;p&gt;In the trenches of system administration, there&amp;rsquo;s one silent guardian that keeps your disk space from imploding under a mountain of logs: &lt;strong&gt;Logrotate&lt;/strong&gt;. Whether you&amp;rsquo;re wrangling logs on a sprawling Kubernetes cluster or just babysitting a single Linux box, Logrotate ensures your logs don’t spiral out of control.&lt;/p&gt;
+&lt;p&gt;In this deep dive, we’ll explore how Logrotate works, why it’s essential, how to configure it like a pro, and how to troubleshoot when it throws a tantrum.&lt;/p&gt;</description></item></channel></rss>
