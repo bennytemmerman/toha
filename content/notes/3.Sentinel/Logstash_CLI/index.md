@@ -22,12 +22,12 @@ alias logrestart='systemctl restart logstash'
 alias logstatus='systemctl status logstash'
 alias logsamp='cd /usr/share/logstash/samples'
 ```
-__logtail:__ Continuously displays new entries in the Logstash log file.
-__logconf:__ Navigates to the Logstash configuration directory.
-__logstart:__ Starts the Logstash service.
-__logstop:__ Stops the Logstash service.
-__logrestart:__ Restarts the Logstash service.
-__logstatus:__ Checks the current status of the Logstash service.
+__logtail:__ Continuously displays new entries in the Logstash log file.  
+__logconf:__ Navigates to the Logstash configuration directory.  
+__logstart:__ Starts the Logstash service.  
+__logstop:__ Stops the Logstash service.  
+__logrestart:__ Restarts the Logstash service.  
+__logstatus:__ Checks the current status of the Logstash service.  
 __logsamp:__ Navigates to the directory containing sample Logstash configurations.  
 
 ### Making alias permanent for all users
