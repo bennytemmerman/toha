@@ -43,9 +43,9 @@ experiences:
     start: May 2019
     end: Aug 2022
     responsibilities:
-    - Remote & on-site support
-    - System administration
-    - Documentation
+    - Delivered infrastructure support across Linux, Windows, and virtualization.
+    - Deployed and maintained DNS, DHCP, and AD environments.
+    - Produced clear documentation for client systems and procedures.
 
 - company:
     name: ICT Talents (Next-ICT)
@@ -60,4 +60,5 @@ experiences:
     start: May 2019
     end: Jul 2020
     responsibilities:
-    - Helpdesk (outsourced)
+    - Provided outsourced IT support in Microsoft-based environments.
+    - Earned certifications in Linux+ and Citrix XenDesktop.
