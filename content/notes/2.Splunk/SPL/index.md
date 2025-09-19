@@ -80,6 +80,12 @@ List which hosts are sending through which server/forwarder + volume of data
 
 ### Indexes + sourcetypes
 ```bash
+index=_internal source=*license_usage.log type="Usage" idx=*
+| timechart span=1d sum(b) as b by st
+| foreach * [ eval <<FIELD>> = round('<<FIELD>>'/1024/1024/1024,2) ]
+```
+Overview of volume per day by sourcetype
+```bash
 index=_internal source=*license_usage.log type="Usage" earliest=-7d@d latest=@d
 | eval _time=strftime(_time, "%Y-%m-%d")
 | stats sum(b) as bytes by _time
