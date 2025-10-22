@@ -1,12 +1,12 @@
 ---
 title: Splunk Upgrade procedure
-weight: 302
+weight: 203
 menu:
   notes:
     name: Upgrade
     identifier: notes-splunk-Upgrade
     parent: notes-splunk
-    weight: 32
+    weight: 23
 ---
 
 <div style="display: block; width: 100%; max-width: none;">
