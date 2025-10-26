@@ -27,7 +27,8 @@
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;blockquote&gt;
 &lt;p&gt;This cheat sheet provides an extensive list of Logrotate configuration directives, their descriptions, and examples.&lt;br&gt;
-Use this as a quick reference to master log rotation on Unix-like systems.&lt;/p&gt;&lt;/blockquote&gt;&lt;/div&gt;
+Use this as a quick reference to master log rotation on Unix-like systems.&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
