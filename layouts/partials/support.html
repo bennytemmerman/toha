@@ -2,21 +2,15 @@
 <!-- Place in layouts/partials/support.html -->
 
 <!-- Floating widget -->
-<script src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
+<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
 <script>
   kofiWidgetOverlay.draw('siemforge', {
     'type': 'floating-chat',
-    'floating-chat.donateButton.text': '☕ Support Me on Ko-fi',
-    'floating-chat.donateButton.background-color': '#29abe0',
+    'floating-chat.donateButton.text': 'Support me',
+    'floating-chat.donateButton.background-color': '#00b9fe',
     'floating-chat.donateButton.text-color': '#fff'
   });
 </script>
 
 <!-- Static fallback button for no-JS browsers -->
-<noscript>
-  <div style="text-align:center; margin-top:2rem;">
-    <a href="https://ko-fi.com/siemforge" target="_blank" rel="noopener">
-      <img src="https://storage.ko-fi.com/cdn/kofi1.png" alt="Buy Me a Coffee at ko-fi.com" style="border:0; height:50px;">
-    </a>
-  </div>
-</noscript>
+<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'T6T21NE5FW');kofiwidget2.draw();</script> 
