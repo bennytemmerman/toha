@@ -11,9 +11,24 @@ menu:
 
 <div style="display: block; width: 100%; max-width: none;">
 {{< note >}}
+
 # Troubleshooting
 A collection of KQL I use to troubleshoot incidents in Sentinel.
+
 ## Failed analytics rule
+
+```bash
+SentinelHealth
+| where SentinelResourceName startswith "AnalyticsRule -"
+| where OperationName == "Scheduled analytics rule run"
+| where Status == "Failure"
+| summarize count(Status) by SentinelResourceName
+| where count_Status > 3
+| extend info_name = "failed_analytic-rule"
+| extend info_sub_route = "Sentinel"
+```
+Detects rules that have failed more than three times, indicating potential issues with rule execution.
+
 ```bash
 SentinelHealth
 | where SentinelResourceName in ("Successful logon from IP and failure from a different IP")
@@ -42,6 +57,19 @@ SentinelHealth
 Expand the failed run time window to investigate warnings or successful runs. It is possible that Sentinel runs out of resources where a failed run can be expected and closed as true benign positive, expected behavior. Multiple failed runs might indicate another issue with the analytics rule (Syntax related or other) after an update of the rule. Further investigation is needed to resolve the issue.
 
 ## Table does not receive data
+
+```bash
+union withsource=TableName
+vcenter_CL, SecurityEvent, CommonSecurityLog, Syslog // Add/remove tables as needed
+| where TimeGenerated >= ago(7d)
+| summarize MinutesSinceLastEvent = datetime_diff("minute", now(), max(TimeGenerated)), LastIngestionTime = max(TimeGenerated) by TableName
+| where MinutesSinceLastEvent >= 60
+| project TableName, alert_minutes_last_event = MinutesSinceLastEvent, LastIngestionTime
+| extend info_name = "table_not_receiving-data"
+| extend info_sub_route = "Sentinel"
+```
+Identifies tables that haven't received data for over an hour, signaling possible ingestion problems.
+
 ```bash
 SecurityAlert
 | summarize EventCount = count() by bin(TimeGenerated, 1h)
@@ -58,5 +86,66 @@ SecurityAlert
 | project TimeGenerated, prev_TimeGenerated=prev(TimeGenerated), TimeDiff
 ```
 Statistical overview of gaps (over 1 hour) between events for the last 30 days. This one is mostly used to determine tuning for the threshold used in an analytic rule to check if a table did not receive data. (could indicate a logsource stopped sending or a misconfiguration in sending the logs to another table)
+
+## Silent logsource
+```bash
+ let _SecurityEvent = 
+   SecurityEvent
+   | where TimeGenerated > ago(15d)
+   | summarize
+       MinutesSinceLastEvent = datetime_diff("minute", now(), max(TimeGenerated)),
+       LastIngestionTime = max(TimeGenerated)
+       by
+       Asset = Computer,
+       Table = Type,
+       sourcetype = EventSourceName
+ ;
+ let _Syslog = 
+   Syslog
+   | where TimeGenerated > ago(15d)
+   | summarize
+       MinutesSinceLastEvent = datetime_diff("minute", now(), max(TimeGenerated)),
+       LastIngestionTime = max(TimeGenerated)
+       by 
+       Asset = Computer, 
+       Table = Type
+       //sourcetype = strcat(
+       //         iff(DeviceVendor == "Fortinet", DeviceEventCategory, ""),
+       //         iff(DeviceVendor == "Palo Alto Networks", Activity, ""),
+       //         iff(DeviceVendor == "F5", DeviceProduct, "")
+       //     )
+ ;
+ let _Heartbeat = 
+   Heartbeat
+   | where TimeGenerated > ago(15d)
+   | summarize
+       MinutesSinceLastEvent = datetime_diff("minute", now(), max(TimeGenerated)),
+       LastIngestionTime = max(TimeGenerated)
+       by
+       Asset = Computer,
+       Table = Type,
+       sourcetype = Type
+ ;
+ union _SecurityEvent, _Syslog, _Heartbeat
+ | join _GetWatchlist('CriticalLogs')
+   on
+   $left.Asset == $right.Host,
+   $left.sourcetype == $right.SubType,
+   $left.Table == $right.DataTable
+ | where Maintenance != "TRUE"
+ | where MinutesSinceLastEvent > toint(Threshold) * 60 // Watchlist in hours need to convert to min
+ | project Table, Asset, MinutesSinceLastEvent, sourcetype, SubType, Threshold, LastIngestionTime
+ | extend info_name = "critical_log_source_goes-silent"
+ | extend info_sub_route = "Sentinel"
+```
+Finds critical logs from assets that haven't reported in over a specified threshold, suggesting potential issues or outages.
+
+```bash
+SecurityEvent 
+| where Computer contains ("test-pc")
+| summarize Type = count() by Computer, bin(TimeGenerated, 1h) 
+| render timechart
+```
+This KQL query filters security events to include only those from computers with "test-pc" in their name, then counts the number of events for each computer grouped by 1-hour intervals, and finally displays the results as a time chart. I use this to check for patterns in log ingestion which can indicate ingestion issues or expected behavior.
 {{< /note >}}
 </div>
