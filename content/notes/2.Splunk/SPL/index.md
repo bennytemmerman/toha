@@ -126,6 +126,11 @@ List indexes with the retention period
 List sourcetypes per index
 
 ```bash
+| tstats values(source) as source WHERE index=* NOT index=_* by index, host
+```
+List sources per host, per index
+
+```bash
 | metadata type=sourcetypes index=<index_name>
 | table sourcetype
 ```
