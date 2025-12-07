@@ -1,2 +1,4 @@
 {{ partial "analytics.html" . }}
-{{ partial "support.html" . }}
+{{ if eq .Section "notes" }}
+  {{ partial "support.html" . }}
+{{ end }}
