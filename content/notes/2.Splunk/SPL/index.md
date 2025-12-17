@@ -94,6 +94,15 @@ index=_internal source=*license_usage.log type="Usage" earliest=-7d@d latest=@d
 | sort - _time
 ```
 total volume per day for past 7 days
+
+```bash
+index=_internal sourcetype=splunkd source=*license_usage.log type=Usage earliest=-7d@d latest=@d
+| stats sum(b) as total_bytes by date_mday, date_month, date_year
+| eval total_gb = total_bytes / (1024*1024*1024)
+| stats avg(total_gb) as average_gb_per_day
+```
+Check average of GB per day over past 7 days
+
 ```bash
 index=_internal source=*license_usage.log type="Usage"
 | bin _time span=1d
