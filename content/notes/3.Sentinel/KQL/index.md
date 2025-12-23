@@ -153,6 +153,12 @@ This KQL query filters security events to include only those from computers with
 
 # Reporting
 ```bash
+_GetWatchlist('CriticalLogs')
+| project Host, Vendor = SubType, Threshold, Table = DataTable, Updated = LastUpdatedTimeUTC
+```
+Example query to display the content of a watchlist in Azure Sentinel. Columns are renamed in output using following format "<new name> = <original name>", project operator only returns provided columns.
+
+```bash
 Usage
 | where IsBillable == true
 | where QuantityUnit == "MBytes"
