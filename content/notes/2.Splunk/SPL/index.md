@@ -22,6 +22,19 @@ When troubleshooting I mostly start with this query:
 index=_internal log_level=ERROR source="/opt/splunk/var/log/splunk/splunkd.log"
 ```
 Errorcheck Splunkd.log within Splunk GUI
+
+``bash
+index="index_name" host="host_name"
+| sort sourcetype, _time 
+| streamstats current=f last(_time) as prev_time by sourcetype 
+| eval gap=_time - prev_time 
+| where gap > 3600 
+| eval gap_in_hours=round(gap/3600,2) 
+| eval prev_time_str=strftime(prev_time, "%Y-%m-%d %H:%M:%S")  
+| table  sourcetype _time prev_time prev_time_str gap gap_in_hours
+```
+Check for gaps in log ingestion and return results over 1 hour gaps.
+Troubleshooting for false positive due to unreliable log ingestion of a logtype while other logtypes indicated ongoing log ingestion.
 {{< /note >}}
 
 <!-- Reporting:  -->
