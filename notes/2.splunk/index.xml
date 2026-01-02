@@ -18,15 +18,16 @@ Using tstats is faster to search in large datapools.&lt;/p&gt;
 &lt;div class="card-body"&gt;&lt;p&gt;When troubleshooting I mostly start with this query:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_internal log_level&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ERROR source&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;/opt/splunk/var/log/splunk/splunkd.log&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Errorcheck Splunkd.log within Splunk GUI&lt;/p&gt;
-&lt;p&gt;``bash
-index=&amp;ldquo;index_name&amp;rdquo; host=&amp;ldquo;host_name&amp;rdquo;
-| sort sourcetype, _time
-| streamstats current=f last(_time) as prev_time by sourcetype
-| eval gap=_time - prev_time
-| where gap &amp;gt; 3600
-| eval gap_in_hours=round(gap/3600,2)
-| eval prev_time_str=strftime(prev_time, &amp;ldquo;%Y-%m-%d %H:%M:%S&amp;rdquo;)&lt;br&gt;
-| table sourcetype _time prev_time prev_time_str gap gap_in_hours&lt;/p&gt;</description></item><item><title>Splunk searches</title><link>https://siemforge.xyz/notes/2.splunk/gui/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/gui/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;index_name&amp;#34;&lt;/span&gt; host&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;host_name&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort sourcetype, _time
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| streamstats current&lt;span style="color:#f92672"&gt;=&lt;/span&gt;f last&lt;span style="color:#f92672"&gt;(&lt;/span&gt;_time&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as prev_time by sourcetype
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval gap&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_time - prev_time
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where gap &amp;gt; &lt;span style="color:#ae81ff"&gt;3600&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval gap_in_hours&lt;span style="color:#f92672"&gt;=&lt;/span&gt;round&lt;span style="color:#f92672"&gt;(&lt;/span&gt;gap/3600,2&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval prev_time_str&lt;span style="color:#f92672"&gt;=&lt;/span&gt;strftime&lt;span style="color:#f92672"&gt;(&lt;/span&gt;prev_time, &lt;span style="color:#e6db74"&gt;&amp;#34;%Y-%m-%d %H:%M:%S&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table sourcetype _time prev_time prev_time_str gap gap_in_hours
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check for gaps in log ingestion and return results over 1 hour gaps.
+Troubleshooting for false positive due to unreliable log ingestion of a logtype while other logtypes indicated ongoing log ingestion.&lt;/p&gt;</description></item><item><title>Splunk searches</title><link>https://siemforge.xyz/notes/2.splunk/gui/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/gui/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
 &lt;h5 class="note-title"&gt;&lt;span&gt;Debug refresh:&lt;/span&gt;&lt;/h5&gt;
