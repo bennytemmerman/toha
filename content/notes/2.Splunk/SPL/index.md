@@ -23,7 +23,7 @@ index=_internal log_level=ERROR source="/opt/splunk/var/log/splunk/splunkd.log"
 ```
 Errorcheck Splunkd.log within Splunk GUI
 
-``bash
+```bash
 index="index_name" host="host_name"
 | sort sourcetype, _time 
 | streamstats current=f last(_time) as prev_time by sourcetype 
