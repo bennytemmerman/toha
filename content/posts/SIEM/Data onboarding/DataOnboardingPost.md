@@ -169,7 +169,7 @@ Common challenges and pitfalls in log onboarding
 *   Gaps in incident timelines.
     
 
-**Example:**An account is compromised in Azure AD. Sign‑ins from unusual geo‑locations are logged, but Azure AD logs were never onboarded into the SIEM. The SOC only sees EDR alerts after the attacker reaches endpoints, missing early detection opportunities.
+**Example:** An account is compromised in Azure AD. Sign‑ins from unusual geo‑locations are logged, but Azure AD logs were never onboarded into the SIEM. The SOC only sees EDR alerts after the attacker reaches endpoints, missing early detection opportunities.
 
 ### 2\. Poor parsing and field extraction
 
@@ -182,7 +182,7 @@ Common challenges and pitfalls in log onboarding
 *   Dashboards show incorrect or aggregated values.
     
 
-**Example:**Firewall logs arrive as unparsed syslog messages. A correlation rule looking for repeated denied connections from the same IP fails because the src\_ip field is not correctly extracted.
+**Example:** Firewall logs arrive as unparsed syslog messages. A correlation rule looking for repeated denied connections from the same IP fails because the src\_ip field is not correctly extracted.
 
 ### 3\. Lack of normalization across tools
 
@@ -197,7 +197,7 @@ Common challenges and pitfalls in log onboarding
 *   Threat hunting queries become very complex.
     
 
-**Example:**In Splunk, one data source uses src\_ip, another uses source\_ip. Sentinel has SrcIpAddr. Without a normalized model, a hunting query must account for all variants, increasing complexity and risk of errors.
+**Example:** In Splunk, one data source uses src\_ip, another uses source\_ip. Sentinel has SrcIpAddr. Without a normalized model, a hunting query must account for all variants, increasing complexity and risk of errors.
 
 ### 4\. Incorrect time zones and host identification
 
@@ -210,7 +210,7 @@ Common challenges and pitfalls in log onboarding
 *   Event correlation across systems breaks.
     
 
-**Example:**Firewall logs are in UTC, EDR logs in local time, Azure AD in another format. When the SOC reconstructs an attack, events appear out of order, suggesting impossible sequences and confusing investigators.
+**Example:** Firewall logs are in UTC, EDR logs in local time, Azure AD in another format. When the SOC reconstructs an attack, events appear out of order, suggesting impossible sequences and confusing investigators.
 
 ### 5\. High-volume, low-value Logs
 
@@ -225,7 +225,7 @@ Common challenges and pitfalls in log onboarding
 *   SOC time is wasted on low‑value data.
     
 
-**Example:**Verbose firewall “allow” logs are onboarded at full volume, but the SOC only has use cases for denied connections. Costs rise, but detection value does not.
+**Example:** Verbose firewall “allow” logs are onboarded at full volume, but the SOC only has use cases for denied connections. Costs rise, but detection value does not.
 
 ### 6\. No documentation of onboarding decisions
 
@@ -238,20 +238,20 @@ Common challenges and pitfalls in log onboarding
 *   Hard to evaluate gaps or onboard new sources.
     
 
-**Example:**An auditor asks for evidence that all critical identity systems are logged. The organization cannot easily show which identity sources are in the SIEM, for how long, and under which use cases.
+**Example:** An auditor asks for evidence that all critical identity systems are logged. The organization cannot easily show which identity sources are in the SIEM, for how long, and under which use cases.
 
 Best practices for onboarding logs into any SIEM
 ------------------------------------------------
 
 ### 1\. Prioritize critical sources
 
-*   **Identity**: Azure AD / Entra ID, on‑prem AD.
+*   **Identity:** Azure AD / Entra ID, on‑prem AD.
     
-*   **Endpoint**: EDR/XDR telemetry.
+*   **Endpoint:** EDR/XDR telemetry.
     
-*   **Network perimeter**: firewalls, VPNs, secure web gateways.
+*   **Network perimeter:** firewalls, VPNs, secure web gateways.
     
-*   **Core infrastructure**: domain controllers, critical servers.
+*   **Core infrastructure:** domain controllers, critical servers.
     
 
 ### 2\. Define usecases before onboarding
@@ -575,11 +575,12 @@ Data mapping and normalization (Field mappings, schemas, parsing, tuning)
 
 ### Example: Azure AD field mapping
 
-| Concept | Splunk Field (CIM) | Sentinel Field |
-| User principal name | user / user\_principal\_name | UserPrincipalName |
-| Source IP | src\_ip | IPAddress | 
-| Result | result | ResultType, ResultDescription |
-| Location | countrysrc\_country | LocationDetails.countryOrRegion |
+| Concept               | Splunk Field (CIM)        | Sentinel Field                         |
+|-----------------------|---------------------------|----------------------------------------|
+| User principal name   | user / user_principal_name| UserPrincipalName                      |
+| Source IP             | src_ip                    | IPAddress                              |
+| Result                | result                    | ResultType, ResultDescription          |
+| Location              | countrysrc_country        | LocationDetails.countryOrRegion        |
 
 ### Query before vs after normalization
 
@@ -650,7 +651,7 @@ Realistic scenarios / usecases
 
 *   Azure AD / Entra ID:
     
-    *   UserPrincipalName, IPAddress, LocationDetails.countryOrRegion, ResultType, AuthenticationRequirement
+    *   UserPrincipalName, IPAddress, LocationDetails.countryOrRegion, ResultType, AuthenticationRequirement  
         
 *   EDR (later stages, lateral movement):
     
@@ -693,11 +694,11 @@ _This KQL finds users with failed then successful logons within 1 hour from diff
 
 *   Firewall:
     
-    *   src\_ip, dest\_ip, dest\_port, bytes\_out, action
+    *   src\_ip, dest\_ip, dest\_port, bytes\_out, action  
         
 *   EDR (optional):
     
-    *   Process initiating connections
+    *   Process initiating connections  
         
 *   Threat intelligence:
     
@@ -734,11 +735,11 @@ _This KQL finds blocked outbound connections with unusually high traffic volume.
 
 *   EDR:
     
-    *   Process creation, network connections, alerts, user context.
+    *   Process creation, network connections, alerts, user context.  
         
 *   Azure AD:
     
-    *   Possible concurrent abnormal sign‑ins.
+    *   Possible concurrent abnormal sign‑ins.  
         
 *   Firewall:
     
@@ -798,7 +799,7 @@ Cost, scalability, and operational aspects of ingestion
 
 *   **Splunk:**
     
-    *   Hot/warm/cold/frozen buckets; data roll‑off and archival controlled by index settings.
+    *   Hot/warm/cold/frozen buckets; data roll‑off and archival controlled by index settings.  
         
 *   **Sentinel:**
     
@@ -890,14 +891,15 @@ SIEM data onboarding is not just for the SOC; it involves multiple stakeholders:
 
 You can use a simple table or slide format like:
 
-| Item |	Description |
-| Business objective |	e.g., Detect account takeover in Azure AD |
-| Critical log sources |	Azure AD, EDR, VPN, firewall |
-| Onboarding status |	Azure AD & EDR onboarded; VPN in progress |
-| Key fields required |	User, IP, device, location, MFA result |
-| Cost considerations |	Est. X GB/day; options to filter low‑value events |
-| Risks if not onboarded | 	Missed early compromise, delayed incident response |
-| Next steps & owners |	SOC + Identity team to finalize onboarding by <date> |
+| Item                   | Description                                                       |
+|------------------------|-------------------------------------------------------------------|
+| Business objective     | e.g., Detect account takeover in Azure AD                          |
+| Critical log sources   | Azure AD, EDR, VPN, firewall                                       |
+| Onboarding status      | Azure AD & EDR onboarded; VPN in progress                           |
+| Key fields required    | User, IP, device, location, MFA result                              |
+| Cost considerations   | Est. X GB/day; options to filter low-value events                   |
+| Risks if not onboarded | Missed early compromise, delayed incident response                 |
+| Next steps & owners    | SOC + Identity team to finalize onboarding by \<date\>             |
 
 Practical SIEM data onboarding checklist
 ----------------------------------------
@@ -906,17 +908,16 @@ Use this tool‑neutral checklist to drive your program. Add Splunk/Sentinel spe
 
 1.  **Identify critical log sources**
     
-    *   \[ \] Azure AD / Entra ID
+    -   [ ] Azure AD / Entra ID
         
-    *   \[ \] EDR/XDR
+    *   [ ] EDR/XDR
         
     *   \[ \] Firewalls and VPNs
         
     *   \[ \] Domain controllers and key infrastructure
         
-    *   **Splunk note:** Map each to appropriate indexes and sourcetype.
-        
-    *   **Sentinel note:** Map each to correct connectors and tables.
+> **Splunk note:** Map each to appropriate indexes and sourcetype.
+> **Sentinel note:** Map each to correct connectors and tables.
         
 2.  **Define detection usecases**
     
