@@ -12,7 +12,7 @@ menu:
     parent: cat-linux
     weight: 301
 ---
-# Deepdive into LVM (Logical Volume Manager)
+# First start with LVM (Logical Volume Manager)
 
 ## What is LVM?
 

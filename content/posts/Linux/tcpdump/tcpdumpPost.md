@@ -12,7 +12,7 @@ menu:
     parent: cat-linux
     weight: 302
 ---
-# TCPDump deepdive for Linux engineers
+# TCPDump intro for Linux engineers
 
 As a SIEM platform administrator, one of the most invaluable tools in my troubleshooting arsenal is tcpdump. It allows the user to display TCP/IP and other packets being transmitted or received over a network. Despite its simplicity, it is incredibly powerful for debugging complex network issues, monitoring traffic, or simply learning how different protocols behave.
 
