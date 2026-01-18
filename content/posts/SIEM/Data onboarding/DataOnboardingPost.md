@@ -908,76 +908,76 @@ Use this tool‑neutral checklist to drive your program. Add Splunk/Sentinel spe
 
 1.  **Identify critical log sources**
     
-    -   [ ] Azure AD / Entra ID
+    [ ] Azure AD / Entra ID
         
-    *   [ ] EDR/XDR
+    [ ] EDR/XDR
         
-    *   \[ \] Firewalls and VPNs
+    [ ] Firewalls and VPNs
         
-    *   \[ \] Domain controllers and key infrastructure
+    [ ] Domain controllers and key infrastructure
         
 > **Splunk note:** Map each to appropriate indexes and sourcetype.
 > **Sentinel note:** Map each to correct connectors and tables.
         
 2.  **Define detection usecases**
     
-    *   \[ \] List primary threats (e.g., account takeover, lateral movement, exfiltration).
+    [ ] List primary threats (e.g., account takeover, lateral movement, exfiltration).
         
-    *   \[ \] Map each threat to required log sources and fields.
+    [ ] Map each threat to required log sources and fields.
         
-    *   \[ \] Prioritize based on risk and feasibility.
+    [ ] Prioritize based on risk and feasibility.
         
 3.  **Design normalization and data model**
     
-    *   \[ \] Define standard field names (user, host, src\_ip, dest\_ip, action).
+    [ ] Define standard field names (user, host, src\_ip, dest\_ip, action).
         
-    *   \[ \] For Splunk: align with relevant **CIM data models**.
+    [ ] For Splunk: align with relevant **CIM data models**.
         
-    *   \[ \] For Sentinel: align with table schemas and **ASIM** where applicable.
+    [ ] For Sentinel: align with table schemas and **ASIM** where applicable.
         
-    *   \[ \] Document mappings per source.
+    [ ] Document mappings per source.
         
 4.  **Configure and test ingestion**
     
-    *   \[ \] Set up connectors/forwarders/agents.
+    [ ] Set up connectors/forwarders/agents.
         
-    *   \[ \] Validate data arrives in expected index/table.
+    [ ] Validate data arrives in expected index/table.
         
-    *   \[ \] Verify parsers extract all required fields.
+    [ ] Verify parsers extract all required fields.
         
-    *   \[ \] Confirm timestamps and time zones are correct.
+    [ ] Confirm timestamps and time zones are correct.
         
 5.  **Validate fields & data quality**
     
-    *   \[ \] Check % of events with key fields populated.
+    [ ] Check % of events with key fields populated.
         
-    *   \[ \] Validate event volumes vs expectations.
+    [ ] Validate event volumes vs expectations.
         
-    *   \[ \] Monitor parser errors and fix recurring issues.
+    [ ] Monitor parser errors and fix recurring issues.
         
 6.  **Tune for noise and cost**
     
-    *   \[ \] Filter out low‑value events where no use cases exist.
+    [ ] Filter out low‑value events where no use cases exist.
         
-    *   \[ \] Adjust retention by source and index/table.
+    [ ] Adjust retention by source and index/table.
         
-    *   \[ \] Periodically review ingestion vs detected incidents.
+    [ ] Periodically review ingestion vs detected incidents.
         
 7.  **Document and govern**
     
-    *   \[ \] Maintain a central inventory of onboarded sources.
+    [ ] Maintain a central inventory of onboarded sources.
         
-    *   \[ \] Record purpose, use cases, and data mappings.
+    [ ] Record purpose, use cases, and data mappings.
         
-    *   \[ \] Review coverage and priorities quarterly with stakeholders.
+    [ ] Review coverage and priorities quarterly with stakeholders.
         
 8.  **Iterate and improve**
     
-    *   \[ \] Revisit use cases as the threat landscape evolves.
+    [ ] Revisit use cases as the threat landscape evolves.
         
-    *   \[ \] Validate detection performance and adjust data onboarding accordingly.
+    [ ] Validate detection performance and adjust data onboarding accordingly.
         
-    *   \[ \] Align improvements with ISO 27001, NIST CSF, and SOC 2 where relevant (without treating them as guarantees).
+    [ ] Align improvements with ISO 27001, NIST CSF, and SOC 2 where relevant (without treating them as guarantees).
         
 
 Conclusion & call to action
