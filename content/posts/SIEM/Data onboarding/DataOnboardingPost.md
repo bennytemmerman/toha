@@ -212,7 +212,7 @@ Common challenges and pitfalls in log onboarding
 
 **Example:** Firewall logs are in UTC, EDR logs in local time, Azure AD in another format. When the SOC reconstructs an attack, events appear out of order, suggesting impossible sequences and confusing investigators.
 
-### 5\. High-volume, low-value Logs
+### 5\. High-volume, low-value logs
 
 **Problem:** High‑volume logs (e.g., verbose debug logs) are ingested without clear use cases.
 
@@ -887,7 +887,7 @@ SIEM data onboarding is not just for the SOC; it involves multiple stakeholders:
 *   Reduction in false positives due to better normalization and tuning.
     
 
-### Simple Stakeholder Communication Template
+### Simple stakeholder communication template
 
 You can use a simple table or slide format like:
 
@@ -980,7 +980,7 @@ Use this tool‑neutral checklist to drive your program. Add Splunk/Sentinel spe
     - [ ] Align improvements with ISO 27001, NIST CSF, and SOC 2 where relevant (without treating them as guarantees).
         
 
-Conclusion & call to action
+Conclusion
 ---------------------------
 
 High‑quality **SIEM data onboarding** is the foundation of effective detection, response, and compliance. Splunk and Microsoft Sentinel both offer powerful capabilities, but they differ in how data is ingested, normalized, and managed:
