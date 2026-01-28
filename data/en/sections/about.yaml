@@ -20,7 +20,7 @@ company:
 # resume: "files/resume.pdf"
 
 # a summary about you
-summary: "Cybersecurity Engineer with 3+ years of SIEM experience (Splunk & Azure Sentinel), focused on automation, documentation, and reliable log management to improve detection, reduce false positives, and enhance SOC efficiency."
+summary: "I’m a SecOps Engineer based in Erpe-Mere, passionate about engineering within cybersecurity. I focus on building SIEM environments (Splunk/Sentinel) and automating the data through AWX, and GitLab. My homelab is my sandbox for full-stack control, orchestrating Proxmox secured by Authentik and Nginx Proxy Manager. This blog documents my pursuit of deep work, documentation and automation."
 
 # your social links
 # give as many as you want. use font-awesome for the icons.
