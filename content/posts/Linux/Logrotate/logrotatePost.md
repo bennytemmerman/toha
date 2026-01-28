@@ -16,7 +16,7 @@ menu:
 
 In the trenches of system administration, there's one silent guardian that keeps your disk space from imploding under a mountain of logs: **Logrotate**. Whether you're wrangling logs on a sprawling Kubernetes cluster or just babysitting a single Linux box, Logrotate ensures your logs don’t spiral out of control.
 
-In this deep dive, we’ll explore how Logrotate works, why it’s essential, how to configure it like a pro, and how to troubleshoot when it throws a tantrum.
+We’ll explore how Logrotate works, why it’s essential, how to configure it like a pro, and how to troubleshoot when it throws a tantrum.
 
 ---
 

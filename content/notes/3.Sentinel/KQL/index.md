@@ -10,7 +10,7 @@ menu:
 ---
 
 <div style="display: block; width: 100%; max-width: none;">
-{{< note >}}
+{{< note title="Troubleshooting:" >}}
 
 # Troubleshooting
 A collection of KQL I use to troubleshoot incidents in Sentinel.
@@ -147,5 +147,35 @@ SecurityEvent
 | render timechart
 ```
 This KQL query filters security events to include only those from computers with "test-pc" in their name, then counts the number of events for each computer grouped by 1-hour intervals, and finally displays the results as a time chart. I use this to check for patterns in log ingestion which can indicate ingestion issues or expected behavior.
+{{< /note >}}
+
+{{< note title="Reporting:" >}}
+
+# Reporting
+```bash
+_GetWatchlist('CriticalLogs')
+| project Host, Vendor = SubType, Threshold, Table = DataTable, Updated = LastUpdatedTimeUTC
+```
+Example query to display the content of a watchlist in Azure Sentinel. Columns are renamed in output using following format "<new name> = <original name>", project operator only returns provided columns.
+
+```bash
+Usage
+| where IsBillable == true
+| where QuantityUnit == "MBytes"
+| summarize totalMB = sum(Quantity) by day = bin(TimeGenerated, 1d)
+| summarize avgGBperDay = round(avg(totalMB / 1024), 2)
+```
+A Sentinel KQL query to extract the average daily volume, adjust time range as needed.
+
+```bash
+Usage
+| where IsBillable == true
+| where QuantityUnit == "MBytes"
+| summarize totalMB = sum(Quantity) by day = bin(TimeGenerated, 1d)
+| extend GB = round(totalMB / 1024, 2)
+| order by day asc
+```
+A Sentinel KQL query aggregated the total number of bytes ingested per day.
+
 {{< /note >}}
 </div>
