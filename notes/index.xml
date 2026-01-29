@@ -16,9 +16,9 @@ Using tstats is faster to search in large datapools.&lt;/p&gt;
 &lt;h5 class="note-title"&gt;&lt;span&gt;Troubleshooting:&lt;/span&gt;&lt;/h5&gt;
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;p&gt;When troubleshooting I mostly start with this query:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_internal log_level&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ERROR source&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;/opt/splunk/var/log/splunk/splunkd.log&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_internal log_level&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ERROR source&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;/opt/splunk/var/log/splunk/splunkd.log&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Errorcheck Splunkd.log within Splunk GUI&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;index_name&amp;#34;&lt;/span&gt; host&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;host_name&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;index_name&amp;#34;&lt;/span&gt; host&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;host_name&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort sourcetype, _time
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| streamstats current&lt;span style="color:#f92672"&gt;=&lt;/span&gt;f last&lt;span style="color:#f92672"&gt;(&lt;/span&gt;_time&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as prev_time by sourcetype
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval gap&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_time - prev_time
@@ -34,7 +34,7 @@ Troubleshooting for false positive due to unreliable log ingestion of a logtype 
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;p&gt;If you change layout, configuration, or app files in Splunk, you can reload the resources through the web GUI, which is faster than restarting Splunk.
 If you still don’t see your changes, you might need to restart Splunk completely to clear cached data and make sure all updates are applied.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;https://&amp;lt;host&amp;gt;:&amp;lt;port&amp;gt;/debug/refresh
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;https://&amp;lt;host&amp;gt;:&amp;lt;port&amp;gt;/debug/refresh
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;JavaScript (JS) files:&lt;/strong&gt; Updates to scripts that run in the browser UI.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;XML and HTML files:&lt;/strong&gt; Changes to the layout, structure, or look of the interface.&lt;/li&gt;
@@ -49,19 +49,19 @@ If you still don’t see your changes, you might need to restart Splunk complete
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;p&gt;These are some commands to use in CLI, while a gui is available, I like to do most things using the command line interface.&lt;/p&gt;
 &lt;h3 id="basic-operations"&gt;Basic operations&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk start
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk start
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Start Splunk&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk stop
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk stop
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Stop Splunk&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk restart
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk restart
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Restart Splunk&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk status
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk status
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check if Splunk is running&lt;/p&gt;
 &lt;h3 id="general-checks"&gt;General checks&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk list user | grep admin -B2
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk list user | grep admin -B2
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check Splunk admins&lt;/p&gt;
 &lt;h3 id="splunk-service-setup"&gt;Splunk service setup&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk enable
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk enable
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Enable Splunk service to start when the host boots up&lt;/p&gt;</description></item><item><title>Splunk Upgrade procedure</title><link>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;!-- Upgrade procedure: --&gt;
 &lt;div class="note-card "&gt;
@@ -99,7 +99,7 @@ wget -O splunk-&lt;version&gt;-&lt;hash&gt;-Linux-x86_64.tgz &amp;ldquo;&lt;a hr
 &lt;div class="card-body"&gt;&lt;h1 id="troubleshooting"&gt;Troubleshooting&lt;/h1&gt;
 &lt;p&gt;A collection of KQL I use to troubleshoot incidents in Sentinel.&lt;/p&gt;
 &lt;h2 id="failed-analytics-rule"&gt;Failed analytics rule&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SentinelHealth
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SentinelHealth
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where SentinelResourceName startswith &lt;span style="color:#e6db74"&gt;&amp;#34;AnalyticsRule -&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where OperationName &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Scheduled analytics rule run&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where Status &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Failure&amp;#34;&lt;/span&gt;
@@ -108,7 +108,7 @@ wget -O splunk-&lt;version&gt;-&lt;hash&gt;-Linux-x86_64.tgz &amp;ldquo;&lt;a hr
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| extend info_name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;failed_analytic-rule&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| extend info_sub_route &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Sentinel&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Detects rules that have failed more than three times, indicating potential issues with rule execution.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SentinelHealth
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SentinelHealth
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where SentinelResourceName in &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Successful logon from IP and failure from a different IP&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where Status &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Failure&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| project TimeGenerated, SentinelResourceName, Status
@@ -130,7 +130,7 @@ Orders the results by the most recent events first.&lt;/p&gt;</description></ite
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;h1 id="logstash-management"&gt;Logstash management&lt;/h1&gt;
 &lt;p&gt;I found these notes from a colleague who worked on a Logstash machine.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logtail&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;tail -f /var/log/logstash/logstash-plain.log&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logtail&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;tail -f /var/log/logstash/logstash-plain.log&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logconf&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;cd /etc/logstash/conf.d&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logstart&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;systemctl start logstash&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logstop&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;systemctl stop logstash&amp;#39;&lt;/span&gt;
@@ -150,10 +150,10 @@ Orders the results by the most recent events first.&lt;/p&gt;</description></ite
 &lt;h5 class="note-title"&gt;&lt;span&gt;Troubleshooting (files):&lt;/span&gt;&lt;/h5&gt;
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;p&gt;Find a file or directory&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find / -type f -name &lt;span style="color:#e6db74"&gt;&amp;#34;filename&amp;#34;&lt;/span&gt; 2&amp;gt;/dev/null
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find / -type f -name &lt;span style="color:#e6db74"&gt;&amp;#34;filename&amp;#34;&lt;/span&gt; 2&amp;gt;/dev/null
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find / -type d -name &lt;span style="color:#e6db74"&gt;&amp;#34;dirname&amp;#34;&lt;/span&gt; 2&amp;gt;/dev/null
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;find files that contain a pattern&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find . -type f -exec grep -l &lt;span style="color:#e6db74"&gt;&amp;#39;version&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;{}&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;find . -type f -exec grep -l &lt;span style="color:#e6db74"&gt;&amp;#39;version&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;{}&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -164,7 +164,7 @@ Orders the results by the most recent events first.&lt;/p&gt;</description></ite
 &lt;h5 class="note-title"&gt;&lt;span&gt;Troubleshooting (system):&lt;/span&gt;&lt;/h5&gt;
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;p&gt;Check logs if a service has executed/failed before (I needed to check if logrotate was running daily, also checked for rsyslog after)&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;journalctl | grep logrotate
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;journalctl | grep logrotate
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;check if machine is a vm or barebone&lt;/p&gt;</description></item><item><title>Logrotate config</title><link>https://siemforge.xyz/notes/4.linux/logrotate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/logrotate/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
@@ -182,7 +182,7 @@ Use this as a quick reference to master log rotation on Unix-like systems.&lt;/p
 &lt;h5 class="note-title"&gt;&lt;span&gt;Basic structure:&lt;/span&gt;&lt;/h5&gt;
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;p&gt;Each configuration block is tied to a log file or set of log files. Example:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/var/log/example.log &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/var/log/example.log &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; daily
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; rotate &lt;span style="color:#ae81ff"&gt;7&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compress
@@ -223,9 +223,9 @@ LV1 LV2 LV3
 &lt;h3 id="1-add-a-physical-disk"&gt;1. Add a Physical Disk&lt;/h3&gt;
 &lt;p&gt;connect a physical/virtual disk to your system.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Overview of block devices&lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lsblk
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lsblk
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Used/available space on mounted filesystems&lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;df -h
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;df -h
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="card"&gt;
@@ -237,7 +237,7 @@ LV1 LV2 LV3
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;p&gt;fdisk is a powerful, text-based utility used to create, delete, and manage disk partitions in Linux systems. It supports MBR (Master Boot Record) partition tables and is best suited for systems not using GPT (GUID Partition Table).&lt;/p&gt;
 &lt;h2 id="basic-syntax"&gt;Basic syntax&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fdisk &lt;span style="color:#f92672"&gt;[&lt;/span&gt;options&lt;span style="color:#f92672"&gt;]&lt;/span&gt; /dev/sdX
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fdisk &lt;span style="color:#f92672"&gt;[&lt;/span&gt;options&lt;span style="color:#f92672"&gt;]&lt;/span&gt; /dev/sdX
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Where &lt;code&gt;/dev/sdX&lt;/code&gt; is the disk you want to operate on (e.g., &lt;code&gt;/dev/sda&lt;/code&gt;, &lt;code&gt;/dev/sdb&lt;/code&gt;).&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Always double-check the disk name to avoid data loss.&lt;/p&gt;</description></item><item><title>TCPDump cheatsheet</title><link>https://siemforge.xyz/notes/4.linux/tcpdump/tcpdump_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/tcpdump/tcpdump_cheatsheet/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
@@ -555,7 +555,7 @@ LV1 LV2 LV3
 &lt;h5 class="note-title"&gt;&lt;span&gt;Script: add sudo user&lt;/span&gt;&lt;/h5&gt;
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;p&gt;Create a sudo user that won&amp;rsquo;t prompt for password on executing sudo commands.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#!/bin/bash
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#!/bin/bash
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Ensure script is run as root&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#f92672"&gt;[[&lt;/span&gt; $EUID -ne &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#f92672"&gt;]]&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
@@ -609,7 +609,7 @@ LV1 LV2 LV3
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;p&gt;Ncdu is a disk usage analyzer with a text-mode user interface. It is designed to find space hogs on a remote server where you don’t have an entire graphical setup available, but it is a useful tool even on regular desktop systems. Ncdu aims to be fast, simple, easy to use, and should be able to run on any POSIX-like system.&lt;br&gt;
 install:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://dev.yorhel.nl/download/ncdu-2.8.1-linux-x86_64.tar.gz
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://dev.yorhel.nl/download/ncdu-2.8.1-linux-x86_64.tar.gz
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tar -xzf ncdu-2.8.1-linux-x86_64.tar.gz
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mv ncdu /usr/local/bin/
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;usage:&lt;/p&gt;</description></item><item><title>Python</title><link>https://siemforge.xyz/notes/6.coding/python/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/6.coding/python/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
@@ -619,11 +619,11 @@ install:&lt;/p&gt;
 &lt;h5 class="note-title"&gt;&lt;span&gt;Python virtual environment:&lt;/span&gt;&lt;/h5&gt;
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;p&gt;create a virtual environment&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;python3 -m venv venv
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;python3 -m venv venv
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Activate the virtual environment&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;source venv/bin/activate
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;source venv/bin/activate
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Get out of the virtual environment&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;deactivate
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;deactivate
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
