@@ -1,7 +1,4 @@
 {{ partial "analytics.html" . }}
-{{ if eq .Section "notes" }}
-  {{ partial "support.html" . }}
-{{ end }}
-{{ if eq .Section "posts" }}
+{{ if eq .Section "test" }}
   {{ partial "support.html" . }}
 {{ end }}
