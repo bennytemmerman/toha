@@ -1,6 +1,6 @@
 ---
 title: "Tech report: Cato Networks log ingestion"
-date: 2026-02-2T17:17:23+02:00
+date: 2026-02-02T17:17:23+02:00
 #hero: /images/posts/logrotate.svg
 hero: /images/posts/cato.jpg
 description: Cato Networks log ingestion interruption
