@@ -18,8 +18,6 @@ menu:
 
 Cato Networks logs stopped ingesting into Splunk following a customer-initiated unannounced maintenance. Investigation revealed that the API connection for log retrieval was interrupted, requiring manual intervention to restore service. The incident highlighted the impact of uncoordinated maintenance activities on log ingestion stability. Immediate checks were performed on the Heavy Forwarder logs, and the scripted input was reset to restore log flow. No other log sources were found to be affected at this time.
 
-Impact:
-
 **Data loss:** No Cato Networks logs were ingested from maintenance until manual intervention, creating a monitoring gap. Logs were ingested using backlog. Only loss was visibility during the halted ingestion.
 **Manual recovery:** Log ingestion was restored by restarting the scripted input, but the root cause was traced to uncoordinated system maintenance.
 **Lesson learned:** Lack of communication regarding planned maintenance led to repeated manual fixes.
@@ -33,6 +31,7 @@ Cato Networks logs are ingested into Splunk via a scripted input (python script 
 Last log ingested: 2026-01-29T02:42:23Z
 Repeated failures: Similar interruptions occurred several times in the preceding days.
 Logs stopped ingesting around the same time (3am) but no steady pattern for past 4 days.
+  
   
 > Temporary fix: Disabling and re-enabling the scripted input which restored log flow.
 
