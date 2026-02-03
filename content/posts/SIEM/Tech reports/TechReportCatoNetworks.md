@@ -12,8 +12,6 @@ menu:
     parent: cat-siem
     weight: 502
 ---
-# Cato Networks Log Ingestion Interruption
-
 ## Executive summary
 
 Cato Networks logs stopped ingesting into Splunk following a customer-initiated unannounced maintenance. Investigation revealed that the API connection for log retrieval was interrupted, requiring manual intervention to restore service. The incident highlighted the impact of uncoordinated maintenance activities on log ingestion stability. Immediate checks were performed on the Heavy Forwarder logs, and the scripted input was reset to restore log flow. No other log sources were found to be affected at this time.
