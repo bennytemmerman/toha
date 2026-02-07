@@ -1,5 +1,5 @@
 ---
-title: "OpenTofu Project: 1. Proxmox foundations"
+title: "OpenTofu Project: Proxmox foundations"
 date: 2026-02-07T10:17:23+02:00
 hero: /images/posts/opentofu.png
 description: A multiphase project to learn about OpenTofu, an orchestrator to automate and enhance deployments.
@@ -12,7 +12,8 @@ menu:
     weight: 600
 ---
 
-# Proxmox foundations: Securing the hypervisor before anything else
+# Proxmox foundations 
+# Securing the hypervisor before anything else
 
 ## Why hypervisor security comes first
 
@@ -122,7 +123,7 @@ In the next phase, we move inside the virtual machines and begin building secure
 
 ## FAQ
 
-- 1. Root login disabled remotely, do we still keep root?
+1. Root login disabled remotely, do we still keep root?
 Yes. Absolutely. Root never goes away. What we disable is remote root login, not root itself.
 Root must exist, have a strong password stored securely, only be usable via:
 - Physical console
@@ -136,13 +137,13 @@ Root is required for:
 
 > Root over SSH has no attribution, is heavily brute-forced, turns one mistake into total compromise.
 
-- 2. What if PermitRootLogin is set to no and I need root locally?
+2. What if PermitRootLogin is set to no and I need root locally?
 PermitRootLogin no only applies to SSH.
 At the console, logged in as another user with sudo, in single-user mode, you can still become root.
 
 > SSH policy ≠ local access policy.
 
-- 3. What if I lose my private key AND password auth is disabled?
+3. What if I lose my private key AND password auth is disabled?
 This is a real incident scenario, not a hypothetical.
 
 Recovery paths:
@@ -156,7 +157,7 @@ Recovery paths:
 
 > It is important that there is documentation that says how to recover. If none of these exist, the system is effectively lost.
 
-- 4. Example documentation
+4. Example documentation
 # Access Control Documentation
 ## Proxmox Host Access Policy
 
@@ -182,7 +183,7 @@ Recovery paths:
 
 > This is DORA / ISO / SOC2 friendly: clear ownership, clear controls, clear recovery.
 
-- 5. What is PAM in Proxmox?
+5. What is PAM in Proxmox?
 
 PAM: Pluggable Authentication Modules
 
@@ -202,13 +203,13 @@ Other Proxmox auth realms:
 | user@pve	| Proxmox-only user |
 | user@ldap	| External directory |
 
-- 6. What is pveum?
+6. What is pveum?
 
 pveum = Proxmox User Manager
 
 It controls users, groups, roles, ACLs (useradd + chmod + RBAC but for Proxmox objects)
 
-- 7. What is aclmod and what are ACLs?
+7. What is aclmod and what are ACLs?
 
 ACL = Access Control List
 
@@ -229,7 +230,7 @@ ACL hierarchy
 ├── storage/
 ├── vms/
 
-- 8. Difference between Proxmox admin and root
+8. Difference between Proxmox admin and root
 
 This is subtle but critical.
 
@@ -240,7 +241,7 @@ This is subtle but critical.
 | No audit trail | Fully auditable |
 | Breaks everything | Can be limited |
 
-- 9. What is ed25519?
+9. What is ed25519?
 
 Modern elliptic curve algorithm (faster, smaller keys, safer defaults than RSA)
 
@@ -264,35 +265,35 @@ Industry practice:
 
 > Passphrases reduce the need for aggressive rotation.
 
-- 10. Break-glass accounts a good idea?
+10. Break-glass accounts a good idea?
 
 Yes. But one break-glass admin, disabled by default, password stored offline, logged usage, reviewed periodically.
 No multiple active BTG accounts, that increases attack surface.
 
-- 11. “Easy pivot into every VM”, even without VM creds?
+11. “Easy pivot into every VM”, even without VM creds?
 
 Because Proxmox controls VM disks, VM memory, VM consoles... With Proxmox admin access you can mount disks, reset passwords, inject startup scripts, snapshot memory.
 
 > You don’t need VM credentials if you own the hypervisor.
 
-- 12. IPMI / local shell
+12. IPMI / local shell
 
 IPMI = Out-of-band management (Power control, console access, BIOS access, local shell = keyboard + monitor)
 - iDRAC (Dell)
 - iLO (HP)
 - Supermicro IPMI
 
-- 13. What is single-user mode?
+13. What is single-user mode?
 Linux recovery mode (Minimal services, root shell, no networking)
 Used for password resets, filesystem repair, auth recovery.
 
-- 14. Is console access last resort with root?
+14. Is console access last resort with root?
 Yes and that’s by design. Remote convenience is sacrificed for security, control and recovery integrity.
 
-- 15. Log-only firewall mode + SIEM
+15. Log-only firewall mode + SIEM
 Proxmox firewall can log without blocking, generate audit events and forward logs to SIEM.
 
-- 16. Why a read-only admin?
+16. Why a read-only admin?
 Use cases:
 - Auditors
 - Monitoring systems
@@ -301,7 +302,7 @@ Use cases:
 
 > Read-only reduces accidental damage or malicious misuse.
 
-- 17. Linux user vs Proxmox user
+17. Linux user vs Proxmox user
 
 - Linux user → OS-level identity
 - Proxmox user → Management-plane identity
