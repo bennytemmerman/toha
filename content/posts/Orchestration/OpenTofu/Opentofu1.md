@@ -202,7 +202,7 @@ Other Proxmox auth realms:
 
 ### 6. What is pveum?
 
-pveum = Proxmox User Manager
+pveum = Proxmox User Manager.  
 pveum ties Linux identity to Proxmox RBAC.
 
 Authentication vs Authorization
@@ -245,12 +245,12 @@ ACL hierarchy
 
 ### 9. What is ed25519?
 
-Modern elliptic curve algorithm (faster, smaller keys, safer defaults than RSA)
+Ed25519 is a modern, high-performance public-key signature system based on Elliptic Curve Cryptography (ECC). It is designed for fast signing and verification of signatures, offering significantly smaller keys and higher security levels compared to traditional RSA. It is now considered the standard for modern SSH keys, code signing, and secure communications. 
 
 #### Why not skip the passphrase?
 
-Without a passphrase, steal the key = instant access
-Malware reads ~/.ssh/id_ed25519 → done
+Without a passphrase, steal the key = instant access.  
+Malware reads ~/.ssh/id_ed25519 → done.
 
 With a passphrase key theft alone is insufficient, requires user interaction or agent compromise
 
@@ -274,7 +274,8 @@ No multiple active BTG accounts, that increases attack surface.
 
 ### 11. “Easy pivot into every VM”, even without VM creds?
 
-Because Proxmox controls VM disks, VM memory, VM consoles... With Proxmox admin access you can mount disks, reset passwords, inject startup scripts, snapshot memory.
+Because Proxmox controls VM disks, VM memory, VM consoles...  
+With Proxmox admin access you can mount disks, reset passwords, inject startup scripts, snapshot memory.
 
 > You don’t need VM credentials if you own the hypervisor.
 
@@ -288,7 +289,7 @@ IPMI = Out-of-band management (Power control, console access, BIOS access, local
 > Out-of-band (OOB) management means that you can manage the system even if the OS is down. it is completely separate from SSH, network config, firewall rules, Linux itself. It is like a power button, keyboard + monitor, BIOS but over the network.
 
 ### 13. What is single-user mode?
-Linux recovery mode (Minimal services, root shell, no networking)
+Linux recovery mode (Minimal services, root shell, no networking).  
 Used for password resets, filesystem repair, auth recovery.
 
 ### 14. Is console access last resort with root?
