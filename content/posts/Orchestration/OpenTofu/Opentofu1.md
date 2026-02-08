@@ -12,16 +12,11 @@ menu:
     weight: 600
 ---
 
-# Proxmox foundations 
 # Securing the hypervisor before anything else
 
 ## Why hypervisor security comes first
 
-In any virtualization environment, the hypervisor represents a high-value target. A compromised virtual machine is an incident. A compromised hypervisor is a catastrophe.  
-
-Before building labs, automating infrastructure, or experimenting with offensive security techniques, it is essential to establish a hardened Proxmox VE baseline.  
-
-This article walks through securing a single-node Proxmox installation as the foundation for a security-focused lab.
+In any virtualization environment, the hypervisor represents a high-value target. A compromised virtual machine is an incident. A compromised hypervisor is a catastrophe. Before building labs, automating infrastructure, or experimenting with offensive security techniques, it is essential to establish a hardened Proxmox VE baseline. This article walks through securing a single-node Proxmox installation as the foundation for a security-focused lab.
 
 ---
 
@@ -65,6 +60,7 @@ adduser labadmin
 pveum user add labadmin@pam
 pveum aclmod / -user labadmin@pam -role Administrator
 ```  
+  
 > Using named accounts instead of root improves accountability and auditability.
 
 ## SSH hardening with key-based authentication
@@ -87,7 +83,8 @@ PubkeyAuthentication yes
 ```bash
 systemctl restart ssh
 ```
-This eliminates password-based attacks and disables remote root access.
+  
+> This eliminates password-based attacks and disables remote root access.
 
 ## Reviewing Proxmox firewall defaults
 By default, the Proxmox firewall is often disabled. This is not inherently wrong, but it must be a conscious decision.
@@ -123,7 +120,7 @@ In the next phase, we move inside the virtual machines and begin building secure
 
 ## FAQ
 
-1. Root login disabled remotely, do we still keep root?
+### 1. Root login disabled remotely, do we still keep root?
 Yes. Absolutely. Root never goes away. What we disable is remote root login, not root itself.
 Root must exist, have a strong password stored securely, only be usable via:
 - Physical console
@@ -137,13 +134,13 @@ Root is required for:
 
 > Root over SSH has no attribution, is heavily brute-forced, turns one mistake into total compromise.
 
-2. What if PermitRootLogin is set to no and I need root locally?
+### 2. What if PermitRootLogin is set to no and I need root locally?
 PermitRootLogin no only applies to SSH.
 At the console, logged in as another user with sudo, in single-user mode, you can still become root.
 
 > SSH policy ≠ local access policy.
 
-3. What if I lose my private key AND password auth is disabled?
+### 3. What if I lose my private key AND password auth is disabled?
 This is a real incident scenario, not a hypothetical.
 
 Recovery paths:
@@ -157,33 +154,33 @@ Recovery paths:
 
 > It is important that there is documentation that says how to recover. If none of these exist, the system is effectively lost.
 
-4. Example documentation
-# Access Control Documentation
-## Proxmox Host Access Policy
+### 4. What would be an example of documentation?
+#### Access Control Documentation
+##### Proxmox Host Access Policy
 
-### Administrative Accounts
+##### Administrative Accounts
 - root (local only, SSH disabled)
 - labadmin (primary admin, SSH key-based)
 - btg-admin (break-glass, disabled by default)
 
-### SSH Policy
+##### SSH Policy
 - PasswordAuthentication: disabled
 - RootLogin: disabled
 - Authentication: ed25519 keys only
 - SSH Port: 22 (subject to future VPN restriction)
 
-### Recovery Procedures
+##### Recovery Procedures
 - Console login as root
 - IPMI access (credentials stored in password manager)
 - Single-user mode enabled via GRUB
 
-### Audit Notes
+##### Audit Notes
 - All administrative actions performed via named accounts
 - Root usage logged via local console access
 
 > This is DORA / ISO / SOC2 friendly: clear ownership, clear controls, clear recovery.
 
-5. What is PAM in Proxmox?
+### 5. What is PAM in Proxmox?
 
 PAM: Pluggable Authentication Modules
 
@@ -203,13 +200,18 @@ Other Proxmox auth realms:
 | user@pve	| Proxmox-only user |
 | user@ldap	| External directory |
 
-6. What is pveum?
+### 6. What is pveum?
 
 pveum = Proxmox User Manager
+pveum ties Linux identity to Proxmox RBAC.
 
-It controls users, groups, roles, ACLs (useradd + chmod + RBAC but for Proxmox objects)
+Authentication vs Authorization
+- PAM → authentication (who are you?)
+- pveum → authorization (what can you do?)
 
-7. What is aclmod and what are ACLs?
+> PAM user must exist in Linux, Proxmox must know if the user exists + what permissions they have. 
+
+### 7. What is aclmod and what are ACLs?
 
 ACL = Access Control List
 
@@ -225,14 +227,14 @@ Translation:
 - Permissions: Administrator role
 
 ACL hierarchy
+```bash
 /
 ├── nodes/
 ├── storage/
 ├── vms/
+```
 
-8. Difference between Proxmox admin and root
-
-This is subtle but critical.
+### 8. Difference between Proxmox admin and root?
 
 | Root | Proxmox Admin |
 | --- | --- |
@@ -241,11 +243,11 @@ This is subtle but critical.
 | No audit trail | Fully auditable |
 | Breaks everything | Can be limited |
 
-9. What is ed25519?
+### 9. What is ed25519?
 
 Modern elliptic curve algorithm (faster, smaller keys, safer defaults than RSA)
 
-### Why not skip the passphrase?
+#### Why not skip the passphrase?
 
 Without a passphrase, steal the key = instant access
 Malware reads ~/.ssh/id_ed25519 → done
@@ -254,7 +256,7 @@ With a passphrase key theft alone is insufficient, requires user interaction or 
 
 > This is defense-in-depth.
 
-### Why not rotate keys often?
+#### Why not rotate keys often?
 
 Key rotation sounds good, but in practice -> breaks automation, breaks access unexpectedly, adds operational risk
 
@@ -265,35 +267,34 @@ Industry practice:
 
 > Passphrases reduce the need for aggressive rotation.
 
-10. Break-glass accounts a good idea?
+### 10. Break-glass accounts a good idea?
 
 Yes. But one break-glass admin, disabled by default, password stored offline, logged usage, reviewed periodically.
 No multiple active BTG accounts, that increases attack surface.
 
-11. “Easy pivot into every VM”, even without VM creds?
+### 11. “Easy pivot into every VM”, even without VM creds?
 
 Because Proxmox controls VM disks, VM memory, VM consoles... With Proxmox admin access you can mount disks, reset passwords, inject startup scripts, snapshot memory.
 
 > You don’t need VM credentials if you own the hypervisor.
 
-12. IPMI / local shell
+### 12. What is IPMI?
 
 IPMI = Out-of-band management (Power control, console access, BIOS access, local shell = keyboard + monitor)
-- iDRAC (Dell)
-- iLO (HP)
-- Supermicro IPMI
+- iDRAC (Dell) - Integrated dell remote access controller
+- iLO (HP) - Integrated lights-out
+- Supermicro IPMI - Intelligent platform management interface
 
-13. What is single-user mode?
+> Out-of-band (OOB) management means that you can manage the system even if the OS is down. it is completely separate from SSH, network config, firewall rules, Linux itself. It is like a power button, keyboard + monitor, BIOS but over the network.
+
+### 13. What is single-user mode?
 Linux recovery mode (Minimal services, root shell, no networking)
 Used for password resets, filesystem repair, auth recovery.
 
-14. Is console access last resort with root?
+### 14. Is console access last resort with root?
 Yes and that’s by design. Remote convenience is sacrificed for security, control and recovery integrity.
 
-15. Log-only firewall mode + SIEM
-Proxmox firewall can log without blocking, generate audit events and forward logs to SIEM.
-
-16. Why a read-only admin?
+### 15. Why a read-only admin?
 Use cases:
 - Auditors
 - Monitoring systems
@@ -302,10 +303,11 @@ Use cases:
 
 > Read-only reduces accidental damage or malicious misuse.
 
-17. Linux user vs Proxmox user
+### 16. What's the difference between a Linux user vs Proxmox user?
 
 - Linux user → OS-level identity
 - Proxmox user → Management-plane identity
 
 When using @pam, they are linked, but permissions are separate, auth happens via PAM, authorization happens via Proxmox RBAC.  
 That separation is what makes Proxmox enterprise-grade.
+
