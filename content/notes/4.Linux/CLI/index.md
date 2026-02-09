@@ -84,6 +84,29 @@ remove empty lines from file
 sed -i '/^$/d' <filename>
 ```
 {{< /note >}}
+<!-- Disk manipulation: -->
+{{< note title="Disk manipulation:" >}}
+Check logs while plugging in the new drive
+```bash
+dmesg --follow
+```
+List all block devices, including filesystems, UUIDs and labels
+```bash
+lsblk -o NAME,SIZE,TYPE,FSTYPE,LABEL,UUID,MOUNTPOINT
+```
+detailed info about new disk (Replace X with your new disk e.g. --name=/dev/sdb)
+```bash
+udevadm info --query=all --name=/dev/sdX
+```
+Filesystem details (if you encounter command not found -> try sudo)
+```bash
+blkid
+```
+SMART/health info (Replace X with your new disk e.g. --name=/dev/sdb)
+```bash
+sudo smartctl -a -d scsi /dev/sdX
+```
+{{< /note >}}
 <!-- Account: -->
 {{< note title="Account control:" >}}
 change to root

@@ -141,11 +141,28 @@ mkfs.ext4 /dev/sdX1
 mkfs.vfat /dev/sdX2
 ```
 
+Creating a label for the disk:
+
+```bash
+e2label /dev/sdX1 nvmeExternal
+```
+
 Mount the partition:
 
 ```bash
 mount /dev/sdX1 /mnt/mydisk
 ```
+
+Configure in fstab:
+```bash
+LABEL=nvmeExternal  /mnt/sdX1  ext4  defaults,nofail,x-systemd.device-timeout=10  0  2
+```
+
+Mount all disks configured in fstab
+```bash
+mount -a
+```
+
 
 ---
 
