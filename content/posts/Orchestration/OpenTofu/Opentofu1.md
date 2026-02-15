@@ -9,7 +9,7 @@ menu:
     name: OpenTofu 1. Proxmox foundations
     identifier: opentofu1
     parent: cat-orchestration
-    weight: 600
+    weight: 601
 ---
 
 # Securing the hypervisor before anything else
