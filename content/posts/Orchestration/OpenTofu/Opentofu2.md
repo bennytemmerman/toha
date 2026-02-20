@@ -13,7 +13,7 @@ menu:
     weight: 602
 ---
 
-# Building secure VM baselines in Proxmox: Manual before automated
+# Building secure VM baselines
 
 ## Why manual VM builds matter
 
@@ -29,66 +29,66 @@ Before introducing OpenTofu or CI/CD pipelines, it is critical to manually build
 | 3 | Windows 11 | 2 | 4GB | GUI environment |
 | 4 | Windows Server 2022 | 2 | 4GB | DC, Fileserver |
 
-1. Ubuntu server baseline
+### 1. Ubuntu server baseline
 Required installation components:
 - OpenSSH server
 - Minimal install
 - Non-root admin user
 
 Post-install checklist
-[] Update system
+- [] Update system
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
 > Document date of patch - kernel version
 
-[] Install core admin utilities
+- [] Install core admin utilities
 ```bash
 sudo apt install -y curl wget vim net-tools htop
 ```
 Why: Operational debugging, network inspection, log review
 
-[] Logging verification
+- [] Logging verification
 ```bash
 journalctl -xe
 ```
 Ensure no obvious boot errors and SSH logs are present
 
-[] Time synchronization
+- [] Time synchronization
 ```bash
 timedatectl status
 ```
 Time drift kills logs, Kerberos, forensics
 
-2. Rocky Linux baseline
+### 2. Rocky Linux baseline
 Required validation:
-[] SELinux
+- [] SELinux
 ```bash
 getenforce
 ```
 Should be "Enforcing"
 > Document policy mode
 
-[] Firewall
+- [] Firewall
 ```bash
 firewall-cmd --list-all
 ```
 > Document allowed services.
 
-[] Sudo config
+- [] Sudo config
 ```bash
 visudo
 ```
 Verify wheel group controls privilege escalation
 
-3. Windows 11 baseline
+### 3. Windows 11 baseline
 
 Required steps
 
-[] Local admin created
-[] Windows updated
-[] Defender status verified
-[] Firewall enabled
+- [] Local admin created
+- [] Windows updated
+- [] Defender status verified
+- [] Firewall enabled
 
 Security Baseline Checks
 ```bash
@@ -97,24 +97,24 @@ secpol.msc
 Review: Password policy, audit policy, user rights assignment
 > Document settings
 
-4. Windows Server 2022 Baseline
+### 4. Windows Server 2022 Baseline
 Required Setup
-[] Static IP
-[] Rename computer
-[] Disable IE Enhanced Security (lab only)
-[] Windows updates installed
+- [] Static IP
+- [] Rename computer
+- [] Disable IE Enhanced Security (lab only)
+- [] Windows updates installed
 
 Security Checks
-[] SMBv1 disabled
-[] Event logs accessible
-[] Defender enabled
+- [] SMBv1 disabled
+- [] Event logs accessible
+- [] Defender enabled
 
 ## Template creation
 Checklist before converting to template:
-[] All updates applied
-[] No ISOs mounted
-[] No temporary files
-[] Clear bash history (optional but good hygiene)
+- [] All updates applied
+- [] No ISOs mounted
+- [] No temporary files
+- [] Clear bash history (optional but good hygiene)
 
 Linux:
 ```bash
