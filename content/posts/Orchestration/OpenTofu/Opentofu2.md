@@ -10,7 +10,7 @@ menu:
     name: OpenTofu 2. VM lifecycle & OS baselines
     identifier: opentofu2
     parent: cat-orchestration
-    weight: 602
+    weight: 609
 ---
 
 # Building secure VM baselines
@@ -36,25 +36,25 @@ Required installation components:
 - Non-root admin user
 
 Post-install checklist
-- [] Update system
+- [ ] Update system
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
 > Document date of patch - kernel version
 
-- [] Install core admin utilities
+- [ ] Install core admin utilities
 ```bash
 sudo apt install -y curl wget vim net-tools htop
 ```
 Why: Operational debugging, network inspection, log review
 
-- [] Logging verification
+- [ ] Logging verification
 ```bash
 journalctl -xe
 ```
 Ensure no obvious boot errors and SSH logs are present
 
-- [] Time synchronization
+- [ ] Time synchronization
 ```bash
 timedatectl status
 ```
@@ -62,20 +62,20 @@ Time drift kills logs, Kerberos, forensics
 
 ### 2. Rocky Linux baseline
 Required validation:
-- [] SELinux
+- [ ] SELinux
 ```bash
 getenforce
 ```
 Should be "Enforcing"
 > Document policy mode
 
-- [] Firewall
+- [ ] Firewall
 ```bash
 firewall-cmd --list-all
 ```
 > Document allowed services.
 
-- [] Sudo config
+- [ ] Sudo config
 ```bash
 visudo
 ```
@@ -85,10 +85,10 @@ Verify wheel group controls privilege escalation
 
 Required steps
 
-- [] Local admin created
-- [] Windows updated
-- [] Defender status verified
-- [] Firewall enabled
+- [ ] Local admin created
+- [ ] Windows updated
+- [ ] Defender status verified
+- [ ] Firewall enabled
 
 Security Baseline Checks
 ```bash
@@ -99,22 +99,22 @@ Review: Password policy, audit policy, user rights assignment
 
 ### 4. Windows Server 2022 Baseline
 Required Setup
-- [] Static IP
-- [] Rename computer
-- [] Disable IE Enhanced Security (lab only)
-- [] Windows updates installed
+- [ ] Static IP
+- [ ] Rename computer
+- [ ] Disable IE Enhanced Security (lab only)
+- [ ] Windows updates installed
 
 Security Checks
-- [] SMBv1 disabled
-- [] Event logs accessible
-- [] Defender enabled
+- [ ] SMBv1 disabled
+- [ ] Event logs accessible
+- [ ] Defender enabled
 
 ## Template creation
 Checklist before converting to template:
-- [] All updates applied
-- [] No ISOs mounted
-- [] No temporary files
-- [] Clear bash history (optional but good hygiene)
+- [ ] All updates applied
+- [ ] No ISOs mounted
+- [ ] No temporary files
+- [ ] Clear bash history (optional but good hygiene)
 
 Linux:
 ```bash
