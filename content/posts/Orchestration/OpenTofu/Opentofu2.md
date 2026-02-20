@@ -1,6 +1,6 @@
 ---
 title: "OpenTofu Project: Part 2 - VM lifecycle & OS baselines"
-date: 2026-02-20T10:17:23+02:00
+date: 2026-02-19T10:17:23+02:00
 hero: /images/posts/opentofu.png
 description: A multiphase project to learn about OpenTofu, an orchestrator to automate and enhance deployments.
 theme: Toha
