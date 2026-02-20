@@ -4,13 +4,12 @@ date: 2026-02-14T10:17:23+02:00
 hero: /images/posts/opentofu.png
 description: A multiphase project to learn about OpenTofu, an orchestrator to automate and enhance deployments.
 theme: Toha
-draft: false
 menu:
   sidebar:
     name: OpenTofu 2. VM lifecycle & OS baselines
     identifier: opentofu2
     parent: cat-orchestration
-    weight: 609
+    weight: 602
 ---
 
 # Building secure VM baselines
@@ -101,7 +100,6 @@ Review: Password policy, audit policy, user rights assignment
 Required Setup
 - [ ] Static IP
 - [ ] Rename computer
-- [ ] Disable IE Enhanced Security (lab only)
 - [ ] Windows updates installed
 
 Security Checks
@@ -153,7 +151,7 @@ Document:
 - How to restore from snapshot
 - How to re-clone template
 - How to full rebuild
-> This proves: Operational maturity, disaster readiness
+> This proves operational maturity, disaster readiness
 
 ## Observing default security posture
 
