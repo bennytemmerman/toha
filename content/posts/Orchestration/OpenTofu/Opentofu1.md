@@ -1,5 +1,5 @@
 ---
-title: "OpenTofu Project: Proxmox foundations"
+title: "OpenTofu Project: Part 1 - Proxmox foundations"
 date: 2026-02-07T10:17:23+02:00
 hero: /images/posts/opentofu.png
 description: A multiphase project to learn about OpenTofu, an orchestrator to automate and enhance deployments.
