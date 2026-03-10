@@ -32,7 +32,7 @@ Restart Splunk
 ```
 Check if Splunk is running
 
-### General checks
+### Account checks
 ```bash
 /opt/splunk/bin/splunk list user | grep admin -B2
 ```
@@ -59,6 +59,14 @@ Reload a serverclass to push deployment apps without restarting Splunk"
 /opt/splunk/bin/splunk list licenses | grep "expiration_time" | awk -F':' '{print $2}' | xargs -I{} date -d @{} +"%Y-%m-%d %H:%M:%S"
 ```
 Check license expiration date
+```bash
+/opt/splunk/bin/splunk btool server list license --debug
+```
+Check license info
+```bash
+/opt/splunk/bin/splunk list licenser-localpeer
+```
+Check license info on a peer node in a distributed deployment setup.
 
 ### Apps/addons
 ```bash
