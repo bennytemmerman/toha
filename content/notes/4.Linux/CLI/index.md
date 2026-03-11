@@ -117,7 +117,7 @@ Grep sudo users
 ```bash
 rm -f /tmp/names; for user in $(getent passwd | cut -d: -f1); do count=$((count+1)); if sudo -l -U "$user" | grep -q "ALL"; then echo "$user" >> /tmp/names; echo "Checked $count of $(getent passwd | cut -d: -f1 | wc -l) users."; fi; done; clear; cat /tmp/names; rm -f /tmp/names
 ```
-Oneline to create and add a sudo user, removing sudo prompt. Change pw123 and username.
+Oneline to create and add a sudo user, removing sudo prompt. Change pw123 and username as required.
 ```bash
 useradd -m -p $(openssl passwd -1 pw123) username && usermod -aG sudo username && echo "username ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && usermod --shell /bin/bash username
 ```
