@@ -1,6 +1,6 @@
 ---
 title: "Incident report: AWX failure investigation"
-2026-04-06T17:17:23+02:00
+date: 2026-04-06T17:17:23+02:00
 hero: /images/posts/awx.png
 description: AWX failure investigation
 theme: Toha
