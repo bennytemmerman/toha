@@ -27,16 +27,16 @@ This report documents a networking failure in a self-hosted AWX deployment runni
 # 2. Observed symptoms
 ## 2.1  AWX job behaviour
 Every job, regardless of complexity, followed an identical failure pattern:
-•	Job transitions through waiting → pre_run → preparing_playbook → running_playbook → work_unit_id_assigned in under one second (AWX itself was healthy).
-•	No Ansible output was ever produced, the job container started but produced zero events.
-•	After 30–90 seconds, AWX received an internal cancel signal and terminated the job with rc=1 or rc=None.
-•	The pattern was 100% reproducible across all job templates and inventory hosts.
+- Job transitions through waiting → pre_run → preparing_playbook → running_playbook → work_unit_id_assigned in under one second (AWX itself was healthy).
+- No Ansible output was ever produced, the job container started but produced zero events.
+- After 30–90 seconds, AWX received an internal cancel signal and terminated the job with rc=1 or rc=None.
+- The pattern was 100% reproducible across all job templates and inventory hosts.
 
 ## 2.2  Pod networking
-•	New pods spawned by AWX jobs (Execution Environment containers) were stuck in ContainerCreating with no IP assigned, even though scheduling succeeded.
-•	The k3s node could not ping pod IPs within its own cni0 bridge subnet, returning Destination Host Unreachable despite a valid route entry.
-•	The metrics-server pod at 10.42.1.52 was unreachable: _dial tcp 10.42.1.52:10250: connect: no route to host_
-•	k3s logs showed repeated 502 Bad Gateway errors proxying to pod IPs on the cluster subnet.
+- New pods spawned by AWX jobs (Execution Environment containers) were stuck in ContainerCreating with no IP assigned, even though scheduling succeeded.
+- The k3s node could not ping pod IPs within its own cni0 bridge subnet, returning Destination Host Unreachable despite a valid route entry.
+- The metrics-server pod at 10.42.1.52 was unreachable: _dial tcp 10.42.1.52:10250: connect: no route to host_
+- k3s logs showed repeated 502 Bad Gateway errors proxying to pod IPs on the cluster subnet.
 
 # 3. Diagnostic process
 ## 3.1  Verify pod health
@@ -85,11 +85,11 @@ ufw status
 nft list ruleset | grep -c rule
 ```
 This step revealed the root cause. Key findings:
-•	iptables reported version: _iptables v1.8.10 (nf_tables)_
-•	Both backends were installed: /usr/sbin/iptables-legacy and /usr/sbin/iptables-nft
-•	The nft list ruleset returned 0 rules — k3s rules were invisible to nftables
-•	Massive warnings: XT target MASQUERADE not found, XT target DNAT not found, nft backend could not interpret legacy extension targets
-•	The FORWARD chain had ACCEPT policy and correct KUBE-* rules visible via iptables-nft, but those rules were not being enforced by the kernel because the kernel was applying the nftables ruleset (empty), not the legacy iptables layer.
+- iptables reported version: _iptables v1.8.10 (nf_tables)_
+- Both backends were installed: /usr/sbin/iptables-legacy and /usr/sbin/iptables-nft
+- The nft list ruleset returned 0 rules — k3s rules were invisible to nftables
+- Massive warnings: XT target MASQUERADE not found, XT target DNAT not found, nft backend could not interpret legacy extension targets
+- The FORWARD chain had ACCEPT policy and correct KUBE-* rules visible via iptables-nft, but those rules were not being enforced by the kernel because the kernel was applying the nftables ruleset (empty), not the legacy iptables layer.
 
 # 4. Root cause analysis
 ## 4.1  The iptables / nftables split-brain problem
@@ -100,10 +100,10 @@ Modern Linux systems provide two independent packet filtering frameworks:
 | iptables-nft	| Translates iptables rules to nftables; nftables enforces them	| Newer Ubuntu/Debian systems (default) |
 
 When k3s starts, it installs its pod networking rules (KUBE-FORWARD, FLANNEL-FWD, MASQUERADE, DNAT, etc.) using whichever iptables binary the system provides. In this case, k3s wrote its rules via the legacy backend — but the system's active alternative was iptables-nft. This meant:
-•	k3s rules were written to the legacy netfilter tables
-•	The kernel was enforcing the nftables ruleset, which was empty
-•	Pod traffic was forwarded to the cni0 bridge, found no matching FORWARD rules, and was silently dropped
-•	From the outside, everything looked correct: interfaces up, routes present, pods scheduled
+- k3s rules were written to the legacy netfilter tables
+- The kernel was enforcing the nftables ruleset, which was empty
+- Pod traffic was forwarded to the cni0 bridge, found no matching FORWARD rules, and was silently dropped
+- From the outside, everything looked correct: interfaces up, routes present, pods scheduled
 
 ## 4.2  Why it happened
 This failure mode is triggered by a system update to iptables that switches the default alternative from iptables-legacy to iptables-nft, after k3s was already installed and running. The switch can happen silently during routine package upgrades. Because k3s caches its setup and the interfaces all look healthy, there is no obvious error logged, only the downstream effect of pods being unreachable.
@@ -142,13 +142,13 @@ With this option, k3s ignores the system iptables entirely and uses its own bund
 # 6. Warning signs & prevention
 ## 6.1  Early warning indicators
 Watch for any combination of these signals, they indicate the iptables problem before it causes full outages:
-•	iptables warnings in logs: XT target MASQUERADE not found, XT target DNAT not found
-•	k3s logs: no route to host when connecting to pod IPs in the cluster subnet
-•	Pods stuck in ContainerCreating with no IP assigned despite scheduling succeeding
-•	New pod IPs unreachable from the node: ping <pod-ip> returns Destination Host Unreachable
-•	Metrics-server returning 502/503 via the k3s API server proxy
-•	AWX jobs that go directly from running_playbook to cancellation with no output in between
-•	nft list ruleset | grep -c rule returns 0 while iptables shows KUBE-* chains
+- iptables warnings in logs: XT target MASQUERADE not found, XT target DNAT not found
+- k3s logs: no route to host when connecting to pod IPs in the cluster subnet
+- Pods stuck in ContainerCreating with no IP assigned despite scheduling succeeding
+- New pod IPs unreachable from the node: ping <pod-ip> returns Destination Host Unreachable
+- Metrics-server returning 502/503 via the k3s API server proxy
+- AWX jobs that go directly from running_playbook to cancellation with no output in between
+- nft list ruleset | grep -c rule returns 0 while iptables shows KUBE-* chains
 
 ## 6.2  Health check commands
 Run these commands after any system update or k3s restart to verify pod networking is functional:
@@ -254,8 +254,8 @@ ping -c2 10.42.1.1  # must be 0% loss
 ```
 
 # 8. Lessons learned
-•	CNI issues present as application-level failures, AWX job timeouts are an indirect symptom of a low-level networking problem. Always check pod-level connectivity before debugging the application.
-•	The iptables-nft vs iptables-legacy split is a common and silent failure mode on modern Ubuntu/Debian systems. Any Kubernetes distribution that uses legacy iptables rules can break this way after a system update.
-•	A key diagnostic clue: routes exist but pings fail. If ip route get <pod-ip> resolves correctly but ping returns Destination Host Unreachable, the problem is in the firewall layer, not routing.
-•	Running nft list ruleset | grep -c rule returning 0 while iptables shows active KUBE-* chains is a definitive indicator of the split-brain condition.
-•	Lock in prefer-bundled-bin: true in k3s config to future-proof the installation against OS package updates.
+- CNI issues present as application-level failures, AWX job timeouts are an indirect symptom of a low-level networking problem. Always check pod-level connectivity before debugging the application.
+- The iptables-nft vs iptables-legacy split is a common and silent failure mode on modern Ubuntu/Debian systems. Any Kubernetes distribution that uses legacy iptables rules can break this way after a system update.
+- A key diagnostic clue: routes exist but pings fail. If ip route get <pod-ip> resolves correctly but ping returns Destination Host Unreachable, the problem is in the firewall layer, not routing.
+- Running nft list ruleset | grep -c rule returning 0 while iptables shows active KUBE-* chains is a definitive indicator of the split-brain condition.
+- Lock in prefer-bundled-bin: true in k3s config to future-proof the installation against OS package updates.
