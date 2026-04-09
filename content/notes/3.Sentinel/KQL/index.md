@@ -87,59 +87,6 @@ SecurityAlert
 ```
 Statistical overview of gaps (over 1 hour) between events for the last 30 days. This one is mostly used to determine tuning for the threshold used in an analytic rule to check if a table did not receive data. (could indicate a logsource stopped sending or a misconfiguration in sending the logs to another table)
 
-## Silent logsource
-```bash
- let _SecurityEvent = 
-   SecurityEvent
-   | where TimeGenerated > ago(15d)
-   | summarize
-       MinutesSinceLastEvent = datetime_diff("minute", now(), max(TimeGenerated)),
-       LastIngestionTime = max(TimeGenerated)
-       by
-       Asset = Computer,
-       Table = Type,
-       sourcetype = EventSourceName
- ;
- let _Syslog = 
-   Syslog
-   | where TimeGenerated > ago(15d)
-   | summarize
-       MinutesSinceLastEvent = datetime_diff("minute", now(), max(TimeGenerated)),
-       LastIngestionTime = max(TimeGenerated)
-       by 
-       Asset = Computer, 
-       Table = Type
-       //sourcetype = strcat(
-       //         iff(DeviceVendor == "Fortinet", DeviceEventCategory, ""),
-       //         iff(DeviceVendor == "Palo Alto Networks", Activity, ""),
-       //         iff(DeviceVendor == "F5", DeviceProduct, "")
-       //     )
- ;
- let _Heartbeat = 
-   Heartbeat
-   | where TimeGenerated > ago(15d)
-   | summarize
-       MinutesSinceLastEvent = datetime_diff("minute", now(), max(TimeGenerated)),
-       LastIngestionTime = max(TimeGenerated)
-       by
-       Asset = Computer,
-       Table = Type,
-       sourcetype = Type
- ;
- union _SecurityEvent, _Syslog, _Heartbeat
- | join _GetWatchlist('CriticalLogs')
-   on
-   $left.Asset == $right.Host,
-   $left.sourcetype == $right.SubType,
-   $left.Table == $right.DataTable
- | where Maintenance != "TRUE"
- | where MinutesSinceLastEvent > toint(Threshold) * 60 // Watchlist in hours need to convert to min
- | project Table, Asset, MinutesSinceLastEvent, sourcetype, SubType, Threshold, LastIngestionTime
- | extend info_name = "critical_log_source_goes-silent"
- | extend info_sub_route = "Sentinel"
-```
-Finds critical logs from assets that haven't reported in over a specified threshold, suggesting potential issues or outages.
-
 ```bash
 SecurityEvent 
 | where Computer contains ("test-pc")
