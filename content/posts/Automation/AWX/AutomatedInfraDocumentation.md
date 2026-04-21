@@ -2,24 +2,23 @@
 title: "project: Infra documentation automation"
 date: 2026-04-21T12:17:23+02:00
 hero: /images/posts/awx.png
-description: documentation automation
+description: CICD documentation automation
 theme: Toha
 menu:
   sidebar:
-    name: documentation automation
+    name: CICD documentation automation
     identifier: documentation_automation
     parent: cat-automation
     weight: 402
 ---
 
-**From zero to automated infrastructure documentation:**
+**From zero to automated infrastructure documentation:**  
 A Complete Journey with Ansible, Jinja2, AWX, and GitLab CI/CD
 Learning how to automate infrastructure documentation using Ansible, Jinja2 templates, AWX, and GitLab CI/CD.
 From first playbook to production-grade multi-role reporting pipeline.
 
-**Keywords**
-
-_Ansible automation · Jinja2 templates · AWX Tower · GitLab CI/CD · Infrastructure as Code · MkDocs · DevOps · Kubernetes DNS · Infrastructure documentation_
+**Keywords**  
+_Ansible automation · Jinja2 · AWX Tower · GitLab CI/CD · Infrastructure as Code · DevOps · Kubernetes · Infrastructure documentation_
 
 # **1\. Introduction**
 
@@ -40,12 +39,12 @@ Before examining the implementation, it is worth establishing a precise understa
 | **Technology**   | **Role in this pipeline** |
 |------------------|---------------------------|
 | **Ansible**      | An agentless automation engine that connects to managed hosts over SSH, executes tasks defined in YAML playbooks, and collects system facts via its fact-gathering module. |
-| **Jinja2**       | A Python templating engine that renders text output by substituting variables and executing control flow logic (loops, conditionals) within template files. Ansible uses Jinja2 natively for both playbook variable interpolation and the `template` module. |
+| **Jinja2**       | A Python templating engine that renders text output by substituting variables and executing control flow logic (loops, conditionals) within template files. Ansible uses Jinja2 natively for both playbook variable interpolation and the template module. |
 | **AWX**          | The open-source upstream project for Red Hat Ansible Automation Platform. AWX provides a web UI, REST API, RBAC, credential management, and job scheduling on top of Ansible. It runs as a containerised application on Kubernetes. |
-| **GitLab CI/CD** | A pipeline automation system integrated into GitLab. On each git push, GitLab reads `.gitlab-ci.yml` and executes defined stages in isolated containers. Used here to validate, sync, and deploy the Ansible project. |
-| **MkDocs**       | A static site generator that converts Markdown files into a navigable HTML documentation website. The `docs/` directory structure maps directly to the navigation tree. |
+| **GitLab CI/CD** | A pipeline automation system integrated into GitLab. On each git push, GitLab reads _.gitlab-ci.yml_ and executes defined stages in isolated containers. Used here to validate, sync, and deploy the Ansible project. |
+| **MkDocs**       | A static site generator that converts Markdown files into a navigable HTML documentation website. The _docs/_ directory structure maps directly to the navigation tree. |
 | **K3s**          | A lightweight, certified Kubernetes distribution optimised for resource-constrained environments. AWX runs on K3s in this environment, which introduces Kubernetes-specific networking considerations such as CoreDNS. |
-| **Pi-hole**      | A network-wide DNS resolver. In this environment it also serves as the authoritative DNS server for the internal domain `siemforge.xyz`, including the GitLab instance. |
+| **Pi-hole**      | A network-wide DNS resolver. In this environment it also serves as the authoritative DNS server for the internal domain _siemforge.xyz_, including the GitLab instance. |
 
 ## **2.2 The relationship between Ansible and Jinja2**
 
@@ -66,9 +65,10 @@ This distinction causes confusion frequently enough to warrant explicit clarific
 | **ansible_hostname** | The short hostname as returned by the hostname -s command. Example: 30test. This is what appears in shell prompts and is typically used for file naming. |
 | **ansible_fqdn** | The Fully Qualified Domain Name, the complete DNS name including domain suffix. Example: 30test.siemforge.xyz. This is the name used for DNS resolution and TLS certificate subjects. |
 
+  
 On a correctly configured server these will differ. On a minimal installation where the hostname has not been set to include the domain, they may be identical. The playbook collects both because each is useful in different contexts: the short hostname is used for filenames and display, the FQDN for network-relevant documentation.
 
-# **3\. The journey: from first template to production pipeline**
+# **3\. From first template to production pipeline**
 
 ## **3.1 Phase 1 - The minimal viable playbook**
 
