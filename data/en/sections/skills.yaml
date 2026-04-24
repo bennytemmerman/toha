@@ -73,7 +73,7 @@ skills:
 - name: LXC
   logo: /images/sections/skills/lxc.png
   summary: "Used in Proxmox-based homelab for lightweight container workloads and infrastructure testing."
-  categories: ["virtualization", "infrastructure"]
+  categories: ["virtualization", "infrastructure", "linux"]
   url: "https://linuxcontainers.org/"
 
 - name: Proxmox
