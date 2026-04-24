@@ -47,7 +47,7 @@ buttons:
 projects:
 
 - name: Infrastructure Automation & Documentation Platform
-  logo: /images/sections/projects/tofu.png
+  logo: /images/sections/projects/tofu.svg
   role: Infrastructure Automation Engineer
   timeline: "2025 - Present"
   summary: Designed and built a fully automated infrastructure platform using Infrastructure as Code to provision, configure, and document a reproducible homelab environment. The project focuses on end-to-end automation, from VM provisioning to service configuration and automatic documentation generation.
