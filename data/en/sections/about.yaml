@@ -20,11 +20,8 @@ designation: Infrastructure & Automation Engineer
 # resume: "files/resume.pdf"
 
 # a summary about you
-summary: "Infrastructure-focused engineer with a background in security operations, currently transitioning towards automation and Infrastructure as Code."
+summary: "Infrastructure-focused engineer with a background in security operations, currently transitioning towards automation and Infrastructure as Code. I work primarily with Linux systems, scripting and automation tools such as Ansible, AWX and GitLab. My homelab serves as a sandbox to design and test reproducible infrastructure using Proxmox, secured with Authentik and Nginx Proxy Manager. This blog documents my approach to building reliable, automated and well-documented systems."
 
-I work primarily with Linux systems, scripting and automation tools such as Ansible, AWX and GitLab. My homelab serves as a sandbox to design and test reproducible infrastructure using Proxmox, secured with Authentik and Nginx Proxy Manager.
-
-This blog documents my approach to building reliable, automated and well-documented systems.
 # your social links
 # give as many as you want. use font-awesome for the icons.
 socialLinks:
