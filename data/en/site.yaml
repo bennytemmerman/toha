@@ -1,27 +1,23 @@
 # Copyright Notice
-copyright: © 2025 Copyright.
+copyright: © 2025 Benny Temmerman
 
-# A disclaimer notice for the footer. Make sure you have set "params.footer.disclaimer.enable: true" in your `config.yaml` file.
-disclaimer: "This site provides information about my personal findings combined with information found on the internet. Projects and articles may be used as inspiration, however I am not responsible for any fun or harm caused."
+# Disclaimer
+disclaimer: "This website contains personal notes, experiments, and technical documentation based on my own infrastructure and publicly available information. Content is shared for educational and informational purposes only."
 
-# Meta description for your site.  This will help the search engines to find your site.
-description: Portfolio and personal blog of Benny Temmerman, SIEMForge.
+# Meta description for SEO
+description: "Infrastructure & Automation portfolio and technical blog by Benny Temmerman. Focused on Linux systems, Infrastructure as Code, DevOps practices, and homelab engineering experiments."
 
-# specify the list of custom menus that you want to show in the top navbar.
-# they will be separated by a divider from the main menus.
+# custom menus
 customMenus:
 - name: Docs
   url: https://toha-guides.netlify.app/posts/
-  # specify whether to hide the menu item from top navbar or not.
   hideFromNavbar: true
-  # specify whether to show the menu item in footer or not.
-  # if you set it to true, make sure you have set `footer.navigation.customMenus: true` in your config.yaml
   showOnFooter: true
 
-# Specify OpenGraph Headers
+# OpenGraph
 openGraph:
-  title: SIEMForge
+  title: SIEMForge | Infrastructure & Automation Portfolio
   type: website
-  description: Portfolio and personal blog of Benny Temmerman, SIEMForge
+  description: Infrastructure and automation engineering portfolio by Benny Temmerman, focused on Linux, DevOps, IaC, and homelab systems design.
   image: images/site/background.jpg
   url: https://siemforge.xyz

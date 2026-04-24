@@ -9,7 +9,7 @@ section:
 
 
 # your designation
-designation: SecOps engineer
+designation: Infrastructure & Automation Engineer
 # your company information
 # company:
 #   name: Orange Cyberdefense
@@ -20,8 +20,11 @@ designation: SecOps engineer
 # resume: "files/resume.pdf"
 
 # a summary about you
-summary: "I’m a SecOps Engineer based in Erpe-Mere, passionate about engineering within cybersecurity. I focus on building SIEM environments (Splunk/Sentinel) and automating the data through AWX, and GitLab. My homelab is my sandbox for full-stack control, orchestrating Proxmox secured by Authentik and Nginx Proxy Manager. This blog documents my pursuit of deep work, documentation and automation."
+summary: "Infrastructure-focused engineer with a background in security operations, currently transitioning towards automation and Infrastructure as Code."
 
+I work primarily with Linux systems, scripting and automation tools such as Ansible, AWX and GitLab. My homelab serves as a sandbox to design and test reproducible infrastructure using Proxmox, secured with Authentik and Nginx Proxy Manager.
+
+This blog documents my approach to building reliable, automated and well-documented systems.
 # your social links
 # give as many as you want. use font-awesome for the icons.
 socialLinks:
@@ -63,7 +66,7 @@ badges:
 
 - type: soft-skill-indicator
   name: Documentation
-  percentage: 85
+  percentage: 90
   color: blue
 
 - type: soft-skill-indicator

@@ -8,6 +8,6 @@ section:
 
 # posts to feature
 posts:
-  - dataonboardingpost
-  - firstautomationworkflow
+  - automatedinfradocumentation
+  - opentofu1
   - logrotatepost

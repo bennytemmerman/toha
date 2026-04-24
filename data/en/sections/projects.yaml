@@ -12,43 +12,80 @@ section:
 buttons:
 - name: All
   filter: "all"
-- name: Hobby
-  filter: "Hobby"
+- name: Automation
+  filter: "Automation"
+- name: Blue Team
+  filter: "Blue Team"
+- name: Content Creation
+  filter: "Content Creation"
+- name: Detection Engineering
+  filter: "Detection Engineering"
+- name: DevOps
+  filter: "DevOps"
+- name: Git
+  filter: "Git"
+- name: IaC
+  filter: "IaC"
+- name: Infrastructure
+  filter: "Infrastructure"
+- name: Linux
+  filter: "Linux"
+- name: Learning
+  filter: "Learning"
+- name: Observability
+  filter: "Observability"
+- name: Proxmox
+  filter: "Proxmox"
+- name: Security
+  filter: "Security"
 - name: Splunk
   filter: "Splunk"
+- name: Virtualization
+  filter: "Virtualization"
 
 # your projects
 projects:
-- name: Proxmox Homelab
+
+- name: Infrastructure Automation & Documentation Platform
+  logo: /images/sections/projects/tofu.png
+  role: Infrastructure Automation Engineer
+  timeline: "2025 - Present"
+  summary: Designed and built a fully automated infrastructure platform using Infrastructure as Code to provision, configure, and document a reproducible homelab environment. The project focuses on end-to-end automation, from VM provisioning to service configuration and automatic documentation generation.
+  details:
+    - Infrastructure provisioning using OpenTofu (Terraform-compatible IaC)
+    - Automated VM lifecycle management on Proxmox
+    - Configuration management using Ansible and AWX
+    - Git-based workflow for versioning and change tracking
+    - Automated documentation generation and structured knowledge base
+    - Reproducible infrastructure design (destroy & rebuild capable)
+    - Experimentation with CI/CD pipelines for infrastructure workflows
+  tags: ["Infrastructure", "Automation", "IaC", "Linux", "DevOps", "Git", "Proxmox"]
+
+- name: Proxmox Infrastructure Lab
   logo: /images/sections/projects/proxmox.png
-  role: Owner
+  role: Infrastructure Design & Automation
   timeline: "April 2021 - Present"
-  #repo: https://github.com/kubernetes/kubernetes # If your project is a public repo on GitHub, then provide this link. it will show star count.
-  #url: "path to post"  # If your project is not a public repo but it has a website or any external details url then provide it here. don't provide "repo" and "url" simultaneously.
-  summary: Homelab environment for project testing
-  tags: ["Hobby", "Hypervisor"]
+  summary: Designed and maintained a full homelab infrastructure using Proxmox to simulate production-like environments for testing automation, networking and system configuration.
+  tags: ["Infrastructure", "Virtualization", "Linux", "Automation"]
 
-- name: POC, Bruteforce Splunk-Hydra
+- name: Security Detection & Attack Simulation Lab (Splunk)
   logo: /images/sections/projects/splunk.png
-  role: Blue team
+  role: Blue Team Engineering
   timeline: "Aug 2022"
-  #repo: https://github.com/tensorflow/tensorflow
-  #url: "path to post"
-  summary: Setting up demonstration to use in interview for SOC analyst role
-  tags: ["Hobby", "Splunk", "Blue team", "Red team"]
+  summary: Built a controlled environment to simulate attack scenarios and validate detection capabilities in Splunk, focusing on log ingestion, alerting logic and detection tuning for SOC use cases.
+  tags: ["Security", "Splunk", "Detection Engineering"]
 
-- name: New portfolio website
+- name: Infrastructure Portfolio Platform
   logo: /images/site/main-logo.png
-  role: Owner
+  role: Platform Owner
   timeline: "April 2025 - Present"
-  #url: "https://siemforge.xyz"
-  summary: Complete project from buying domain, configuring DNS, creating mailbox, using Github combined with Netlify. A more attractive website showcasing my work.
-  tags: ["Hobby"]
+  summary: Built and deployed a personal portfolio platform using Git-based workflows, DNS configuration, and automated deployment processes to showcase infrastructure and automation projects.
+  tags: ["Infrastructure", "Git", "Automation", "DevOps"]
 
-- name: Killercoda
+- name: Interactive Learning Environments (Killercoda)
   logo: /images/site/Killercoda.png
-  role: Creator
+  role: Content Creator
   timeline: "Aug 2024"
   url: "https://killercoda.com/splunk"
-  summary: Creating interactive instances to learn how to set up Splunk environments.
-  tags: ["Hobby", "Splunk", "Blue team"]
+  summary: Created interactive learning environments for Splunk deployment and configuration to demonstrate real-world observability and logging setups.
+  tags: ["Observability", "Splunk", "Learning", "Infrastructure"]

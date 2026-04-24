@@ -11,28 +11,28 @@ section:
 
 # Your accomplishments
 accomplishments:
-- name: Learning Python on boot.dev
+- name: Python Programming (Boot.dev)
   timeline: "Jan 2025 - May 2025"
   organization:
     name: Boot.dev
     url: https://www.boot.dev
-  courseOverview: "Multiple courses, learning Python in a self-paced gamified learning platform which covers topics like scripting, object oriented programming (OOP), functional programming."
+  courseOverview: "Completed self-paced, gamified programming curriculum focused on Python fundamentals and software engineering concepts."
   certificateURL: "https://www.boot.dev/certificates/4727c8c3-3224-4390-b104-d74904581ef6"
 
-- name: Learning about GIT and CI/CD
+- name: Git & CI/CD Fundamentals
   timeline: "March 2025"
   organization:
     name: Boot.dev
     url: https://www.boot.dev
-  courseOverview: "To add more value at work and help out our senior techleads finetune our service, I decided to dive into CI/CD and Git. I genuinly enjoyed this course a lot about version control and unit testing."
+  courseOverview: "Strengthened understanding of version control and CI/CD workflows to improve collaboration and deployment practices."
   certificateURL: "https://www.boot.dev/certificates/3d5484bd-b5f3-46cc-baa3-cbe0d2a49e6a"
 
-- name: Learning about Microsoft Azure Sentinel
+- name: Microsoft Sentinel (SIEM Operations)
   timeline: "Sep 2024 - now"
   organization:
     name: Microsoft
     url: https://learn.microsoft.com
-  courseOverview: "A new service to support, so time to get some hands-on practice! A Microsoft learning module to explain Azure Sentinel helped me navigating the tool to investigate incidents. Also documented my findings inhouse for future reference for my colleagues and myself."
+  courseOverview: "Hands-on exploration of Microsoft Sentinel for security monitoring and incident investigation."
   certificateURL: "https://learn.microsoft.com/en-us/credentials/applied-skills/configure-siem-security-operations-using-microsoft-sentinel/"
 
 - name: MITRE ATT&CK
@@ -40,5 +40,5 @@ accomplishments:
   organization:
     name: ATTACKIQ
     url: https://www.attackiq.com/
-  courseOverview: "While Redteaming can be exciting (depending on the scope), I always had a preference for blueteaming, strengthening systems, learning and applying general cybersecurity concepts AND logs! Lots of logs!! I was a system engineer when I wanted to explore more about cybersecurity, following this course and setting up a Splunk SIEM at home was my first step."
+  courseOverview: "Studied adversary behavior modeling using the MITRE ATT&CK framework, focusing on detection engineering and blue team methodologies."
   certificateURL: "https://www.credly.com/badges/5968ab14-9918-4c48-9580-c0aab91d93fb?source=linked_in_profile"

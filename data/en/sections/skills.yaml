@@ -29,92 +29,99 @@ buttons:
 # Your Skills.
 # Give a summary of you each skill in the summary section.
 skills:
+
 - name: Go
   logo: /images/sections/skills/go.png
-  summary: "Creating/testing small applications to enhance day to day work."
+  summary: "Used for experimenting with small tooling and automation utilities."
   categories: ["language"]
   url: "https://golang.org/"
 
 - name: Python (scripting)
   logo: /images/sections/skills/python.svg
-  summary: "Learning about python scripts, what they do and how I can build my own."
+  summary: "Used for scripting and automation tasks, including API integrations and system tooling."
   categories: ["language"]
   url: "https://www.python.org/"
 
-- name: GCP
-  logo: /images/sections/skills/GCP.svg
-  summary: "Tried GCP for testing/learning about cloud computing concepts."
-  categories: ["cloud", virtualization]
-  url: "https://cloud.google.com"
-
-- name: Microsoft Azure
-  logo: /images/sections/skills/azure.svg
-  summary: "We work daily in Azure to handle customer tickets, mostly related to Azure Sentinel."
-  categories: ["cloud", "virtualization"]
-  url: "https://azure.microsoft.com"
-
-- name: Docker
-  logo: /images/sections/skills/docker.svg
-  summary: "Learning containerization in order to create my own containers."
-  categories: ["virtualization"]
-  url: "https://www.docker.com/"
-
-- name: LXC
-  logo: /images/sections/skills/lxc.png
-  summary: "All my containers in my homelab are running LXC in Proxmox."
-  categories: ["virtualization"]
-  url: "https://linuxcontainers.org/"
-
-- name: Proxmox
-  logo: /images/sections/skills/proxmox.svg
-  summary: "This open-source virtualization platform is my first choice for my homelab projects"
-  categories: ["virtualization"]
-  url: "https://www.proxmox.com/"
-
 - name: Linux
   logo: /images/sections/skills/linux.png
-  summary: "Mostly roaming around in CLI, 97% of my homelab consists of linux hosts. Capable of writing bash/shell scripts. At work all of our tools are configured on Linux hosts. My preferred distro is Ubuntu while at work we focus on redhat alternatives like Oracle Linux or Alma Linux."
+  summary: "Primary operating system for both professional and homelab environments. Experienced in CLI usage, system troubleshooting, and bash scripting."
   categories: ["basic"]
   url: "https://www.linux.org/"
 
 - name: Windows
   logo: /images/sections/skills/win.png
-  summary: "Main driver, but also testing hosts in my homelab mostly for log generation and ingestion"
+  summary: "Used in enterprise environments for system administration and log generation/testing scenarios in hybrid infrastructures."
   categories: ["basic"]
   url: "https://www.microsoft.com/nl-be/windows"
 
 - name: Git
   logo: /images/sections/skills/git.png
-  summary: "Using Github while building this website to learn about version control."
+  summary: "Version control used for personal projects, automation workflows and infrastructure configuration management."
   categories: ["basic"]
   url: "https://git-scm.com/"
 
+- name: Docker
+  logo: /images/sections/skills/docker.svg
+  summary: "Used for containerization in homelab environments and testing reproducible service deployments."
+  categories: ["virtualization"]
+  url: "https://www.docker.com/"
+
+- name: LXC
+  logo: /images/sections/skills/lxc.png
+  summary: "Used in Proxmox-based homelab for lightweight container workloads and infrastructure testing."
+  categories: ["virtualization"]
+  url: "https://linuxcontainers.org/"
+
+- name: Proxmox
+  logo: /images/sections/skills/proxmox.svg
+  summary: "Primary virtualization platform used for building and managing homelab infrastructure environments."
+  categories: ["virtualization"]
+  url: "https://www.proxmox.com/"
+
+- name: Microsoft Azure
+  logo: /images/sections/skills/azure.svg
+  summary: "Enterprise cloud platform used in production environments, primarily focused on monitoring and security services such as Microsoft Sentinel."
+  categories: ["cloud"]
+  url: "https://azure.microsoft.com"
+
+- name: GCP
+  logo: /images/sections/skills/GCP.svg
+  summary: "Used for learning cloud computing concepts and experimenting with infrastructure services."
+  categories: ["cloud"]
+  url: "https://cloud.google.com"
+
 - name: Azure DevOps
   logo: /images/sections/skills/azure_devops.svg
-  summary: "Contributing to our Sentinel service, configuring analytics rules through Azure Devops for version control and collaboration."
-  categories: ["cloud", "basic"]
+  summary: "Used for version control and collaboration in enterprise environments, particularly around security and detection rule management."
+  categories: ["cloud", "automation"]
   url: "https://azure.microsoft.com/en-us/products/devops"
+
+- name: Ansible
+  logo: /images/sections/skills/ansible.svg
+  summary: "Used for configuration management and automation in homelab environments, with exposure to enterprise Ansible Tower/AWX setups."
+  categories: ["automation"]
+  url: "https://docs.ansible.com/"
+
+- name: OpenTofu
+  logo: /images/sections/skills/tofu.png
+  summary: "Infrastructure as Code tool used for provisioning reproducible infrastructure in homelab environments."
+  categories: ["automation", "cloud"]
+  url: "https://opentofu.org/"
 
 - name: Splunk
   logo: /images/sections/skills/splunk.svg
-  summary: "As a Splunk admin I handle tickets daily. From incidents where logs stop ingesting to investigating and fixing misconfigurations to informational requests from colleagues or customers."
+  summary: "Used for security monitoring, log analysis, and operational troubleshooting in enterprise environments."
   categories: ["siem"]
   url: "https://www.splunk.com/"
 
-- name: Azure Sentinel
+- name: Microsoft Sentinel
   logo: /images/sections/skills/sentinel.svg
-  summary: "Analytics rules and DCR's, monitoring and maintaining logsources, contributing to writing procedures and guides on handling requests regarding this service."
+  summary: "Cloud-native SIEM used for detection engineering, log analysis, and security operations."
   categories: ["siem"]
   url: "https://www.microsoft.com/en-us/security/business/siem-and-xdr/microsoft-sentinel"
 
 - name: Cribl
   logo: /images/sections/skills/cribl.png
-  summary: "Certified admin, but not a lot of hands-on experience yet."
+  summary: "SIEM data pipeline tool used for log routing and observability workflows. Certified administrator."
   categories: ["siem"]
   url: "https://cribl.io/"
-
-- name: Ansible
-  logo: /images/sections/skills/ansible.svg
-  summary: "Testing and learning within the homelab. Used Ansible Tower at work and currently using CCA for Splunk, but it's truly complicated."
-  categories: ["automation"]
-  url: "https://docs.ansible.com/"

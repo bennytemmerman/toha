@@ -26,9 +26,10 @@ experiences:
     # end: Dec 2020
     # give some points about what was your responsibilities at the company.
     responsibilities:
-    - Operate and optimize Splunk and Azure Sentinel for enterprise clients.
-    - Improve detection rules, automation, and SOC workflows.
-    - Create documentation and runbooks to streamline incident response.
+    - Operate and optimize SIEM platforms (Splunk and Microsoft Sentinel) in enterprise environments.
+    - Improve detection engineering, automation workflows, and SOC operational processes.
+    - Develop technical documentation and runbooks to improve incident response efficiency and knowledge sharing.
+    - Contributed to API-based automation and data integration improvements to enhance log visibility and reliability.
 
 - company:
     name: Orbid
@@ -43,9 +44,10 @@ experiences:
     start: May 2019
     end: Aug 2022
     responsibilities:
-    - Delivered infrastructure support across Linux, Windows, and virtualization.
-    - Deployed and maintained DNS, DHCP, and AD environments.
-    - Produced clear documentation for client systems and procedures.
+    - Managed and supported Linux and Windows infrastructure environments for SME clients.
+    - Administered core infrastructure services including DNS, DHCP, Active Directory, and virtualization platforms.
+    - Performed system troubleshooting across network, server, and application layers.
+    - Improved operational efficiency through scripting and process documentation.
 
 - company:
     name: ICT Talents (Next-ICT)
@@ -60,5 +62,5 @@ experiences:
     start: May 2019
     end: Jul 2020
     responsibilities:
-    - Provided outsourced IT support in Microsoft-based environments.
-    - Earned certifications in Linux+ and Citrix XenDesktop.
+    - Delivered IT support in Microsoft-based enterprise environments.
+    - Gained foundational experience in Linux systems and Citrix environments (Linux+, Citrix XenDesktop certified).

@@ -12,7 +12,7 @@ section:
 achievements:
 - title: Contributor inhouse app
   image: /images/sections/achievements/contributor.jpg
-  summary: Provided ideas and presented the configuration needed to add value to our inhouse app for Splunk.
+  summary: Contributed ideas and technical input for improving an internal application integrated with Splunk. Focused on enhancing configuration flexibility and operational usability within the platform.
 - title: Implemented backup script project
   image: /images/sections/achievements/backup.jpg
-  summary: Worked together with our DevOps team to implement backups for Splunk configuration where custom configuration was needed.
+  summary: Collaborated with the DevOps team to design and implement a backup solution for Splunk configurations, including custom scripting to ensure reliable and consistent recovery of critical system settings.
