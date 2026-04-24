@@ -103,7 +103,7 @@ skills:
   url: "https://docs.ansible.com/"
 
 - name: OpenTofu
-  logo: /images/sections/skills/tofu.png
+  logo: /images/sections/skills/tofu.svg
   summary: "Infrastructure as Code tool used for provisioning reproducible infrastructure in homelab environments."
   categories: ["automation", "cloud"]
   url: "https://opentofu.org/"
