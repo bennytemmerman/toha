@@ -12,36 +12,16 @@ section:
 buttons:
 - name: All
   filter: "all"
-- name: Automation
-  filter: "Automation"
-- name: Blue Team
-  filter: "Blue Team"
-- name: Content Creation
-  filter: "Content Creation"
 - name: Detection Engineering
   filter: "Detection Engineering"
 - name: DevOps
   filter: "DevOps"
-- name: Git
-  filter: "Git"
 - name: IaC
   filter: "IaC"
-- name: Infrastructure
-  filter: "Infrastructure"
-- name: Linux
-  filter: "Linux"
-- name: Learning
-  filter: "Learning"
-- name: Observability
-  filter: "Observability"
-- name: Proxmox
-  filter: "Proxmox"
-- name: Security
-  filter: "Security"
-- name: Splunk
-  filter: "Splunk"
 - name: Virtualization
   filter: "Virtualization"
+- name: Observability
+  filter: "Observability"
 
 # your projects
 projects:
