@@ -13,18 +13,24 @@ section:
 buttons:
 - name: All
   filter: "all"
-- name: Basic
-  filter: "basic"
-- name: Language
-  filter: "language"
-- name: Automation
+- name: "Core: infra"
+  filter: "infra"
+- name: "Core: automation"
   filter: "automation"
-- name: Cloud
+- name: "Core: devops"
+  filter: "devops"
+- name: "Core: linux"
+  filter: "linux"
+- name: "Technical: cloud"
   filter: "cloud"
-- name: SIEM
-  filter: "siem"
-- name: Virtualization
+- name: "Technical: virtualization"
   filter: "virtualization"
+- name: "Technical: security"
+  filter: "security"
+- name: "Technical: observability"
+  filter: "observability"
+- name: "Language"
+  filter: "language"
 
 # Your Skills.
 # Give a summary of you each skill in the summary section.
@@ -33,55 +39,55 @@ skills:
 - name: Go
   logo: /images/sections/skills/go.png
   summary: "Used for experimenting with small tooling and automation utilities."
-  categories: ["language"]
+  categories: ["language", "automation"]
   url: "https://golang.org/"
 
 - name: Python (scripting)
   logo: /images/sections/skills/python.svg
   summary: "Used for scripting and automation tasks, including API integrations and system tooling."
-  categories: ["language"]
+  categories: ["language", "automation"]
   url: "https://www.python.org/"
 
 - name: Linux
   logo: /images/sections/skills/linux.png
   summary: "Primary operating system for both professional and homelab environments. Experienced in CLI usage, system troubleshooting, and bash scripting."
-  categories: ["basic"]
+  categories: ["infrastructure", "linux"]
   url: "https://www.linux.org/"
 
 - name: Windows
   logo: /images/sections/skills/win.png
   summary: "Used in enterprise environments for system administration and log generation/testing scenarios in hybrid infrastructures."
-  categories: ["basic"]
+  categories: ["infrastructure"]
   url: "https://www.microsoft.com/nl-be/windows"
 
 - name: Git
   logo: /images/sections/skills/git.png
   summary: "Version control used for personal projects, automation workflows and infrastructure configuration management."
-  categories: ["basic"]
+  categories: ["devops", "automation"]
   url: "https://git-scm.com/"
 
 - name: Docker
   logo: /images/sections/skills/docker.svg
   summary: "Used for containerization in homelab environments and testing reproducible service deployments."
-  categories: ["virtualization"]
+  categories: ["infrastructure", "automation", "virtualization"]
   url: "https://www.docker.com/"
 
 - name: LXC
   logo: /images/sections/skills/lxc.png
   summary: "Used in Proxmox-based homelab for lightweight container workloads and infrastructure testing."
-  categories: ["virtualization"]
+  categories: ["virtualization", "infrastructure"]
   url: "https://linuxcontainers.org/"
 
 - name: Proxmox
   logo: /images/sections/skills/proxmox.svg
   summary: "Primary virtualization platform used for building and managing homelab infrastructure environments."
-  categories: ["virtualization"]
+  categories: ["virtualization", "infrastructure"]
   url: "https://www.proxmox.com/"
 
 - name: Microsoft Azure
   logo: /images/sections/skills/azure.svg
   summary: "Enterprise cloud platform used in production environments, primarily focused on monitoring and security services such as Microsoft Sentinel."
-  categories: ["cloud"]
+  categories: ["cloud", "infrastructure"]
   url: "https://azure.microsoft.com"
 
 - name: GCP
@@ -93,35 +99,35 @@ skills:
 - name: Azure DevOps
   logo: /images/sections/skills/azure_devops.svg
   summary: "Used for version control and collaboration in enterprise environments, particularly around security and detection rule management."
-  categories: ["cloud", "automation"]
+  categories: ["devops", "automation", "cloud"]
   url: "https://azure.microsoft.com/en-us/products/devops"
 
 - name: Ansible
   logo: /images/sections/skills/ansible.svg
   summary: "Used for configuration management and automation in homelab environments, with exposure to enterprise Ansible Tower/AWX setups."
-  categories: ["automation"]
+  categories: ["automation", "infrastructure", "devops"]
   url: "https://docs.ansible.com/"
 
 - name: OpenTofu
   logo: /images/sections/skills/tofu.svg
   summary: "Infrastructure as Code tool used for provisioning reproducible infrastructure in homelab environments."
-  categories: ["automation", "cloud"]
+  categories: ["automation", "infrastructure", "devops"]
   url: "https://opentofu.org/"
 
 - name: Splunk
   logo: /images/sections/skills/splunk.svg
   summary: "Used for security monitoring, log analysis, and operational troubleshooting in enterprise environments."
-  categories: ["siem"]
+  categories: ["security", "observability"]
   url: "https://www.splunk.com/"
 
 - name: Microsoft Sentinel
   logo: /images/sections/skills/sentinel.svg
   summary: "Cloud-native SIEM used for detection engineering, log analysis, and security operations."
-  categories: ["siem"]
+  categories: ["security", "observability", "cloud"]
   url: "https://www.microsoft.com/en-us/security/business/siem-and-xdr/microsoft-sentinel"
 
 - name: Cribl
   logo: /images/sections/skills/cribl.png
   summary: "SIEM data pipeline tool used for log routing and observability workflows. Certified administrator."
-  categories: ["siem"]
+  categories: ["observability", "security"]
   url: "https://cribl.io/"
