@@ -12,31 +12,32 @@ menu:
     parent: cat-linux
     weight: 304
 ---
-# Architectural blueprint: An enterprise pull-through cache for Linux OS packages
+# 1. Summary
+An enterprise pull-through cache for Linux OS packages.
 
-In distributed enterprise compute footprints, maintaining seamless, rapid access to upstream OS package repositories is essential for compliance, vulnerability management, and configuration consistency. Historically, organizations have deployed full repository mirroring solutions (via `rsync` or `reposync`). This brute-force synchronization approach demands immense capital expenditure on storage systems (~3 TB to 5 TB upfront) and wastes wide-area network (WAN) resources on assets that are never instantiated in the fleet.
+In distributed enterprise compute footprints, maintaining seamless, rapid access to upstream OS package repositories is essential for compliance, vulnerability management, and configuration consistency. Full repository mirroring solutions (via `rsync` or `reposync`) demand immense capital expenditure on storage systems (~3 TB to 5 TB upfront) and wastes wide-area network (WAN) resources on assets that are never used in the fleet.
 
-This report establishes the engineering blueprint for transitioning to an optimized, **Multi-Distribution Pull-Through Caching Proxy** driven by Nginx. By transitioning from *proactive bulk data synchronization* to *reactive, on-demand caching*, the target environment immediately caps local repository storage at a strict 50 GB threshold, reduces wide-area network overhead to net-new package downloads, and accelerates internal distribution times to line-speed (10 Gbps+ LAN).
+This report establishes the engineering blueprint for a **Multi-Distribution Pull-Through Caching Proxy** driven by Nginx. Keeping local repository storage at a strict 50 GB threshold, reduce wide-area network overhead to net-new package downloads, and accelerates internal distribution times to line-speed (10 Gbps+ LAN).
 
 ---
 
-## Design Overview: A lightweight, reverse-proxy caching layer
-
+## 2. Design overview
+A lightweight, reverse-proxy caching layer.  
 The pull-through cache functions as a reverse proxy with an integrated local storage cache layer. When an internal client requests a package or repository index metadata, the traffic pathways execute as follows:
 
 ```bash
                                 [ INTRA-NET / LOCAL LAN ]
                                 
   ┌─────────────────┐           ┌───────────────────┐           ┌─────────────────┐
-  │  Debian Client  ├──────────►│                   │◄──────────┤  Ubuntu Client  │
+  │  Debian client  ├──────────►│                   │◄──────────┤  Ubuntu client  │
   └─────────────────┘           │                   │           └─────────────────┘
                                 │    Local Nginx    │
-  ┌─────────────────┐           │   Caching Proxy   │           ┌─────────────────┐
-  │ Rocky/Alma Host ├──────────►│   (Port 80/443)   │◄──────────┤Oracle Linux Host│
+  ┌─────────────────┐           │   caching proxy   │           ┌─────────────────┐
+  │ Rocky/Alma host ├──────────►│   (Port 80/443)   │◄──────────┤Oracle Linux host│
   └─────────────────┘           │                   │           └─────────────────┘
                                 └─────────┬─────────┘
                                           │
-                                          │ (Cache Miss Only)
+                                          │ (Cache miss only)
                                           ▼
                                ┌─────────────────────┐
                                │  Enterprise WAN/NAT │
@@ -46,20 +47,24 @@ The pull-through cache functions as a reverse proxy with an integrated local sto
                    ▼                                             ▼
        ┌──────────────────────┐                      ┌──────────────────────┐
        │ Public Debian/Ubuntu │                      │  Public Rocky/Alma/OL │
-       │   Upstream Mirrors   │                      │   Upstream Mirrors   │
+       │   upstream mirrors   │                      │   upstream mirrors   │
        └──────────────────────┘                      └──────────────────────┘
 ```
 
-### Core mechanics
+### 2.1 Core mechanics
 
-1. **The Request:** An internal host issues an update request (e.g., `apt install` or `dnf install`). The request is routed directly to the local Nginx caching instance.
-2. **Cache Interrogation:** Nginx checks its local storage path (`/var/cache/nginx/repo_cache`) using a cryptographic hash of the URI query.
-3. **Cache Hit (Local Delivery):** If the package exists and is valid, Nginx serves the payload immediately at local network speeds (1Gbps/10Gbps+), bypassing the WAN entirely.
-4. **Cache Miss (Lazy Load):** If the package is missing, Nginx opens a single background connection to the authoritative public mirror, streams the asset directly to the client, and concurrently serializes it to the local cache disk for future requests.
+1. **The Request:**  
+An internal host issues an update request (e.g., `apt install` or `dnf install`). The request is routed directly to the local Nginx caching instance.
+2. **Cache Interrogation:**  
+Nginx checks its local storage path (`/var/cache/nginx/repo_cache`) using a cryptographic hash of the URI query.
+3. **Cache Hit (Local Delivery):**  
+If the package exists and is valid, Nginx serves the payload immediately at local network speeds (1Gbps/10Gbps+), bypassing the WAN entirely.
+4. **Cache Miss (Lazy Load):**  
+If the package is missing, Nginx opens a single background connection to the authoritative public mirror, streams the asset directly to the client, and concurrently serializes it to the local cache disk for future requests.
 
 ---
 
-## The monolithic vs. on-demand comparison
+## 3. The monolithic vs. on-demand comparison
 
 | Operational Metric | Full Repository Mirror (`rsync`) | Pull-Through Cache (Nginx Proxy) |
 | --- | --- | --- |
@@ -72,17 +77,17 @@ The pull-through cache functions as a reverse proxy with an integrated local sto
 
 ---
 
-## Automated deployment script
+## 4. Automated deployment script
 
-This production-grade Bash script automates the installation of Nginx, configures the optimized cache boundaries, maps out five distinct distribution entry points, and handles directory access controls.
+This production-grade Bash script automates the installation of Nginx, configures the optimized cache boundaries, maps out five distinct distribution entry points, and handles directory access controls. This script expects a Ubuntu/Debian target host.
 
 ```bash
 #!/bin/bash
 # ==============================================================================
 # Title:        deploy-multi-os-cache.sh
-# Description:  Automated Installation Script for Enterprise Pull-Through Cache
+# Description:  Automated installation script for enterprise pull-through cache
 # Target OS:    Ubuntu Server 22.04 / 24.04 LTS & Debian 12
-# Architect:    Security Infrastructure Engineering Group
+# Architect:    SiemForge
 # ==============================================================================
 
 set -euo pipefail
@@ -94,7 +99,7 @@ CACHE_DISK_LIMIT="50g"
 CACHE_INACTIVE_WINDOW="90d"
 PROXY_SERVER_PORT="80"
 
-# --- Root Enforcement ---
+# --- Root enforcement ---
 if [[ "${EUID}" -ne 0 ]]; then
     echo "[-] Error: This installation routine must be executed with root privileges." >&2
     exit 1
@@ -126,13 +131,13 @@ server {
     listen ${PROXY_SERVER_PORT} default_server;
     server_name _;
 
-    # System Performance & Timeout Hardening Tuning
+    # System performance & timeout hardening tuning
     client_max_body_size 10M;
     keepalive_timeout 65;
     sendfile on;
     tcp_nopush on;
 
-    # Global Caching Operational Optimization Headers
+    # Global caching operational optimization headers
     proxy_ignore_headers Cache-Control Expires Set-Cookie;
     proxy_cache_lock on;
     proxy_cache_lock_timeout 10s;
@@ -140,7 +145,7 @@ server {
     proxy_cache_valid 200 302 90d;
     proxy_cache_valid 404 1m;
 
-    # Inject Cache Diagnostics Tracking Headers into Client Network Responses
+    # Inject cache diagnostics tracking headers into client network responses
     add_header X-Cache-Status \$upstream_cache_status;
 
     # --- ENDPOINT DISTRIBUTION TARGETS ---
@@ -177,7 +182,7 @@ server {
 }
 EOF
 
-echo "[*] Step 4: Structuring Virtual Host symlinks and cleaning defaults..."
+echo "[*] Step 4: Structuring virtual host symlinks and cleaning defaults..."
 ln -sf "${NGINX_VHOST}" /etc/nginx/sites-enabled/
 rm -f /etc/nginx/sites-enabled/default
 
@@ -192,22 +197,23 @@ else
 fi
 
 echo "[======================================================================]"
-echo "[+] SUCCESS: Multi-OS Pull-Through Caching Architecture is Online."
-echo "[+] Target Management Address: http://localhost:${PROXY_SERVER_PORT}/"
-echo "[+] Local Storage Cache Bound: ${CACHE_ROOT} (Capped at ${CACHE_DISK_LIMIT})"
+echo "[+] SUCCESS: Multi-OS pull-through caching architecture is online."
+echo "[+] Target management address: http://localhost:${PROXY_SERVER_PORT}/"
+echo "[+] Local storage cache bound: ${CACHE_ROOT} (Capped at ${CACHE_DISK_LIMIT})"
 echo "[======================================================================]"
 
 ```
 
 ---
 
-## Enterprise automation: AWX / Ansible playbook
+## 5. Enterprise automation: AWX / Ansible playbook
+### 5.1 Caching server
 
 For unified orchestration across cloud and bare-metal server assets, this Ansible playbook automates the deployment of the caching server. It can be integrated directly into enterprise configurations via AWX or an Ansible Automation Platform control node.
 
 ```yaml
 ---
-- name: Proactive Architecture Deployment - Multi-OS Pull-Through Caching Proxy
+- name: Proactive architecture deployment - Multi-OS pull-through caching proxy
   hosts: repository_servers
   become: true
   vars:
@@ -218,13 +224,13 @@ For unified orchestration across cloud and bare-metal server assets, this Ansibl
     proxy_listening_port: 80
 
   tasks:
-    - name: Ensure Core Web Platform Binaries Are Installed
+    - name: Ensure core web platform binaries are installed
       ansible.builtin.apt:
         name: nginx
         state: present
         update_cache: true
 
-    - name: Create Isolated Hardened Directories with Accurate DAC Protections
+    - name: Create isolated hardened directories with accurate DAC protections
       ansible.builtin.file:
         path: "{{ nginx_cache_root }}"
         state: directory
@@ -232,7 +238,7 @@ For unified orchestration across cloud and bare-metal server assets, this Ansibl
         group: www-data
         mode: '0750'
 
-    - name: Synthesize Optimized Nginx Site Layout Profiles
+    - name: Synthesize optimized Nginx site layout profiles
       ansible.builtin.copy:
         dest: "{{ nginx_config_destination }}"
         mode: '0644'
@@ -260,22 +266,22 @@ For unified orchestration across cloud and bare-metal server assets, this Ansibl
               location /oracle/     { proxy_pass http://yum.oracle.com/repo/OracleLinux/; proxy_cache repo_cache; }
           }
 
-    - name: Enable Local Caching Profile via Core Symlinks
+    - name: Enable local caching profile via core symlinks
       ansible.builtin.file:
         src: "{{ nginx_config_destination }}"
         dest: "/etc/nginx/sites-enabled/local-mirror"
         state: link
 
-    - name: Eliminate Remnant Contradictory Virtual Host Instances
+    - name: Eliminate remnant contradictory virtual host instances
       ansible.builtin.file:
         path: /etc/nginx/sites-enabled/default
         state: absent
 
-    - name: Run Integrity Test Matrix Over Nginx Configuration Blueprint
+    - name: Run ontegrity test matrix over Nginx configuration blueprint
       ansible.builtin.command: nginx -t
       changed_when: false
 
-    - name: Force Pipeline Execution and State Synchronization
+    - name: Force pipeline execution and state synchronization
       ansible.builtin.systemd_service:
         name: nginx
         state: restarted
@@ -283,15 +289,13 @@ For unified orchestration across cloud and bare-metal server assets, this Ansibl
 
 ```
 
----
-
-## 4. Client-Side Automation: Target Fleet Configuration Playbook
+### 5.2 Client-side configuration
 
 This playbook establishes systematic runtime compliance across the enterprise fleet. It dynamically parses target machine traits (distribution families) and transparently mutates repository connection targets to route package management workflows through the local caching server.
 
 ```yaml
 ---
-- name: Enterprise Fleet Alignment - Synchronize Repositories to Local Cache Proxy
+- name: Enterprise fleet alignment - synchronize repositories to local cache proxy
   hosts: internal_linux_fleet
   become: true
   vars:
@@ -301,7 +305,7 @@ This playbook establishes systematic runtime compliance across the enterprise fl
     # --------------------------------------------------------------------------
     # TARGET TYPE 1: DEBIAN INFRASTRUCTURE
     # --------------------------------------------------------------------------
-    - name: Re-Route Core Debian APT Resource Connections
+    - name: Re-Route core Debian APT resource connections
       ansible.builtin.copy:
         dest: /etc/apt/sources.list
         mode: '0644'
@@ -316,13 +320,13 @@ This playbook establishes systematic runtime compliance across the enterprise fl
     # --------------------------------------------------------------------------
     # TARGET TYPE 2: MODERN UBUNTU INFRASTRUCTURE (24.04+)
     # --------------------------------------------------------------------------
-    - name: Audit Legacy APT Configurations on Modern Systems
+    - name: Audit legacy APT configurations on modern systems
       ansible.builtin.file:
         path: /etc/apt/sources.list
         state: absent
       when: ansible_fact_distribution == 'Ubuntu' and ansible_fact_distribution_version is version('24.04', '>=')
 
-    - name: Deploy Standardized DEB822 Configuration for Modern Ubuntu Systems
+    - name: Deploy standardized DEB822 configuration for modern Ubuntu systems
       ansible.builtin.copy:
         dest: /etc/apt/sources.list.d/ubuntu.sources
         mode: '0644'
@@ -339,7 +343,7 @@ This playbook establishes systematic runtime compliance across the enterprise fl
     # --------------------------------------------------------------------------
     # TARGET TYPE 3: LEGACY UBUNTU INFRASTRUCTURE (22.04 and Lower)
     # --------------------------------------------------------------------------
-    - name: Configure Legacy Style String Definitions on Lower Ubuntu Environments
+    - name: Configure legacy style string definitions on lower Ubuntu environments
       ansible.builtin.copy:
         dest: /etc/apt/sources.list
         mode: '0644'
@@ -354,7 +358,7 @@ This playbook establishes systematic runtime compliance across the enterprise fl
     # --------------------------------------------------------------------------
     # TARGET TYPE 4: ROCKY LINUX INFRASTRUCTURE
     # --------------------------------------------------------------------------
-    - name: Align Rocky Linux DNF Framework Paths
+    - name: Align Rocky Linux DNF framework paths
       ansible.builtin.replace:
         path: "/etc/yum.repos.d/{{ item }}"
         regexp: '^mirrorlist='
@@ -362,7 +366,7 @@ This playbook establishes systematic runtime compliance across the enterprise fl
       with_items: ['rocky.repo', 'rocky-devel.repo', 'rocky-extras.repo']
       when: ansible_fact_distribution == 'Rocky'
 
-    - name: Direct Rocky Baseurl Strings to Cache Targets
+    - name: Direct Rocky baseurl strings to cache targets
       ansible.builtin.replace:
         path: /etc/yum.repos.d/rocky.repo
         regexp: '^#\s*baseurl=http://dl.rockylinux.org/\$contentdir'
@@ -372,14 +376,14 @@ This playbook establishes systematic runtime compliance across the enterprise fl
     # --------------------------------------------------------------------------
     # TARGET TYPE 5: ALMALINUX INFRASTRUCTURE
     # --------------------------------------------------------------------------
-    - name: Comment Out AlmaLinux Automated Mirror Tracking Engines
+    - name: Comment out AlmaLinux automated mirror tracking engines
       ansible.builtin.replace:
         path: /etc/yum.repos.d/almalinux.repo
         regexp: '^mirrorlist='
         replace: '#mirrorlist='
       when: ansible_fact_distribution == 'AlmaLinux'
 
-    - name: Direct AlmaLinux Baseurl Vectors to Caching Infrastructure
+    - name: Direct AlmaLinux baseurl vectors to caching infrastructure
       ansible.builtin.replace:
         path: /etc/yum.repos.d/almalinux.repo
         regexp: '^#\s*baseurl=http://repo.almalinux.org/almalinux'
@@ -389,7 +393,7 @@ This playbook establishes systematic runtime compliance across the enterprise fl
     # --------------------------------------------------------------------------
     # TARGET TYPE 6: ORACLE LINUX INFRASTRUCTURE
     # --------------------------------------------------------------------------
-    - name: Align Oracle Yum Base Repo Configurations to Network Cache Target
+    - name: Align Oracle yum base repo configurations to network cache target
       ansible.builtin.replace:
         path: /etc/yum.repos.d/oracle-linux-ol9.repo
         regexp: '^baseurl=https://yum.oracle.com/repo/OracleLinux'
@@ -399,36 +403,33 @@ This playbook establishes systematic runtime compliance across the enterprise fl
     # --------------------------------------------------------------------------
     # FLEET ENGINE VALIDATION RUNS
     # --------------------------------------------------------------------------
-    - name: Flush Local Package Indexes (Debian Derivatives)
+    - name: Flush local package indexes (Debian derivatives)
       ansible.builtin.command: apt-get clean && apt-get update
       changed_when: true
       when: ansible_fact_os_family == 'Debian'
 
-    - name: Flush Local Package Indexes (RedHat Derivatives)
+    - name: Flush local package indexes (RedHat derivatives)
       ansible.builtin.command: dnf clean all && dnf makecache
       changed_when: true
       when: ansible_fact_os_family == 'RedHat'
 
 ```
-## 5. Client-Side Standalone Configuration Conversion Scripts
+## 6. Client-side standalone configuration scripts
 
 If machines must be configured manually outside of configuration management tools, the following standalone scripts can be executed directly on individual client machines.
 
 > **Architecture Assumption:** The proxy cache instance is bound to internal IP address `192.168.1.29`.
 
-### 1. Ubuntu clients
-
+### 6.1 Ubuntu clients
 Edit the primary source map file `/etc/apt/sources.list.d/ubuntu.sources`:
-
 ```text
 Types: deb
 URIs: http://192.168.1.29/ubuntu/
 Suites: noble noble-updates noble-security
 Components: main universe restricted multiverse
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
-
 ```
-#### 5.1 Ubuntu Client Adaptation (Automated Version Detection)
+#### Script
 
 ```bash
 #!/bin/bash
@@ -461,16 +462,14 @@ apt-get clean && apt-get update
 
 ```
 
-### 2. Debian Clients
-
+### 6.2 Debian Clients
 Edit `/etc/apt/sources.list`:
-
 ```text
 deb http://192.168.1.29/debian/ bookworm main contrib non-free non-free-firmware
 deb http://192.168.1.29/debian/ bookworm-updates main contrib non-free non-free-firmware
 
 ```
-### 5.2 Debian Client Conversion Script
+#### Script
 
 ```bash
 #!/bin/bash
@@ -489,8 +488,7 @@ apt-get clean && apt-get update
 
 ```
 
-### 3. Rocky Linux Clients
-
+### 6.3 Rocky Linux Clients
 Edit `/etc/yum.repos.d/rocky.repo`, comment out the global dynamic mirror lookup arrays, and set explicit local base endpoints:
 
 ```ini
@@ -503,7 +501,7 @@ enabled=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rockyofficial
 
 ```
-### 5.3 Rocky Linux Fleet Conversion Script
+#### Script
 
 ```bash
 #!/bin/bash
@@ -522,8 +520,7 @@ sed -i "s|^#\s*baseurl=http://dl.rockylinux.org/\$contentdir|baseurl=http://${PR
 dnf clean all && dnf makecache
 
 ```
-### 4. AlmaLinux Clients
-
+### 6.4 AlmaLinux Clients
 Edit `/etc/yum.repos.d/almalinux.repo`:
 
 ```ini
@@ -536,7 +533,7 @@ enabled=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux
 
 ```
-### 5.4 AlmaLinux Client Migration Tool
+#### Script
 
 ```bash
 #!/bin/bash
@@ -552,8 +549,7 @@ sed -i "s|^#\s*baseurl=http://repo.almalinux.org/almalinux|baseurl=http://${PROX
 dnf clean all && dnf makecache
 
 ```
-### 5. Oracle Linux Clients
-
+### 6.5 Oracle Linux Clients
 Edit `/etc/yum.repos.d/oracle-linux-ol9.repo`:
 
 ```ini
@@ -565,8 +561,7 @@ enabled=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
 
 ```
-### 5.5 Oracle Linux Custom Targeting Tool
-
+#### Script
 ```bash
 #!/bin/bash
 set -euo pipefail
@@ -585,11 +580,11 @@ dnf clean all && dnf makecache
 ```
 ---
 
-## Threat modeling & security posture analysis
+## 7. Threat modeling & security posture analysis
 
 A foundational question in this architecture is the security implication of streaming package management queries over an unencrypted HTTP proxy layer to local clients.
 
-#### Cryptographic supply chain integrity
+#### 7.1 Cryptographic supply chain integrity
 
 Modern Linux package managers (`apt`, `dnf`) do not rely on the transport layer (TLS/HTTPS) for identity verification or payload validation. Instead, security is derived from **end-to-end cryptographic signatures** applied directly to the repository metadata and package assets.
 
@@ -600,7 +595,6 @@ Modern Linux package managers (`apt`, `dnf`) do not rely on the transport layer 
 ```bash
 [ CLIENT INSTANCE ]
 │
-
 1. Requests Package Metadata            ▼
 ──────────────────────────────►  [ Nginx Proxy ]  ──────────────────────────────► [ Public Mirror ]
 ◄──────────────────────────────  (Cache Miss/Hit) ◄──────────────────────────────
@@ -613,14 +607,12 @@ Confirms Package Trust Verification ◄┘
 │
 ▼
 3. Installs Application (Safe from Modification)
-
 ```
-Clients download independent cryptographic signing records (such as `Release.gpg` or repo-level RPM public keys) out-of-band or embedded locally. If a malicious entity intercepts the cache data path and modifies an upstream payload file (`.deb` or `.rpm`), the local client process instantly detects the hash divergence during data unpacking and halts installation before executing arbitrary binaries.
 
-### 2. Cache Lock Starvation (Thundering Herd Defense)
+### 7.2 Cache lock starvation (Thundering Herd Defense)
 The implementation of `proxy_cache_lock on;` is critical. If 200 nodes execute an update simultaneously during a scheduled orchestration run (e.g., via AWX) and a new kernel package must be fetched, disabling cache locking would cause Nginx to spawn 200 concurrent proxy connections to the public mirror. This behavior mirrors a Distributed Denial of Service (DDoS) footprint, leading to immediate public pool blocking. Enforcing the lock forces Nginx to open *one* connection to download the file, while stalling the remaining 199 client requests until local delivery can occur.
 
-### 3. Repository Version Skew ("Metadata Divergence")
+### 7.3 Repository version skew ("Metadata divergence")
 Upstream release definitions change dynamically throughout the day. If a client fetches a freshly structured `Packages.gz` map file (a cache miss resulting in a direct fetch), but attempts to download an older binary file associated with yesterday's metadata that Nginx already purged from local storage, a temporary HTTP 404 error may manifest. 
 
 To systematically address this issue, maintain a robust retention window parameter (`inactive=90d`) and run cache cleaning commands on downstream targets during system exceptions:
@@ -634,9 +626,9 @@ sudo dnf clean all && sudo dnf makecache
 
 ---
 
-## 6. End-to-End Walkthrough, Operational Verification & Edge Cases
+## 8. Operational verification & edge cases
 
-### 6.1 Step-by-Step System Validation Routine
+### 8.1 Step-by-Step System Validation Routine
 
 Once both the server proxy configuration and client profiles have been adjusted, execute the following operational sequence to confirm system efficacy.
 
@@ -646,7 +638,6 @@ Initiate a live stream tracking window against the Nginx HTTP monitoring channel
 sudo tail -f /var/log/nginx/access.log
 
 ```
-
 
 2. **Access an Internal Target Host (Client Instance):**
 Run an absolute refresh command matrix on the client machine to force database parsing:
@@ -668,7 +659,7 @@ When the client queries package updates, the proxy terminal will display rapid m
 ```
 
 
-*Note: The first connection check yields a `MISS` value inside the tracking variables, indicating that Nginx fetched the binary upstream and committed it to local cache files.*
+*Note: The first connection check yields a `MISS` value inside the tracking variables, indicating that Nginx fetched the binary upstream and committed it to local cache files.*  
 4. **Confirm the Storage Footprint Generation:**
 Verify that Nginx is actively structuring cached file blobs inside the target directories:
 ```bash
@@ -688,7 +679,7 @@ The Nginx access logs will instantly log a `HIT` value for the requested assets:
 
 The network download interface on the client machine will complete the download almost instantaneously, reflecting local LAN speeds (e.g., 100+ MB/s) rather than WAN bandwidth constraints.
 
-### 6.2 Managing Technical Debt & Operational Edge Cases
+### 8.2 Managing Technical Debt & Operational Edge Cases
 
 #### Edge Case 1: Resolving Upstream Metadata Skew (HTTP 404 Errors)
 
