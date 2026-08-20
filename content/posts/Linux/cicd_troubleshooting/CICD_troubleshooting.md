@@ -2,11 +2,11 @@
 title: "CICD troubleshooting"
 date: 2026-08-20T12:00:15+02:00
 hero: /images/posts/cicd.png
-description: How a five-line curl command turned into a full afternoon of troubleshooting, and every lesson learned along the way.
+description: Chasing ghosts
 theme: Toha
 menu:
   sidebar:
-    name: cicd_troubleshooting
+    name: CICD troubleshooting
     identifier: cicd_troubleshooting_post
     parent: cat-linux
     weight: 304
