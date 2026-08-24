@@ -12,8 +12,8 @@ menu:
     weight: 305
 ---
 
-# Closing the loop: A GitOps sync pipeline between GitLab and AWX
-
+# Closing the loop:  
+A GitOps sync pipeline between GitLab and AWX
 *An architectural assessment of a small pipeline solving a real operational problem.*
 
 ## Summary
@@ -117,6 +117,104 @@ Same polling pattern as Step 2, against `/api/v2/inventory_updates/<job_id>/`.
 
 **Terminal state:**  
 the CI job exits 0 only if both updates reached `successful`. Any other outcome exits non-zero, failing the pipeline visibly.
+
+### Pipeline
+*.gitlab-ci.yml*
+```yaml
+stages:
+  - deploy
+
+variables:
+  POLL_INTERVAL: "5"
+  POLL_TIMEOUT: "300"
+
+sync_awx:
+  stage: deploy
+  image: badouralix/curl-jq:latest
+  script:
+    - chmod +x ./scripts/awx-sync.sh
+    - ./scripts/awx-sync.sh
+  only:
+    - main
+```
+### Script
+*awx-sync.sh*
+```bash
+#!/bin/sh
+set -e
+
+wait_for_job() {
+  endpoint="$1"
+  job_id="$2"
+  elapsed=0
+
+  while true; do
+    STATUS=$(curl -sk -X GET "$AWX_URL/api/v2/${endpoint}/${job_id}/" \
+      -H "Authorization: Bearer $AWX_TOKEN" | jq -r '.status')
+
+    echo "  status: $STATUS (${elapsed}s elapsed)"
+
+    case "$STATUS" in
+      successful) return 0 ;;
+      failed|error|canceled) return 1 ;;
+    esac
+
+    if [ "$elapsed" -ge "$POLL_TIMEOUT" ]; then
+      echo "Timed out waiting on ${endpoint}/${job_id}"
+      return 1
+    fi
+
+    sleep "$POLL_INTERVAL"
+    elapsed=$((elapsed + POLL_INTERVAL))
+  done
+}
+
+echo "Triggering project sync..."
+RESPONSE=$(curl -sk -w "\nHTTP_STATUS:%{http_code}" -X POST "$AWX_URL/api/v2/projects/$PROJECT_ID/update/" \
+  -H "Authorization: Bearer $AWX_TOKEN" \
+  -H "Content-Type: application/json")
+
+HTTP_BODY=$(echo "$RESPONSE" | sed -E 's/HTTP_STATUS:[0-9]{3}$//')
+HTTP_STATUS=$(echo "$RESPONSE" | tail -1 | grep -oE '[0-9]{3}$')
+
+if [ "$HTTP_STATUS" != "202" ]; then
+  echo "AWX API call failed with status $HTTP_STATUS"
+  echo "Response: $HTTP_BODY"
+  exit 1
+fi
+
+PROJECT_UPDATE_ID=$(echo "$HTTP_BODY" | jq -r '.id')
+echo "Project update job: $PROJECT_UPDATE_ID"
+
+if ! wait_for_job "project_updates" "$PROJECT_UPDATE_ID"; then
+  echo "Project sync failed, aborting before inventory sync"
+  exit 1
+fi
+echo "Project sync successful."
+
+echo "Triggering inventory source sync..."
+RESPONSE=$(curl -sk -w "\nHTTP_STATUS:%{http_code}" -X POST "$AWX_URL/api/v2/inventory_sources/$INVENTORY_SOURCE_ID/update/" \
+  -H "Authorization: Bearer $AWX_TOKEN" \
+  -H "Content-Type: application/json")
+
+HTTP_BODY=$(echo "$RESPONSE" | sed -E 's/HTTP_STATUS:[0-9]{3}$//')
+HTTP_STATUS=$(echo "$RESPONSE" | tail -1 | grep -oE '[0-9]{3}$')
+
+if [ "$HTTP_STATUS" != "202" ]; then
+  echo "AWX API call failed with status $HTTP_STATUS"
+  echo "Response: $HTTP_BODY"
+  exit 1
+fi
+
+INVENTORY_UPDATE_ID=$(echo "$HTTP_BODY" | jq -r '.id')
+echo "Inventory update job: $INVENTORY_UPDATE_ID"
+
+if ! wait_for_job "inventory_updates" "$INVENTORY_UPDATE_ID"; then
+  echo "Inventory sync failed"
+  exit 1
+fi
+echo "Inventory sync successful."
+```
 
 ### Key commands
 
