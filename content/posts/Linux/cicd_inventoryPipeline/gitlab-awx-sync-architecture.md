@@ -98,35 +98,7 @@ A few decisions were made explicitly, with alternatives considered and rejected.
 
 ## Architecture and flow
 
-```
- Developer                 GitLab                      AWX
- ─────────                 ──────                       ───
-     │  push to main          │                           │
-     ├────────────────────────►                           │
-     │                        │  CI job: sync_awx starts   │
-     │                        ├──────────┐                 │
-     │                        │          │                 │
-     │                        │   POST /api/v2/projects/    │
-     │                        │        <id>/update/  ──────►
-     │                        │          ◄────── 202 + job id
-     │                        │          │                 │
-     │                        │   poll GET /project_updates/│
-     │                        │        <job_id>/  ──────────►
-     │                        │          ◄────── status: waiting
-     │                        │          │  (repeat until    │
-     │                        │          │   'successful')   │
-     │                        │          │                 │
-     │                        │   POST /api/v2/              │
-     │                        │     inventory_sources/       │
-     │                        │        <id>/update/  ────────►
-     │                        │          ◄────── 202 + job id
-     │                        │          │                 │
-     │                        │   poll GET /inventory_updates/│
-     │                        │        <job_id>/  ────────────►
-     │                        │          ◄────── status: successful
-     │                        │          │                 │
-     │                        │  CI job: success ✔          │
-```
+![GitlabSyncFlow](images/posts/GitlabSyncFlow.png)
 
 **Trigger:**  
 a push to `main` on the GitLab repository. Scoped via `only: [main]` so feature-branch commits don't fire syncs against live AWX state.
