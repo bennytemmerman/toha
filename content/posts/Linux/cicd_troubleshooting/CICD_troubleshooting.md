@@ -11,23 +11,20 @@ menu:
     parent: cat-linux
     weight: 304
 ---
-# Chasing ghosts: Debugging a GitLab CI → AWX sync pipeline
+# Chasing ghosts
 
+Debugging a GitLab CI → AWX sync pipeline
 *How a five-line curl command turned into a full afternoon of troubleshooting.*
 
 ## The goal
 
-Simple enough on paper: after pushing changes to an Ansible inventory hostfile in GitLab, automatically trigger AWX to:
+After pushing changes to an Ansible inventory hostfile in GitLab, automatically trigger AWX to:
 
 1. Sync the project (pull the latest code from GitLab)
 2. Wait for that sync to finish successfully
 3. Only then trigger the inventory source sync, so AWX picks up the updated hostfile
 
-The starting point was a minimal .gitlab-ci.yml job that just fired a single curl POST at AWX's project update endpoint.
-No waiting, no chaining, no error handling. Good enough to prove the token and URL worked, not good enough for a real pipeline.
-
-What followed was a chain of failures that each looked unrelated, but were really just successive layers of the same onion. 
-Here's the full trail, in case it saves someone else the same afternoon.
+A chain of failures that each looked unrelated, but were really just successive layers of the same onion.
 
 ## 1: YAML won't parse the script block
 
@@ -36,7 +33,7 @@ Here's the full trail, in case it saves someone else the same afternoon.
 jobs:sync_awx:script config should be a string or a nested array of strings up to 10 levels deep
 ```
 
-The first thing was to check the bash logic inside the "script:-block". But this is a **YAML parsing error**, not a shell error. It means GitLab couldn't even interpret the "script:-key" as a valid string/array before a single command ran.
+The initial idea was to check the bash logic inside the "script:-block". But this is a YAML parsing error, not a shell error. It means GitLab couldn't even interpret the "script:-key" as a valid string/array before a single command ran.
 
 **Fix:** Move the multi-line logic out of the YAML entirely and into a proper shell script file (scripts/awx-sync.sh), called from a one-line "script:-block:"
 
@@ -46,7 +43,7 @@ script:
   - ./scripts/awx-sync.sh
 ```
 
-**Lesson:** if the error mentions YAML structure ("should be a string..."), the problem is in the .gitlab-ci.yml-file itself. Don't go debugging the script content until the pipeline editor's linter (or glab ci lint) gives the YAML a clean bill of health.
+**Lesson:** if the error mentions YAML structure ("should be a string..."), check the .gitlab-ci.yml-file itself.
 
 ## 2: Classic CRLF trap
 
@@ -65,7 +62,7 @@ sed -i 's/\r$//' scripts/awx-sync.sh
 ```
 Or use the "Select End of Line Sequence" in VScode and change to LF.
 
-**The permanent fix** — add a `.gitattributes` file so Git normalizes line endings on every checkout, regardless of which OS or editor touches the file next:
+**The permanent fix:** add a .gitattributes file so Git normalizes line endings on every checkout, regardless of which OS or editor touches the file next:
 
 ```
 *.sh text eol=lf
@@ -77,7 +74,7 @@ Followed by a one-time repo-wide normalization:
 git add --renormalize .
 ```
 
-CRLF issues are sneaky, specifically because the resulting errors never mention line endings. They show up as "file not found," "bad interpreter," or cryptic YAML parse failures. Any time an error looks like it *shouldn't* be possible given the file clearly exists and is clearly valid, checking for `\r` characters is a cheap first move.
+CRLF issues are sneaky because the resulting errors never mention line endings. They show up as "file not found," "bad interpreter," or cryptic YAML parse failures. Any time an error looks like it shouldn't be possible given the file clearly exists and is clearly valid, checking for `\r` characters is a cheap first move.
 
 ## 3: Missing jq in CI image
 
@@ -86,7 +83,7 @@ CRLF issues are sneaky, specifically because the resulting errors never mention 
 ./scripts/awx-sync.sh: 33: jq: not found
 ```
 
-I  had the following container image (`curlimages/curl:latest`) configured in my pipeline, that only ships `curl`, not `jq`. So switch to an image that already bundles both.
+I had the following container image (`curlimages/curl:latest`) configured in my pipeline, that only ships `curl`, not `jq`. So switch to an image that already bundles both.
 
 ```yaml
 image: badouralix/curl-jq:latest
@@ -103,6 +100,7 @@ GitLab Runners can be configured with different executors: `docker`, `kubernetes
 Preparing the "docker" executor
 ```
 Or `"shell"`, or `"kubernetes"`. That one line answers the question definitively, far more reliably than guessing from symptoms.
+![GitlabRunnerExecutor](images/posts/gitlab_executor_.png)
 
 Reconfiguring the gitlab runner to have Docker as the executor and providing the right image, fixed the missing jq package and allowed the script to continue.
 
@@ -115,7 +113,7 @@ Raw response: <html><head><title>301 Moved Permanently</title></head>...
 HTTP status: 301
 ```
 
-Once jq had something to parse, it got stuck on HTML instead of JSON, meaning the request never actually reached AWX's API. The openresty signature gave it away: this was the reverse proxy (Nginx Proxy Manager) intercepting the request, not AWX itself.
+Once jq had something to parse, it got stuck on HTML instead of JSON, meaning the request never actually reached AWX's API. The openresty signature gave it away: this was the reverse proxy (Nginx Proxy Manager) intercepting the request, not AWX itself. As I am using a reverse proxy to handle redirects to https for my ssl certificates, I had to reconfigure my variable in Gitlab.
 
 The cause: AWX_URL was set to http://... instead of https://..., and the proxy was redirecting HTTP to HTTPS with a 301 before the request could reach the backend.
 
@@ -132,7 +130,7 @@ Fixing the protocol got a real response from AWX's server, but still a 404. Addi
 echo "Calling: $AWX_URL/api/v2/projects/$PROJECT_ID/update/"
 ```
 
-immediately revealed the issue: the GitLab CI/CD variable name didn't match what the script expected, so `$PROJECT_ID` was substituting as empty, producing a malformed URL that AWX correctly reported as not found. While AI can speed up building scripts, you still need to know the environment and how the pieces are connected. The script was correct, but the old var names where different from the ones created in the AI script.
+immediately revealed the issue: the GitLab CI/CD variable name didn't match what the script expected, so `$PROJECT_ID` was substituting as empty, producing a malformed URL that AWX correctly reported as not found. While AI can speed up building scripts, you still need to know the environment and how the pieces are connected. The script was correct, but the old variable names where different from the ones created in the AI script.
 
 **Lesson:** whenever a URL-based API call 404s unexpectedly, print the fully-interpolated URL before debugging anything else. It takes ten seconds and eliminates an entire class of "which variable is actually empty" guesswork.
 
@@ -190,12 +188,12 @@ scripts/awx-sync.sh triggers the project update, polls "/api/v2/project_updates/
 
 ## Takeaways
 
-A few patterns that were worth internalizing, beyond the specific fixes:
+A few patterns that were worth internalizing:
 
 - **Read the error literally before assuming.**  
 A YAML structure error is not a bash error. A jq parse error means the previous step returned something unexpected, not that jq is broken.
 - **CRLF line endings cause confusing failures.**  
-The fix is cheap; the .gitattributes prevention is even cheaper. Worth doing on every repo touched by more than one OS.
+Easy fix but better to implement the .gitattributes prevention. Worth doing on every repo touched by more than one OS.
 - **Print before debugging.**  
 Half of these roadblocks resolved in under a minute once the actual interpolated URL, HTTP status, or raw response body was printed to the job log instead of assumed.
 - **Async APIs don't always return 200/201.**  
