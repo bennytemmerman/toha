@@ -1,6 +1,6 @@
 ---
 title: "CICD pipeline AWX inventory"
-date: 2026-08-20T12:00:15+02:00
+date: 2026-08-24T12:00:15+02:00
 hero: /images/posts/cicd.png
 description: Pipeline between gitlab and AWX inventory sync
 theme: Toha
