@@ -108,6 +108,10 @@ Phase 12  Capstone projects
 
 ---
 
+## Learning journal
+
+---
+
 ## PHASE 0: Build your learning lab
 _Estimated time: 2–3 hours_
 
@@ -118,23 +122,23 @@ _Estimated time: 2–3 hours_
 2. Creation of a small dedicated Linux environment. 1 RHEL-compatible distro (Rocky Linux) and 1 Debian-based distro (Ubuntu). I will be using virtual machines instead of LXC (containers) to avoid possible issues related to sharing the hypervisor kernel.
 
 ### Set up
-- [] SSH
-- [] static/reserved IP
-- [] normal user
-- [] sudo
-- [] hostname
-- [] basic networking
-- [] snapshots
-- [] Git repository for notes
-- [] a lab-notes.md
-- [] a troubleshooting.md
+- [ ] SSH
+- [ ] static/reserved IP
+- [ ] normal user
+- [ ] sudo
+- [ ] hostname
+- [ ] basic networking
+- [ ] snapshots
+- [ ] Git repository for notes
+- [ ] a lab-notes.md
+- [ ] a troubleshooting.md
 
 ### Success looks like
-- [] SSH into both systems
-- [] administer them without logging in as root for everything
-- [] snapshot/revert them
-- [] deliberately break something and recover
-- [] explain the purpose of each VM
+- [ ] SSH into both systems
+- [ ] administer them without logging in as root for everything
+- [ ] snapshot/revert them
+- [ ] deliberately break something and recover
+- [ ] explain the purpose of each VM
 
 ---
 
@@ -142,3 +146,6 @@ _Estimated time: 2–3 hours_
 
 - Distraction #1: WoW login queue → built GitLab/MkDocs deployment pipeline → 4 hours disappeared.
 
+### possible future projects
+
+- [ ] Add playbooks to AWX repo in order to gather systeminfo to add to my wiki
