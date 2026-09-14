@@ -2,7 +2,7 @@
 title: "RHCSA journey"
 date: 2026-09-14T12:00:15+02:00
 hero: /images/posts/rhcsa.png
-description: Learning Linux Properly: My RHCSA Journey
+description: "Learning Linux Properly: My RHCSA Journey"
 theme: Toha
 menu:
   sidebar:
