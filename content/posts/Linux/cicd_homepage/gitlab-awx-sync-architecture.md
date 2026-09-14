@@ -1,6 +1,6 @@
 ---
 title: "CICD pipeline Homepage"
-date: 2026-09-7T12:00:15+02:00
+date: 2026-09-07T12:00:15+02:00
 hero: /images/posts/cicd.png
 description: Pipeline to organize Homepage
 theme: Toha
