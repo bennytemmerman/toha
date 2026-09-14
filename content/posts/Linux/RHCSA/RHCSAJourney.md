@@ -134,11 +134,10 @@ _Estimated time: 2–3 hours_
 - [ ] a troubleshooting.md
 
 ### Success looks like
-- [ ] SSH into both systems
-- [ ] administer them without logging in as root for everything
-- [ ] snapshot/revert them
-- [ ] deliberately break something and recover
-- [ ] explain the purpose of each VM
+- I have two working Linux VMs
+- I can SSH into them
+- I can safely experiment without worrying about breaking my homelab
+- I have a simple system for recording what I learn and parking unrelated ideas.
 
 ---
 
