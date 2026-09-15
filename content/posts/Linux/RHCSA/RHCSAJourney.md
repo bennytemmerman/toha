@@ -105,7 +105,7 @@ Phase 12  Capstone projects
 
 ## Log
 - 2026/09/14: creating blogpost (1h)
-- 2026/09/15: phase 0, setting up homelab
+- 2026/09/15: phase 0, setting up homelab (2.5h)
 
 ---
 
@@ -141,7 +141,7 @@ _Estimated time: 2–3 hours_
 
 ### Journal
 
-9:30 - 11:00
+9:30 - 11:00  
 As I am trying to install a Linux distro on a remote Dell server with virtual media at work, which isn't going as smooth as I thought, it is really slow so in the meantime I can continue learning for RHCSA.
 
 I created 2 hosts on my Proxmox199 host:
@@ -154,7 +154,7 @@ Using my homepage to quickly access my proxmox web UI, I was thinking about SSO 
 
 During the installation of Rocky I could already configure the Static IP, perfect. Not sure if I skipped it on Ubuntu or just clicked next too fast, but we can fix this after the install. Looks like Rocky Linux 9 minimal has ssh working right away. I remember in the past having to enable the openssh server or allowing in firewall rules. testing dns and internet connectivity by pinging google.com and running a update and upgrade. Somehow changing the ip to manual in ubuntu desktop changes it back to automatic so it receives from dhcp... Checking the netplan config shows that the config is correct. Let's reboot the host. In order to allow ssh on Ubuntu I had to install the openssh-server first. Next thing to tackle, Rocky Linux minimal has no GUI, so installing that and switching to GUI, setting it as default. I really enjoy CLI, but I think it's equally important to have a GUI feel aswell.
 
-13:00 - 14:00
+13:00 - 14:00  
 Next up is making a backup of each vm and creating a snapshot in order to test whether we can restore the vm after making changes or breaking something. Encountered an issue where I can't create snapshots, a forum post explained that lvm storage does not support the creation of snapshots and my vm's are on a lvm configured storage. But we could always restore from backup. Creating a file on each vm to check if the host reverted to the clean install.
 
 The Ubuntu restore worked perfectly as expected. Ready to go. The Rocky vm had localhost as hostname, I wanted to change this first using hostnamectl. After a reboot, the name got changed and we can continue to test the backup. The backup restore for Rocky went equally smooth so we're ready with our testenvironment, let's get learning!
