@@ -113,16 +113,17 @@ Phase 12  Capstone projects
 - 2026/09/15: LVM storage on proxmox does not support snapshot creation
 
 ---
+
 ## PHASE 0: Build your learning lab
 _Estimated time: 2–3 hours_
 
-### Goal
+### Lab environment
 
 1. Build a solid, practical Linux administration foundation by working through the RHCSA body of knowledge and being able to operate, troubleshoot and explain a Linux system without blindly copying commands.
 
 2. Creation of a small dedicated Linux environment. 1 RHEL-compatible distro (Rocky Linux) and 1 Debian-based distro (Ubuntu). I will be using virtual machines instead of LXC (containers) to avoid possible issues related to sharing the hypervisor kernel.
 
-### Set up
+#### Set up
 - [x] Create Rocky Linux VM
 - [x] Create Ubuntu VM
 - [x] Configure SSH access
@@ -133,13 +134,13 @@ _Estimated time: 2–3 hours_
 - [x] Verify internet/DNS connectivity
 - [x] Confirm you can destroy/reset the VM if necessary
 
-### Success looks like
+#### Success looks like
 - I have two working Linux VMs
 - I can SSH into them
 - I can safely experiment without worrying about breaking my homelab
 - I have a simple system for recording what I learn and parking unrelated ideas.
 
-### Journal
+#### Journal
 
 9:30 - 11:00  
 As I am trying to install a Linux distro on a remote Dell server with virtual media at work, which isn't going as smooth as I thought, it is really slow so in the meantime I can continue learning for RHCSA.
@@ -183,6 +184,332 @@ nano /etc/hosts
 # Restart systemd-hostnamed
 systemctl restart systemd-hostnamed
 ```
+
+---
+
+## PHASE 1: Essential Linux tools & command line
+_Estimated time: 6-10 hours_
+
+### 1.1 Shell fundamentals
+_Estimated: 1–1.5 hours_
+
+#### Commands to test
+```bash
+pwd
+ls
+cd
+echo
+type
+which
+command
+history
+env
+printenv
+whoami
+id
+sudo
+su
+```
+
+#### Lab 
+Navigation in CLI
+```bash
+cd /
+ls
+cd /etc
+pwd
+cd ~
+pwd
+```
+Explore other commands
+```bash
+echo $PATH
+echo $HOME
+echo $USER
+whoami
+id
+```
+
+#### Success looks like
+You can sit at a shell prompt and comfortably answer:
+
+- Where am I?
+- Who am I?
+- What commands are available?
+- Where does this command come from?
+- How do I get somewhere else?
+- What does this command's output mean?
+- Did my previous command succeed?
+
+You shouldn't need to memorize every command. The important part is understanding the environment.
+
+#### Journal
+
+### 1.2 Files and directories
+_Estimated: 1.5–2 hours_
+
+#### Commands to test
+```bash
+ls
+cd
+pwd
+mkdir
+touch
+cp
+mv
+rm
+rmdir
+file
+stat
+```
+
+#### Lab 
+Create the following filesystem:
+```bash
+~/rhcsa-lab/
+├── documents/
+├── scripts/
+├── backups/
+└── test/
+```
+Create files, copy them, move them, rename them and delete them.
+
+#### Success looks like
+
+You can manipulate files/directories confidently without thinking about every command.
+what are the following:
+- absolute paths
+- relative paths
+- hidden files
+
+#### Journal
+
+### 1.3 Reading and manipulating text
+_Estimated: 1.5–2 hours_
+
+#### Commands to test
+```bash
+cat
+less
+head
+tail
+wc
+sort
+uniq
+cut
+grep
+|
+>
+>>
+2>
+```
+
+#### Lab 
+Try the following commands and explain how they work
+```bash
+cat /etc/passwd | grep bash
+grep root /etc/passwd
+grep -i root /etc/passwd
+grep -n root /etc/passwd
+cat /etc/passwd > users.txt
+echo "test" >> users.txt
+cat users.txt
+```
+#### Success looks like
+
+You understand this: 
+command A | command B
+and:
+stdout ──> file
+stderr ──> file
+
+#### Journal
+
+### 1.4 Searching and finding things
+_Estimated: 1 hour_
+
+#### Commands to test
+```bash
+find
+locate
+which
+whereis
+type
+grep
+```
+
+#### Success looks like
+Someone tells you:
+“There's a configuration file somewhere under /etc.”
+Your first reaction isn't:
+“Where is that again?”
+It's:
+“I'll find it.”
+
+#### Journal
+
+### 1.5 Archives and compression
+_Estimated: 1 hour_
+
+#### Commands to test
+```bash
+tar
+gzip
+gunzip
+bzip2
+bunzip2
+```
+#### Lab 
+```bash
+tar -cf archive.tar directory/
+tar -xf archive.tar
+tar -czf archive.tar.gz directory/
+tar -xzf archive.tar.gz
+```
+
+#### Success looks like
+You can archive a directory, inspect the archive, extract it somewhere else and explain what happened.
+Understand the distinction:
+- tar     = archive
+- gzip    = compression
+- tar.gz  = tar archive compressed with gzip
+
+#### Journal
+
+### 1.6 Links
+_Estimated: 45–60 minutes_
+
+#### Commands to test
+```bash
+ln
+ln -s
+ls -li
+```
+#### Lab 
+```bash
+touch original.txt
+ln original.txt hardlink.txt
+ln -s original.txt symlink.txt
+ls -li
+```
+Delete the original and observe what happens to each link.
+#### Success looks like
+You can explain:
+What is the difference between a hard link and a symbolic link?
+without looking it up.
+You don't necessarily need to memorize filesystem implementation details yet.
+
+#### Journal
+
+### 1.7 System documentation
+_Estimated: 1 hour_
+
+#### Commands to test
+```bash
+man
+info
+ls /usr/share/doc
+```
+#### Lab 
+Learn to use:
+```bash
+man ls
+man systemctl
+man chmod
+```
+Navigation:
+```bash
+/       search
+n       next match
+q       quit
+```
+Also:
+```bash
+info
+```
+and:
+```bash
+ls /usr/share/doc
+```
+
+#### Success looks like
+Don't try to memorize everything.
+Instead:
+Learn how to find the answer.
+That is a much more useful Linux skill.
+
+#### Journal
+
+### 1.8 SSH and remote systems
+_Estimated: 1 hour_
+
+#### Commands to test
+```bash
+ssh user@host
+ssh -p PORT user@host
+scp
+```
+
+#### Lab 
+connect to Rocky vm
+copy a file to Rocky vm
+
+#### Success looks like
+You can comfortably connect between your systems and transfer a file between them.
+#### Journal
+
+### 1.9 Multi-user targets
+_Estimated: 45–60 minutes_
+The RHCSA objective explicitly includes logging in and switching users in multi-user targets.
+
+#### Commands to test
+```bash
+systemctl get-default
+systemctl list-units
+```
+#### Lab 
+accidentally encountered this while installing GNOME:
+```bash
+systemctl set-default graphical.target
+systemctl isolate graphical.target
+```
+#### Success looks like
+understand the concept of:
+- multi-user.target
+- graphical.target
+
+#### Journal
+
+---  
+
+### Challenge
+
+Start with a clean Rocky VM.
+
+Without following a step-by-step tutorial:
+
+- [ ] SSH into Rocky.
+- [ ] Create a directory structure.
+- [ ] Create several files.
+- [ ] Copy and move files.
+- [ ] Create a hard link and symbolic link.
+- [ ] Find files using find.
+- [ ] Search their contents using grep.
+- [ ] Redirect output to a file.
+- [ ] Append output to another file.
+- [ ] Create a .tar.gz archive.
+- [ ] Extract it again.
+- [ ] Find the relevant documentation using man.
+- [ ] SSH from Rocky into Ubuntu.
+- [ ] Transfer a file between the VMs.
+- [ ] Determine your current user, hostname and working directory.
+- [ ] Explain what happens when you run a command that doesn't exist.
+- [ ] Explain the difference between:
+  - [ ] >
+  - [ ] >>
+  - [ ] |
+  - [ ] 2>
+- [ ] Explain the difference between a hard link and a symbolic link.
 
 ---
 
