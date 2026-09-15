@@ -104,11 +104,8 @@ Phase 12  Capstone projects
 ---
 
 ## Log
-- 2026/14/09: creating blogpost + phase 0
-
----
-
-## Learning journal
+- 2026/09/14: creating blogpost (1h)
+- 2026/09/15: phase 0, setting up homelab
 
 ---
 
@@ -122,22 +119,66 @@ _Estimated time: 2–3 hours_
 2. Creation of a small dedicated Linux environment. 1 RHEL-compatible distro (Rocky Linux) and 1 Debian-based distro (Ubuntu). I will be using virtual machines instead of LXC (containers) to avoid possible issues related to sharing the hypervisor kernel.
 
 ### Set up
-- [ ] SSH
-- [ ] static/reserved IP
-- [ ] normal user
-- [ ] sudo
-- [ ] hostname
-- [ ] basic networking
-- [ ] snapshots
-- [ ] Git repository for notes
-- [ ] a lab-notes.md
-- [ ] a troubleshooting.md
+- [x] Create Rocky Linux VM
+- [x] Create Ubuntu VM
+- [x] Configure SSH access
+- [x] Give both VMs static/reserved IPs
+- [ ] Take clean snapshots - LVM storage did not accept snapshot creation in Proxmox
+- [x] Verify console access through Proxmox
+- [x] Verify SSH access
+- [x] Verify internet/DNS connectivity
+- [x] Confirm you can destroy/reset the VM if necessary
 
 ### Success looks like
 - I have two working Linux VMs
 - I can SSH into them
 - I can safely experiment without worrying about breaking my homelab
 - I have a simple system for recording what I learn and parking unrelated ideas.
+
+### Journal
+
+9:30 - 11:00
+As I am trying to install a Linux distro on a remote Dell server with virtual media at work, which isn't going as smooth as I thought, it is really slow so in the meantime I can continue learning for RHCSA.
+
+I created 2 hosts on my Proxmox199 host:
+- Rocky Linux 9: RHCSA-Rocky (192.168.1.10)
+- Ubuntu 26: RHCSA-Ubuntu (192.168.1.11)
+
+Avoiding the use of LXC containers as they share the kernel of the proxmox hypervisor and this might result in different behavior. Rocky Linux will be the primary RHCSA learning environment because it is part of the RHEL ecosystem. Ubuntu is there mainly as a comparison environment. When I encounter a command or configuration that is different between distributions, I can use Ubuntu to investigate the difference.
+
+Using my homepage to quickly access my proxmox web UI, I was thinking about SSO while logging in. Another project to park so I don't get sidetracked too much. I have a Rocky 9 iso ready and a Ubuntu 26, both recent enough for updates + room for dist-upgrade for Rocky. Resources don't need to be over the top, only the install is needed for now and basic config. Storage can be added later on, which will be fun with LVM.
+
+During the installation of Rocky I could already configure the Static IP, perfect. Not sure if I skipped it on Ubuntu or just clicked next too fast, but we can fix this after the install. Looks like Rocky Linux 9 minimal has ssh working right away. I remember in the past having to enable the openssh server or allowing in firewall rules. testing dns and internet connectivity by pinging google.com and running a update and upgrade. Somehow changing the ip to manual in ubuntu desktop changes it back to automatic so it receives from dhcp... Checking the netplan config shows that the config is correct. Let's reboot the host. In order to allow ssh on Ubuntu I had to install the openssh-server first. Next thing to tackle, Rocky Linux minimal has no GUI, so installing that and switching to GUI, setting it as default. I really enjoy CLI, but I think it's equally important to have a GUI feel aswell.
+
+13:00 - 14:00
+Next up is making a backup of each vm and creating a snapshot in order to test whether we can restore the vm after making changes or breaking something. Encountered an issue where I can't create snapshots, a forum post explained that lvm storage does not support the creation of snapshots and my vm's are on a lvm configured storage. But we could always restore from backup. Creating a file on each vm to check if the host reverted to the clean install.
+
+The Ubuntu restore worked perfectly as expected. Ready to go. The Rocky vm had localhost as hostname, I wanted to change this first using hostnamectl. After a reboot, the name got changed and we can continue to test the backup. The backup restore for Rocky went equally smooth so we're ready with our testenvironment, let's get learning!
+
+```bash
+# Check dns (internal and external) + internet connectivity
+ping nextcloud.siemforge.xyz
+ping google.com
+# Rocky update
+dnf update && dnf upgrade -y
+# Ubuntu update
+apt update && apt upgrade -y
+# Check netplan + config
+ls /etc/netplan
+nano /etc/netplan/90-NM-64002eca-9493-3b7e-be64-07db9f81dd8b.yaml
+# Install openssh-server
+sudo apt install openssh-server
+# Install GUI on Rocky, the isolate command is to switch to GUI, you can also just reboot.
+sudo dnf group install "Server with GUI" -y
+sudo systemctl set-default graphical.target
+sudo systemctl isolate graphical.target
+# Configure hostname on Rocky
+hostnamectl set-hostname new_hostname
+# Also edit in hosts file: 127.0.0.1 RHCSA-Rocky
+nano /etc/hosts
+# Restart systemd-hostnamed
+systemctl restart systemd-hostnamed
+```
 
 ---
 
@@ -147,4 +188,6 @@ _Estimated time: 2–3 hours_
 
 ### possible future projects
 
-- [ ] Add playbooks to AWX repo in order to gather systeminfo to add to my wiki
+- [ ] Add playbooks to AWX repo in order to gather systeminfo to add to my wiki.
+- [ ] Configure Authentik to work with Proxmox login.
+- [ ] Figure out a way to document an overview of used IP's in the network.
