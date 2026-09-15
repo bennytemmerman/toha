@@ -109,6 +109,10 @@ Phase 12  Capstone projects
 
 ---
 
+## Learning journal
+- 2026/09/15: LVM storage on proxmox does not support snapshot creation
+
+---
 ## PHASE 0: Build your learning lab
 _Estimated time: 2–3 hours_
 
@@ -146,7 +150,7 @@ I created 2 hosts on my Proxmox199 host:
 
 Avoiding the use of LXC containers as they share the kernel of the proxmox hypervisor and this might result in different behavior. Rocky Linux will be the primary RHCSA learning environment because it is part of the RHEL ecosystem. Ubuntu is there mainly as a comparison environment. When I encounter a command or configuration that is different between distributions, I can use Ubuntu to investigate the difference.
 
-Using my homepage to quickly access my proxmox web UI, I was thinking about SSO while logging in. Another project to park so I don't get sidetracked too much. I have a Rocky 9 iso ready and a Ubuntu 26, both recent enough for updates + room for dist-upgrade for Rocky. Resources don't need to be over the top, only the install is needed for now and basic config. Storage can be added later on, which will be fun with LVM.
+Using my homepage to quickly access my proxmox web UI, I was thinking about SSO while logging in. Another project to park so I don't get sidetracked too much. I have a Rocky 9 iso ready and a Ubuntu 26 iso. Resources don't need to be over the top, only the install is needed for now and basic config. Storage can be added later on, which will be fun with LVM.
 
 During the installation of Rocky I could already configure the Static IP, perfect. Not sure if I skipped it on Ubuntu or just clicked next too fast, but we can fix this after the install. Looks like Rocky Linux 9 minimal has ssh working right away. I remember in the past having to enable the openssh server or allowing in firewall rules. testing dns and internet connectivity by pinging google.com and running a update and upgrade. Somehow changing the ip to manual in ubuntu desktop changes it back to automatic so it receives from dhcp... Checking the netplan config shows that the config is correct. Let's reboot the host. In order to allow ssh on Ubuntu I had to install the openssh-server first. Next thing to tackle, Rocky Linux minimal has no GUI, so installing that and switching to GUI, setting it as default. I really enjoy CLI, but I think it's equally important to have a GUI feel aswell.
 
