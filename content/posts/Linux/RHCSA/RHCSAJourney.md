@@ -142,7 +142,7 @@ _Estimated time: 2–3 hours_
 - I have a simple system for recording what I learn and parking unrelated ideas.
 
 #### Journal
-2026/09/15 9:30 - 11:00  
+_2026/09/15 9:30 - 11:00_  
 As I am trying to install a Linux distro on a remote Dell server with virtual media at work, which isn't going as smooth as I thought, it is really slow so in the meantime I can continue learning for RHCSA.
 
 I created 2 hosts on my Proxmox199 host:
@@ -155,7 +155,7 @@ Using my homepage to quickly access my proxmox web UI, I was thinking about SSO 
 
 During the installation of Rocky I could already configure the Static IP, perfect. Not sure if I skipped it on Ubuntu or just clicked next too fast, but we can fix this after the install. Looks like Rocky Linux 9 minimal has ssh working right away. I remember in the past having to enable the openssh server or allowing in firewall rules. testing dns and internet connectivity by pinging google.com and running a update and upgrade. Somehow changing the ip to manual in ubuntu desktop changes it back to automatic so it receives from dhcp... Checking the netplan config shows that the config is correct. Let's reboot the host. In order to allow ssh on Ubuntu I had to install the openssh-server first. Next thing to tackle, Rocky Linux minimal has no GUI, so installing that and switching to GUI, setting it as default. I really enjoy CLI, but I think it's equally important to have a GUI feel aswell.
 
-2026/09/15 13:00 - 14:00  
+_2026/09/15 13:00 - 14:00_  
 Next up is making a backup of each vm and creating a snapshot in order to test whether we can restore the vm after making changes or breaking something. Encountered an issue where I can't create snapshots, a forum post explained that lvm storage does not support the creation of snapshots and my vm's are on a lvm configured storage. But we could always restore from backup. Creating a file on each vm to check if the host reverted to the clean install.
 
 The Ubuntu restore worked perfectly as expected. Ready to go. The Rocky vm had localhost as hostname, I wanted to change this first using hostnamectl. After a reboot, the name got changed and we can continue to test the backup. The backup restore for Rocky went equally smooth so we're ready with our testenvironment, let's get learning!
@@ -253,7 +253,7 @@ Using the cd command to change directory or ssh if you want to go to another hos
 You shouldn't need to memorize every command. The important part is understanding the environment.
 
 #### Journal
-2026/09/18 10:10 - 10:50
+_2026/09/18 10:10 - 10:50_  
 Currently running through the commands, looking on the internet what it does and adding to the list before testing on Rocky. While documenting the commands, I thought about a tool that I use a lot in my homelab called _ncdu_. This is a CLI tool to map your filesystem where you can easily run through what's on the system, comparable with TreeSize on windows.
 
 The command command got me confused a bit... It causes the shell to treat the specified command and arguments as a simple command, suppressing shell function lookup. The reason why I am also looking up the commands online is mostly because of the flags that can be used to alter the output. When checking the history command, I remember that in ubuntu, when you preceed your command with a space, it wouldn't be recorded in history. In Rocky it gets recorderd with the space in front. In order on Rocky to stop history recording you can use the following:
@@ -263,7 +263,7 @@ set +o history
 #enable history recording again
 set -o history
 ```
-2026/09/23 21:15 - 22:00
+_2026/09/23 21:15 - 22:00_  
 While running through the other commands and checking whether they support flags, I encountered some new commands not listed (w, logname, who). I added them to the list with a description. I remember using who in a script to provide info in my motd when logging in, good to know when you're working on a system and you need to reboot in order to warn the colleague. also the id command looks very interesting, especially for listing groups of the user. To switch to another user with the su command I now understand why the hyphen is often used. It creates a new environment like you would have when you log in as that user.
 
 Reviewing these commands, I used most of them in my everyday work, but it was still valuable to check out some unknown or lesser known commands and flags.
