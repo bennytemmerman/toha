@@ -195,23 +195,40 @@ _Estimated: 1–1.5 hours_
 
 #### Commands to test
 ```bash
-pwd #Print working directory, shows where you are at.
-ls #List directory content, flags: l (long format for extra details), a (all files, including hidden), h (human-readable) ,t (sort on time adjusted) ,R (recursive)
-cd [value] #Change directory, values: .. (go up 1 directory), ~ go to /home/user of current user, /directory_name go to directory_name
-echo #Prints to console
-type [command] #Shows information about a command. flags: a (all locations), t (command type), p (path of executable file)
-which [command] #Shows full path of executable in $PATH
-command #Used with flag -p or -v or -V to show the path name
-history #Shows used commands, can replay a command using "!" + line number. e.g. !3. history can also be combined with grep or tail using the pipe "|"
-env #Print a list of all environment variables, flags: -u (unset/remove var), -0 (shows vars without newline)
-printenv #Lists all environment variables
-whoami #shows the active user running the command
-w #lists users currently logged in and their processes.
-logname #Shows the logged in user, even when switched to another user it still shows the initial logged in user.
-who #Lists users currently logged into the system
-id #Prints user identity information, including user ID, group ID, and group memberships.
-sudo #Superuser Do, execute commands with admin privileges without logging in as or switching to root. flag -u (run as another user), -l (list allowed commands), 
-su #Switch user, use "su -" to switch to a user in a new shell, -c to run a single command 
+pwd 
+#Print working directory, shows where you are at.
+ls 
+#List directory content, flags: l (long format for extra details), a (all files, including hidden), h (human-readable) ,t (sort on time adjusted) ,R (recursive)
+cd [value] 
+#Change directory, values: .. (go up 1 directory), ~ go to /home/user of current user, /directory_name go to directory_name
+echo 
+#Prints to console
+type [command] 
+#Shows information about a command. flags: a (all locations), t (command type), p (path of executable file)
+which [command] 
+#Shows full path of executable in $PATH
+command 
+#Used with flag -p or -v or -V to show the path name
+history 
+#Shows used commands, can replay a command using "!" + line number. e.g. !3. history can also be combined with grep or tail using the pipe "|"
+env 
+#Print a list of all environment variables, flags: -u (unset/remove var), -0 (shows vars without newline)
+printenv 
+#Lists all environment variables
+whoami 
+#shows the active user running the command
+w 
+#lists users currently logged in and their processes.
+logname 
+#Shows the logged in user, even when switched to another user it still shows the initial logged in user.
+who 
+#Lists users currently logged into the system
+id 
+#Prints user identity information, including user ID, group ID, and group memberships.
+sudo 
+#Superuser Do, execute commands with admin privileges without logging in as or switching to root. flag -u (run as another user), -l (list allowed commands), 
+su 
+#Switch user, use "su -" to switch to a user in a new shell, -c to run a single command 
 ```
 
 #### Lab 
@@ -274,17 +291,28 @@ _Estimated: 1.5–2 hours_
 
 #### Commands to test
 ```bash
-ls
-cd
-pwd
-mkdir
-touch
-cp
-mv
-rm
-rmdir
-file
-stat
+ls 
+#Lists the files  and directories in the current working directory. Flags: l (long format - list  + details), h (human readable), a (all, including hidden files), R (list  subdirectories recursively)
+cd 
+#Change  directory (cd .. To go up one directory, cd \~to change your work directory to  the user's home, cd - to go to previous directory, cd /path go to /path)
+pwd 
+#Print working  directory, shows current directory that you're in.  
+mkdir 
+#Create a new directory, a fun one I learned here is using the -p flag  to create parent directories as needed, usefull when you give a complete path  to create. -v flag to add a message when a directory has been created.  
+touch 
+#Use to update file timestamps or create an empty file if it doesn't  exist (flag -c to avoid file creation, if you only need to update  timestamps)  
+cp 
+#Copy files and directories, format: cp source_file destination_file.  Flags: -r (copy all files and directories inside a directory), -i (ask before  replacing files), -v (verbose mode), -u (only copy when source is newer)
+mv 
+#Move files and  directories, format: mv source_file destination_file. Flags: -i (ask before  replacing files), -v (verbose mode), -u (only move when source is newer)
+rm 
+#!!Be careful,  as removed files cannot be easily recovered.!! Removes files or directories.  Same flags: -i (ask before deletion), except for -f (force delete without  prompt)  
+rmdir 
+#Designed only to delete empty directories. Flags: --ignore-fail-on-non-empty  (prevents error if dir is not empty), -p (also remove parent directories if  empty)  
+file 
+#Shows filetype  
+stat 
+#Gives details on the file or directory
 ```
 
 #### Lab 
@@ -295,6 +323,8 @@ Create the following filesystem:
 ├── scripts/
 ├── backups/
 └── test/
+#Creating the  filesystem in one line:
+mkdir -pv  \~/rhcsa-lab/{documents,scripts,backups,test}
 ```
 Create files, copy them, move them, rename them and delete them.
 
@@ -303,10 +333,15 @@ Create files, copy them, move them, rename them and delete them.
 You can manipulate files/directories confidently without thinking about every command.
 what are the following:
 - absolute paths
+Full complete path of a file or directory, starting from the root directory (/)
 - relative paths
+Short path, starting from your current working directory, can start with ./, ../ or directory/
 - hidden files
+Not shown by default when listing files, can be shown using the -a flag with the ls command. Hidden files must start with a dot (.) in order for the Linux system to use the built-in rule to skip displaying it with tools like ls.
 
 #### Journal
+_2026/09/25 9:40 -  10:20_
+Most commands are  known, mostly from using them in my homelab. Some commands are new like stat  which shows a lot of information which could be usefull in scripting or  troubleshooting. I have encountered the use of mkdir -p before in my homelab,  in order to create a full path, not knowing whether the parent directories  already existed. Something new I learned is the -v flag, which makes it easier  to check which directories have been created. A good repetition of commands  and checking some unknown flags. The focus is not on memorising all flags and  definitions, knowing about it is key, specifics can be searched. Memory will  follow after the grind of using it often.
 
 ### 1.3 Reading and manipulating text
 _Estimated: 1.5–2 hours_
