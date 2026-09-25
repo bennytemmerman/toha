@@ -340,7 +340,7 @@ Short path, starting from your current working directory, can start with ./, ../
 Not shown by default when listing files, can be shown using the -a flag with the ls command. Hidden files must start with a dot (.) in order for the Linux system to use the built-in rule to skip displaying it with tools like ls.
 
 #### Journal
-_2026/09/25 9:40 -  10:20_
+_2026/09/25 9:40 - 10:20_
 Most commands are  known, mostly from using them in my homelab. Some commands are new like stat  which shows a lot of information which could be usefull in scripting or  troubleshooting. I have encountered the use of mkdir -p before in my homelab,  in order to create a full path, not knowing whether the parent directories  already existed. Something new I learned is the -v flag, which makes it easier  to check which directories have been created. A good repetition of commands  and checking some unknown flags. The focus is not on memorising all flags and  definitions, knowing about it is key, specifics can be searched. Memory will  follow after the grind of using it often.
 
 ### 1.3 Reading and manipulating text
