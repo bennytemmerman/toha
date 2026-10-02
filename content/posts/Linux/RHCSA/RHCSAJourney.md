@@ -292,25 +292,25 @@ _Estimated: 1.5–2 hours_
 #### Commands to test
 ```bash
 ls 
-#Lists the files  and directories in the current working directory. Flags: l (long format - list  + details), h (human readable), a (all, including hidden files), R (list  subdirectories recursively)
+#Lists the files and directories in the current working directory. Flags: l (long format - list + details), h (human readable), a (all, including hidden files), R (list subdirectories recursively)
 cd 
-#Change  directory (cd .. To go up one directory, cd \~to change your work directory to  the user's home, cd - to go to previous directory, cd /path go to /path)
+#Change directory (cd .. To go up one directory, cd \~to change your work directory to the user's home, cd - to go to previous directory, cd /path go to /path)
 pwd 
-#Print working  directory, shows current directory that you're in.  
+#Print working directory, shows current directory that you're in. 
 mkdir 
-#Create a new directory, a fun one I learned here is using the -p flag  to create parent directories as needed, usefull when you give a complete path  to create. -v flag to add a message when a directory has been created.  
+#Create a new directory, a fun one I learned here is using the -p flag to create parent directories as needed, usefull when you give a complete path to create. -v flag to add a message when a directory has been created. 
 touch 
-#Use to update file timestamps or create an empty file if it doesn't  exist (flag -c to avoid file creation, if you only need to update  timestamps)  
+#Use to update file timestamps or create an empty file if it doesn't exist (flag -c to avoid file creation, if you only need to update timestamps) 
 cp 
-#Copy files and directories, format: cp source_file destination_file.  Flags: -r (copy all files and directories inside a directory), -i (ask before  replacing files), -v (verbose mode), -u (only copy when source is newer)
+#Copy files and directories, format: cp source_file destination_file. Flags: -r (copy all files and directories inside a directory), -i (ask before replacing files), -v (verbose mode), -u (only copy when source is newer)
 mv 
-#Move files and  directories, format: mv source_file destination_file. Flags: -i (ask before  replacing files), -v (verbose mode), -u (only move when source is newer)
+#Move files and directories, format: mv source_file destination_file. Flags: -i (ask before replacing files), -v (verbose mode), -u (only move when source is newer)
 rm 
-#!!Be careful,  as removed files cannot be easily recovered.!! Removes files or directories.  Same flags: -i (ask before deletion), except for -f (force delete without  prompt)  
+#!!Be careful, as removed files cannot be easily recovered.!! Removes files or directories. Same flags: -i (ask before deletion), except for -f (force delete without prompt) 
 rmdir 
-#Designed only to delete empty directories. Flags: --ignore-fail-on-non-empty  (prevents error if dir is not empty), -p (also remove parent directories if  empty)  
+#Designed only to delete empty directories. Flags: --ignore-fail-on-non-empty (prevents error if dir is not empty), -p (also remove parent directories if empty) 
 file 
-#Shows filetype  
+#Shows filetype 
 stat 
 #Gives details on the file or directory
 ```
@@ -323,8 +323,8 @@ Create the following filesystem:
 ├── scripts/
 ├── backups/
 └── test/
-#Creating the  filesystem in one line:
-mkdir -pv  \~/rhcsa-lab/{documents,scripts,backups,test}
+#Creating the filesystem in one line:
+mkdir -pv \~/rhcsa-lab/{documents,scripts,backups,test}
 ```
 Create files, copy them, move them, rename them and delete them.
 
@@ -332,57 +332,85 @@ Create files, copy them, move them, rename them and delete them.
 
 You can manipulate files/directories confidently without thinking about every command.
 what are the following:
-- absolute paths
+- absolute paths 
 Full complete path of a file or directory, starting from the root directory (/)
-- relative paths
+- relative paths 
 Short path, starting from your current working directory, can start with ./, ../ or directory/
-- hidden files
+- hidden files 
 Not shown by default when listing files, can be shown using the -a flag with the ls command. Hidden files must start with a dot (.) in order for the Linux system to use the built-in rule to skip displaying it with tools like ls.
 
 #### Journal
-_2026/09/25 9:40 - 10:20_
-Most commands are  known, mostly from using them in my homelab. Some commands are new like stat  which shows a lot of information which could be usefull in scripting or  troubleshooting. I have encountered the use of mkdir -p before in my homelab,  in order to create a full path, not knowing whether the parent directories  already existed. Something new I learned is the -v flag, which makes it easier  to check which directories have been created. A good repetition of commands  and checking some unknown flags. The focus is not on memorising all flags and  definitions, knowing about it is key, specifics can be searched. Memory will  follow after the grind of using it often.
+_2026/09/25 9:40 - 10:20_  
+Most commands are known, mostly from using them in my homelab. Some commands are new like stat which shows a lot of information which could be usefull in scripting or troubleshooting. I have encountered the use of mkdir -p before in my homelab, in order to create a full path, not knowing whether the parent directories already existed. Something new I learned is the -v flag, which makes it easier to check which directories have been created. A good repetition of commands and checking some unknown flags. The focus is not on memorising all flags and definitions, knowing about it is key, specifics can be searched. Memory will follow after the grind of using it often.
 
 ### 1.3 Reading and manipulating text
 _Estimated: 1.5–2 hours_
 
 #### Commands to test
 ```bash
-cat
-less
-head
-tail
-wc
-sort
-uniq
-cut
-grep
-|
->
->>
-2>
+cat 
+# Prints contents of a file or multiple files. Flags: -n (show line numbers), -A (also show non-printing characters) 
+less 
+# Opens an interactive file to scroll page-by-page. Flags: -N (show line numbers), -S (chop lines instead of wrapping) 
+head 
+# Show first 10 lines of a file. Flags: -n (print n-amount of lines). 
+tail 
+# Show last 10 lines of a file. Flags: -n (print n-amount of lines), -f (follow mode, streams new lines in real-time) 
+wc 
+# Wordcount, counts lines, words and characters in a file. Flags: -l (count lines only), -w (count words only), -c (count bytes/characters only) 
+sort 
+# Sorts lines alphabetically or numerically. Flags: -n (sort numerically), -r (reverse order), -u (only unique lines), -k (sort on specific column/field number) 
+uniq 
+# Removes adjacent duplicate lines. Flags: -c (count how many times each line appeared), -d (only show duplicate lines) 
+cut 
+# Extract specific sections from each line. Flags: -d \[char\] (set custom delimiter), -f \[num\] (Select specific field/column based on delimiter), -c \[range\] (specific char positions eg. -c 1-5) 
+grep 
+# Search for pattern or string inside a file. Flags: -i (ignore case), -v (invert match, show lines that don't match), -c (count number of matching lines), -r (recursively search through directories) 
+| 
+# The pipe symbol takes the output of the command on the left and sends it as input to the command on the right 
+> 
+# Redirects output, sending it to a file. !!Mind that this will overwrite anything already present in the file!! 
+>> 
+# Append output, sending it to a file, appending it to the end of the file. 
+2> 
+# Redirect error, sending the error message to a file or to /dev/null.
 ```
 
 #### Lab 
 Try the following commands and explain how they work
 ```bash
 cat /etc/passwd | grep bash
+# The system reads the content of the file /etc/passwd where users are saved with their userinfo, but it's not printed to the terminal. Instead because of the pipe symbol the output gets redirected to the command on the right. The grep command will print all lines found where the pattern "bash" is found, listing all users with their information that have bash in the line, this could be part of a username like bashir, but often will list when users have bash as their shell configured.
 grep root /etc/passwd
+# The grep command will print all lines found where the pattern "root" is found, listing all users with their information that have root in the line. Possible printing the line of the root user, but could also print other lines containing root in a path.
 grep -i root /etc/passwd
+# Print all lines found where the pattern "root" is found, with the -i flag this will be case-insensitive, listing all users with their information that have root/Root/RoOt/… in the line. 
 grep -n root /etc/passwd
+# Print all lines found where the pattern "root" is found, listing all users with their information that have root in the line. Also including the line numbers where the line has been found in the file.
 cat /etc/passwd > users.txt
+# Redirect the content of the file /etc/passwd (user information) into a file users.txt, creating a new file or overwriting it if it already exists.
 echo "test" >> users.txt
+# Append the word test to the file users.txt
 cat users.txt
+# Print the contents of the file users.txt
+
 ```
 #### Success looks like
 
 You understand this: 
-command A | command B
+command A | command B 
+_Piping will use the output from the left command and use it as input for the command on the right_
 and:
 stdout ──> file
+_stdout is used with 1> or simply by >, creating or overwriting a file. >> is used to append to a file_
 stderr ──> file
+_stderr is used with 2> and will redirect error messages_
 
 #### Journal
+_2026/09/25 10:25 - 11:00_
+This should be a fun one reading and manipulating text, I'll take more time for this because the ability to wade through logs is a big deal for me in order to troubleshoot effectively. One of the commands I use often in order to troubleshoot and check log handling, tail -f -> the follow mode returns new logs in real-time which makes it easier to follow instead of refreshing every few seconds… Another cool one to revisit is grep, often used but interesting to check out the flags in order to improve the use. I often use the grep command together with the pipe symbol (|), as an example when I am looking for a listening port (ss -tulpn | grep 22). 
+
+For the redirects I remember using > if I wanted to create a new file or make sure it had nothing else in it and >> to add to files using scripts. For the error redirect I remember using this when I tried to find a file where, as a normal user, some directories are not accessible, using 2>/dev/null avoided cluttering the terminal with permission denied and only listing the paths where the file was found.
 
 ### 1.4 Searching and finding things
 _Estimated: 1 hour_
@@ -574,11 +602,13 @@ Without following a step-by-step tutorial:
 
 ## Distraction log
 
-- Distraction #1: WoW login queue → built GitLab/MkDocs deployment pipeline → 4 hours disappeared.
+- Distraction: While waiting on WoW login queue → built GitLab/MkDocs deployment pipeline → 4 hours disappeared.
 - Installing an OS on a Dell server should not be difficult... except when you don't have physical access, need to rely on minimal iso, using virtual media which means streaming the iso through the browser (bigger chance on timeout), adding install parameters, using tmux to access the anaconda installer in textmode and eventually waiting +- 5 hours per OS install. Why? could say poor planning, where someone decided on using RAID0 due to minimal storage cost, no documentation (1 failed disk = total wipe). Great learning opportunity -> several days lost + working until late in the evening.
+- Life happens and it got super busy for about a week where there was no time or energy to study. Either troubleshooting or preparing for work planning the recovery of Splunk nodes on those Dell servers, catching up on household chores or preparing to defend a court hearing, and sometimes you just have to free time for family stuff. Let's pick it back up.
 
 ### possible future projects
 
 - [ ] Add playbooks to AWX repo in order to gather systeminfo to add to my wiki.
 - [ ] Configure Authentik to work with Proxmox login.
 - [ ] Figure out a way to document an overview of used IP's in the network.
+- [ ] Check portfolio CICD pipeline with netlify.
