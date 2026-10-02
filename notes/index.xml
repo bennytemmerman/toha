@@ -27,7 +27,205 @@ Using tstats is faster to search in large datapools.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval prev_time_str&lt;span style="color:#f92672"&gt;=&lt;/span&gt;strftime&lt;span style="color:#f92672"&gt;(&lt;/span&gt;prev_time, &lt;span style="color:#e6db74"&gt;&amp;#34;%Y-%m-%d %H:%M:%S&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table sourcetype _time prev_time prev_time_str gap gap_in_hours
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check for gaps in log ingestion and return results over 1 hour gaps.
-Troubleshooting for false positive due to unreliable log ingestion of a logtype while other logtypes indicated ongoing log ingestion.&lt;/p&gt;</description></item><item><title>Splunk searches</title><link>https://siemforge.xyz/notes/2.splunk/gui/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/gui/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+Troubleshooting for false positive due to unreliable log ingestion of a logtype while other logtypes indicated ongoing log ingestion.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Reporting: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Reporting:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;When checking the health status of the environment, I use the following queries to provide insight:&lt;/p&gt;
+&lt;h3 id="general"&gt;General&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rest splunk_server&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* count&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; /services/server/info
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table version host
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check Splunk version&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rest /services/server/info
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval LastStartupTime&lt;span style="color:#f92672"&gt;=&lt;/span&gt;strftime&lt;span style="color:#f92672"&gt;(&lt;/span&gt;startup_time, &lt;span style="color:#e6db74"&gt;&amp;#34;%Y/%m/%d %H:%M:%S&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval timenow&lt;span style="color:#f92672"&gt;=&lt;/span&gt;now&lt;span style="color:#f92672"&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval daysup &lt;span style="color:#f92672"&gt;=&lt;/span&gt; round&lt;span style="color:#f92672"&gt;((&lt;/span&gt;timenow - startup_time&lt;span style="color:#f92672"&gt;)&lt;/span&gt; / 86400,0&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval Uptime &lt;span style="color:#f92672"&gt;=&lt;/span&gt; tostring&lt;span style="color:#f92672"&gt;(&lt;/span&gt;daysup&lt;span style="color:#f92672"&gt;)&lt;/span&gt; + &lt;span style="color:#e6db74"&gt;&amp;#34; Days&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table splunk_server LastStartupTime Uptime
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List server uptime&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rest /services/authentication/users splunk_server&lt;span style="color:#f92672"&gt;=&lt;/span&gt;local
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| fields title roles email
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rename title as username
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List users and their roles&lt;/p&gt;
+&lt;h3 id="logsources"&gt;Logsources&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| tstats values&lt;span style="color:#f92672"&gt;(&lt;/span&gt;host&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as recent_host where index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* by host, index, sourcetype
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| search NOT &lt;span style="color:#f92672"&gt;[&lt;/span&gt;| inputlookup monitored_systems.csv | fields host | rename host as recent_host&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table recent_host, index, sourcetype
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Overview of non-monitored hosts:
+Using a lookupfile to keep track of hosts that we monitor. An alert is used to trigger if a host is not sending logs for a certain threshold.&lt;br&gt;
+This search compares the hosts found that are currently sending logs in the configured timewindow and compares them to the alreadt monitored hosts in the lookupfile.&lt;/p&gt;
+&lt;h3 id="universal-forwarders"&gt;Universal forwarders&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_internal sourcetype&lt;span style="color:#f92672"&gt;=&lt;/span&gt;splunkd group&lt;span style="color:#f92672"&gt;=&lt;/span&gt;tcpin_connections version&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* os&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* arch&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* build&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* hostname&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* source&lt;span style="color:#f92672"&gt;=&lt;/span&gt;*metrics.log
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| stats latest&lt;span style="color:#f92672"&gt;(&lt;/span&gt;version&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as version,latest&lt;span style="color:#f92672"&gt;(&lt;/span&gt;arch&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as arch,latest&lt;span style="color:#f92672"&gt;(&lt;/span&gt;os&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as os,latest&lt;span style="color:#f92672"&gt;(&lt;/span&gt;build&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as build by hostname
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List universal forwarders and their version&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| tstats values&lt;span style="color:#f92672"&gt;(&lt;/span&gt;host&lt;span style="color:#f92672"&gt;)&lt;/span&gt; where index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* by index
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Overview of hosts sending logs by index&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_internal source&lt;span style="color:#f92672"&gt;=&lt;/span&gt;*metrics.log group&lt;span style="color:#f92672"&gt;=&lt;/span&gt;tcpin_connections
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| stats sum&lt;span style="color:#f92672"&gt;(&lt;/span&gt;kb&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as total_kb by host, hostname
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table hostname, host, total_kb
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List which hosts are sending through which server/forwarder + volume of data&lt;/p&gt;
+&lt;h3 id="indexes--sourcetypes"&gt;Indexes + sourcetypes&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_internal source&lt;span style="color:#f92672"&gt;=&lt;/span&gt;*license_usage.log type&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Usage&amp;#34;&lt;/span&gt; idx&lt;span style="color:#f92672"&gt;=&lt;/span&gt;*
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| timechart span&lt;span style="color:#f92672"&gt;=&lt;/span&gt;1d sum&lt;span style="color:#f92672"&gt;(&lt;/span&gt;b&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as b by st
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| foreach * &lt;span style="color:#f92672"&gt;[&lt;/span&gt; eval &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt;FIELD&amp;gt;&amp;gt; = round(&amp;#39;&amp;lt;&amp;lt;FIELD&lt;/span&gt;&amp;gt;&amp;gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#39;&lt;/span&gt;/1024/1024/1024,2&lt;span style="color:#f92672"&gt;)&lt;/span&gt; &lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Overview of volume per day by sourcetype&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_internal source&lt;span style="color:#f92672"&gt;=&lt;/span&gt;*license_usage.log type&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Usage&amp;#34;&lt;/span&gt; earliest&lt;span style="color:#f92672"&gt;=&lt;/span&gt;-7d@d latest&lt;span style="color:#f92672"&gt;=&lt;/span&gt;@d
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval _time&lt;span style="color:#f92672"&gt;=&lt;/span&gt;strftime&lt;span style="color:#f92672"&gt;(&lt;/span&gt;_time, &lt;span style="color:#e6db74"&gt;&amp;#34;%Y-%m-%d&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| stats sum&lt;span style="color:#f92672"&gt;(&lt;/span&gt;b&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as bytes by _time
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval GB&lt;span style="color:#f92672"&gt;=&lt;/span&gt;round&lt;span style="color:#f92672"&gt;(&lt;/span&gt;bytes/1024/1024/1024,2&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table _time GB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort - _time
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;total volume per day for past 7 days&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_internal sourcetype&lt;span style="color:#f92672"&gt;=&lt;/span&gt;splunkd source&lt;span style="color:#f92672"&gt;=&lt;/span&gt;*license_usage.log type&lt;span style="color:#f92672"&gt;=&lt;/span&gt;Usage earliest&lt;span style="color:#f92672"&gt;=&lt;/span&gt;-7d@d latest&lt;span style="color:#f92672"&gt;=&lt;/span&gt;@d
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| stats sum&lt;span style="color:#f92672"&gt;(&lt;/span&gt;b&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as total_bytes by date_mday, date_month, date_year
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval total_gb &lt;span style="color:#f92672"&gt;=&lt;/span&gt; total_bytes / &lt;span style="color:#f92672"&gt;(&lt;/span&gt;1024*1024*1024&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| stats avg&lt;span style="color:#f92672"&gt;(&lt;/span&gt;total_gb&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as average_gb_per_day
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check average of GB per day over past 7 days&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_internal source&lt;span style="color:#f92672"&gt;=&lt;/span&gt;*license_usage.log type&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Usage&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| bin _time span&lt;span style="color:#f92672"&gt;=&lt;/span&gt;1d
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| stats sum&lt;span style="color:#f92672"&gt;(&lt;/span&gt;b&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as b by idx, _time
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval GB&lt;span style="color:#f92672"&gt;=&lt;/span&gt;round&lt;span style="color:#f92672"&gt;((&lt;/span&gt;b/31556952&lt;span style="color:#f92672"&gt;)&lt;/span&gt;,2&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eventstats sum&lt;span style="color:#f92672"&gt;(&lt;/span&gt;GB&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as total_GB by _time
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval percentage&lt;span style="color:#f92672"&gt;=&lt;/span&gt;round&lt;span style="color:#f92672"&gt;((&lt;/span&gt;GB/total_GB&lt;span style="color:#f92672"&gt;)&lt;/span&gt;*100,2&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort -_time -GB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| fields - b, total_GB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rename idx as Index, GB as &lt;span style="color:#e6db74"&gt;&amp;#34;Size (GB)&amp;#34;&lt;/span&gt;, percentage as &lt;span style="color:#e6db74"&gt;&amp;#34;Percentage (%)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| convert timeformat&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;%Y-%m-%d&amp;#34;&lt;/span&gt; ctime&lt;span style="color:#f92672"&gt;(&lt;/span&gt;_time&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as Date
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| fields Date, Index, &lt;span style="color:#e6db74"&gt;&amp;#34;Size (GB)&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;Percentage (%)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;```&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; years, divide b/31556952; &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; days, divide b/31556952&lt;span style="color:#e6db74"&gt;```&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Usage per day by index + percentages&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rest splunk_server&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* /services/data/indexes
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval &lt;span style="color:#e6db74"&gt;&amp;#34;Retention Period (months)&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;round&lt;span style="color:#f92672"&gt;((&lt;/span&gt;frozenTimePeriodInSecs/2628000&lt;span style="color:#f92672"&gt;)&lt;/span&gt;,0&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| search NOT title IN &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;_*&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;main&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;history&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;summary&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;splunklogger&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table title &lt;span style="color:#e6db74"&gt;&amp;#34;Retention Period (months)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rename title as Index
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;```&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; years, divide frozenTimePeriodInSecs/31556952; &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; days, divide frozenTimePeriodInSecs/86400&lt;span style="color:#e6db74"&gt;```&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List indexes with the retention period&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| tstats values&lt;span style="color:#f92672"&gt;(&lt;/span&gt;sourcetype&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as sourcetype WHERE index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* OR index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_* by index
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List sourcetypes per index&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| tstats values&lt;span style="color:#f92672"&gt;(&lt;/span&gt;source&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as source WHERE index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* NOT index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_* by index, host
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List sources per host, per index&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| metadata type&lt;span style="color:#f92672"&gt;=&lt;/span&gt;sourcetypes index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&amp;lt;index_name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table sourcetype
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List sourcetypes in specific index&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;_internal source&lt;span style="color:#f92672"&gt;=&lt;/span&gt;*license_usage.log type&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Usage&amp;#34;&lt;/span&gt; idx&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&amp;lt;index_name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| stats sum&lt;span style="color:#f92672"&gt;(&lt;/span&gt;b&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as b by st
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval GB&lt;span style="color:#f92672"&gt;=&lt;/span&gt;round&lt;span style="color:#f92672"&gt;((&lt;/span&gt;b/1024/1024/1024&lt;span style="color:#f92672"&gt;)&lt;/span&gt;,2&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eventstats sum&lt;span style="color:#f92672"&gt;(&lt;/span&gt;GB&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as total_GB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval percentage&lt;span style="color:#f92672"&gt;=&lt;/span&gt;round&lt;span style="color:#f92672"&gt;((&lt;/span&gt;GB/total_GB&lt;span style="color:#f92672"&gt;)&lt;/span&gt;*100,2&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort -GB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| fields - b, total_GB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rename st as &lt;span style="color:#e6db74"&gt;&amp;#34;Sourcetype&amp;#34;&lt;/span&gt;, GB as &lt;span style="color:#e6db74"&gt;&amp;#34;Size (GB)&amp;#34;&lt;/span&gt;, percentage as &lt;span style="color:#e6db74"&gt;&amp;#34;Percentage (%)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| fields &lt;span style="color:#e6db74"&gt;&amp;#34;Sourcetype&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;Size (GB)&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;Percentage (%)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List sourcetypes in specific index by volume per sourcetype&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;eu_cato
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| dedup sourcetype
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table _time sourcetype _raw
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Quick and dirty example log extraction per sourcetype&lt;/p&gt;
+&lt;h3 id="datamodels"&gt;Datamodels&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| tstats count FROM datamodel&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&amp;lt;datamode_name&amp;gt; BY sourcetype
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;find sourcetypes used in specific datamodel&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rest /servicesNS/-/-/saved/searches splunk_server&lt;span style="color:#f92672"&gt;=&lt;/span&gt;local
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rex field&lt;span style="color:#f92672"&gt;=&lt;/span&gt;title &lt;span style="color:#e6db74"&gt;&amp;#34;^(standard|custom)\-production\-alert\-(?&amp;lt;SPA&amp;gt;.*)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where SPA!&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rex field&lt;span style="color:#f92672"&gt;=&lt;/span&gt;qualifiedSearch &lt;span style="color:#e6db74"&gt;&amp;#34;collect\sindex=(?&amp;lt;into_index&amp;gt;(sla|slad))\s.*&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval into_index &lt;span style="color:#f92672"&gt;=&lt;/span&gt; coalesce&lt;span style="color:#f92672"&gt;(&lt;/span&gt;into_index, &lt;span style="color:#e6db74"&gt;&amp;#39;action.logevent.param.index&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| fillnull value&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;-&amp;#34;&lt;/span&gt; into_index
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| search into_index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* eai:acl.app&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&amp;lt;app_name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval is_scheduled&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;is_scheduled&lt;span style="color:#f92672"&gt;==&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; AND disabled&lt;span style="color:#f92672"&gt;==&lt;/span&gt;0,&lt;span style="color:#e6db74"&gt;&amp;#34;Active&amp;#34;&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;Not active&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rex field&lt;span style="color:#f92672"&gt;=&lt;/span&gt;description &lt;span style="color:#e6db74"&gt;&amp;#34;(?&amp;lt;use_case&amp;gt;^([^.]+))&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rex field&lt;span style="color:#f92672"&gt;=&lt;/span&gt;search &lt;span style="color:#e6db74"&gt;&amp;#34;(FROM datamodel=(\&amp;#34;)?(?&amp;lt;tstats_datamodel&amp;gt;\w+))&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rex field&lt;span style="color:#f92672"&gt;=&lt;/span&gt;search &lt;span style="color:#e6db74"&gt;&amp;#34;(WHERE nodename=\&amp;#34;(\w+\.)?(?&amp;lt;tstats_nodename&amp;gt;\w+))&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rex field&lt;span style="color:#f92672"&gt;=&lt;/span&gt;search &lt;span style="color:#e6db74"&gt;&amp;#34;(?&amp;lt;first_row&amp;gt;[^\r\n].*)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rex field&lt;span style="color:#f92672"&gt;=&lt;/span&gt;first_row &lt;span style="color:#e6db74"&gt;&amp;#34;(\`(?&amp;lt;macro&amp;gt;.*?)\`)|(\| from datamodel (?&amp;lt;datamodel&amp;gt;.*))|(index=\&amp;#34;?(?&amp;lt;index&amp;gt;\w+)\&amp;#34;?)|(sourcetype=\&amp;#34;?(?&amp;lt;sourcetype&amp;gt;\w+(:\w+)?)\&amp;#34;?)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval dependency_tmp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;case&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;isnotnull&lt;span style="color:#f92672"&gt;(&lt;/span&gt;tstats_datamodel&lt;span style="color:#f92672"&gt;)&lt;/span&gt; AND isnotnull&lt;span style="color:#f92672"&gt;(&lt;/span&gt;tstats_nodename&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, tstats_datamodel + &lt;span style="color:#e6db74"&gt;&amp;#34;.&amp;#34;&lt;/span&gt; + tstats_nodename,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; isnotnull&lt;span style="color:#f92672"&gt;(&lt;/span&gt;tstats_datamodel&lt;span style="color:#f92672"&gt;)&lt;/span&gt; AND isnull&lt;span style="color:#f92672"&gt;(&lt;/span&gt;tstats_nodename&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, tstats_datamodel,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; isnotnull&lt;span style="color:#f92672"&gt;(&lt;/span&gt;macro&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;`&amp;#34;&lt;/span&gt; + macro + &lt;span style="color:#e6db74"&gt;&amp;#34;`&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval dependency &lt;span style="color:#f92672"&gt;=&lt;/span&gt; coalesce&lt;span style="color:#f92672"&gt;(&lt;/span&gt;dependency_tmp, datamodel, index, sourcetype&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval indicator_type &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;case&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;isnotnull&lt;span style="color:#f92672"&gt;(&lt;/span&gt;tstats_datamodel&lt;span style="color:#f92672"&gt;)&lt;/span&gt; OR isnotnull&lt;span style="color:#f92672"&gt;(&lt;/span&gt;tstats_nodename&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;tstats&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; isnotnull&lt;span style="color:#f92672"&gt;(&lt;/span&gt;macro&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;macro&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; isnotnull&lt;span style="color:#f92672"&gt;(&lt;/span&gt;datamodel&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;datamodel&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; isnotnull&lt;span style="color:#f92672"&gt;(&lt;/span&gt;index&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;index&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; isnotnull&lt;span style="color:#f92672"&gt;(&lt;/span&gt;sourcetype&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;sourcetype&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; true&lt;span style="color:#f92672"&gt;()&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;other&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table title, SPA, use_case, indicator_type, dependency, is_scheduled, into_index, cron_schedule,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rename use_case AS &lt;span style="color:#e6db74"&gt;&amp;#34;use case&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort + SPA
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| fields - SPA
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| search dependency IN &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&amp;lt;data_model1&amp;gt;, &amp;lt;data_model2&amp;gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Find alerts related to datamodels&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Mind that this is something custom and might not work in your environment. This is more of a sidenote for me to reference to.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="licenses"&gt;Licenses&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rest splunk_server&lt;span style="color:#f92672"&gt;=&lt;/span&gt;local &lt;span style="color:#e6db74"&gt;&amp;#34;/services/licenser/licenses&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval creation_time&lt;span style="color:#f92672"&gt;=&lt;/span&gt;strftime&lt;span style="color:#f92672"&gt;(&lt;/span&gt;creation_time,&lt;span style="color:#e6db74"&gt;&amp;#34;%d-%m-%Y&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, days_until_expiration&lt;span style="color:#f92672"&gt;=&lt;/span&gt;round&lt;span style="color:#f92672"&gt;((&lt;/span&gt;expiration_time-now&lt;span style="color:#f92672"&gt;())&lt;/span&gt;/86400&lt;span style="color:#f92672"&gt;)&lt;/span&gt; , expiration&lt;span style="color:#f92672"&gt;=&lt;/span&gt;strftime&lt;span style="color:#f92672"&gt;(&lt;/span&gt;expiration_time,&lt;span style="color:#e6db74"&gt;&amp;#34;%d-%m-%Y&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt; ,quota &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;quota&amp;#39;&lt;/span&gt;/1024/1024/1024&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, Volume &lt;span style="color:#f92672"&gt;=&lt;/span&gt; quota+&lt;span style="color:#e6db74"&gt;&amp;#34; GB&amp;#34;&lt;/span&gt;, is_unlimited &lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;is_unlimited&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;==&lt;/span&gt;0,&lt;span style="color:#e6db74"&gt;&amp;#34;no&amp;#34;&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;yes&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| fields creation_time days_until_expiration expiration expiration_time Volume stack_id status subgroup_id type window_period max_violations label is_unlimited group_id features eai:acl.perms.write eai:acl.perms.read quota
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval renewal_period &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;case&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;days_until_expiration&amp;lt;14, &lt;span style="color:#e6db74"&gt;&amp;#34;critical&amp;#34;&lt;/span&gt;, days_until_expiration&amp;lt;30, &lt;span style="color:#e6db74"&gt;&amp;#34;warning&amp;#34;&lt;/span&gt;, 1&lt;span style="color:#f92672"&gt;=&lt;/span&gt;1, &lt;span style="color:#e6db74"&gt;&amp;#34;Ok&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval quota1 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;case&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;quota&amp;gt;1000, quota/1024&lt;span style="color:#f92672"&gt;)&lt;/span&gt; , quota1 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; quota1+&lt;span style="color:#e6db74"&gt;&amp;#34; TB&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval quota2 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;case&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;quota&amp;lt;1, quota*1024&lt;span style="color:#f92672"&gt;)&lt;/span&gt; , quota2 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; quota2+&lt;span style="color:#e6db74"&gt;&amp;#34; MB&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval Volume &lt;span style="color:#f92672"&gt;=&lt;/span&gt; coalesce&lt;span style="color:#f92672"&gt;(&lt;/span&gt;quota1,quota2,Volume&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| fields group_id label Volume creation_time expiration renewal_period days_until_expiration is_unlimited
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rename creation_time AS &lt;span style="color:#e6db74"&gt;&amp;#34;Purchase&amp;#34;&lt;/span&gt;, expiration AS &lt;span style="color:#e6db74"&gt;&amp;#34;Expiration&amp;#34;&lt;/span&gt;, renewal_period AS &lt;span style="color:#e6db74"&gt;&amp;#34;Renewal&amp;#34;&lt;/span&gt;, days_until_expiration AS &lt;span style="color:#e6db74"&gt;&amp;#34;Remaining Days&amp;#34;&lt;/span&gt;, is_unlimited AS Unlimited, group_id AS &lt;span style="color:#e6db74"&gt;&amp;#34;License Type&amp;#34;&lt;/span&gt; , features AS &lt;span style="color:#e6db74"&gt;&amp;#34;Available Features&amp;#34;&lt;/span&gt; , label AS License
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List information about Licenses, including expiration dates.&lt;/p&gt;
+&lt;h3 id="deployment-server--apps"&gt;Deployment server + apps&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rest /services/deployment/server/applications
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| stats list&lt;span style="color:#f92672"&gt;(&lt;/span&gt;title&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, count&lt;span style="color:#f92672"&gt;(&lt;/span&gt;title&lt;span style="color:#f92672"&gt;)&lt;/span&gt; by serverclasses
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rename list&lt;span style="color:#f92672"&gt;(&lt;/span&gt;title&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as apps, count&lt;span style="color:#f92672"&gt;(&lt;/span&gt;title&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as &lt;span style="color:#e6db74"&gt;&amp;#34;amount of apps&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List serverclasses and apps&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rest /services/apps/local
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| search disabled IN &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;false&amp;#34;&lt;/span&gt;,0&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table title version description splunk_server
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List all apps&lt;/p&gt;
+&lt;h3 id="parsing--knowledge-objects"&gt;Parsing + knowledge objects&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rest /services/data/transforms/extractions
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| table eai:acl.app, title, SOURCE_KEY, REGEX, FORMAT, DEST_KEY
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort eai:acl.app title
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval DEST_KEY&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;DEST_KEY&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;N/A&amp;#34;&lt;/span&gt;,DEST_KEY&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rename eai:acl.app as App, title as Title, SOURCE_KEY as &lt;span style="color:#e6db74"&gt;&amp;#34;Source Key&amp;#34;&lt;/span&gt;, REGEX as RegEx, FORMAT as Format, DEST_KEY as &lt;span style="color:#e6db74"&gt;&amp;#34;Dest Key&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List all extractions&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rest /servicesNS/-/-/admin/directory count&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; splunk_server&lt;span style="color:#f92672"&gt;=&lt;/span&gt;local
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| rename eai:* as *, acl.* as *
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval updated&lt;span style="color:#f92672"&gt;=&lt;/span&gt;strptime&lt;span style="color:#f92672"&gt;(&lt;/span&gt;updated,&lt;span style="color:#e6db74"&gt;&amp;#34;%Y-%m-%dT%H:%M:%S%Z&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, updated&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;isnull&lt;span style="color:#f92672"&gt;(&lt;/span&gt;updated&lt;span style="color:#f92672"&gt;)&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;Never&amp;#34;&lt;/span&gt;,strftime&lt;span style="color:#f92672"&gt;(&lt;/span&gt;updated,&lt;span style="color:#e6db74"&gt;&amp;#34;%d %b %Y&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort type
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| stats list&lt;span style="color:#f92672"&gt;(&lt;/span&gt;title&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as title, list&lt;span style="color:#f92672"&gt;(&lt;/span&gt;type&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as type, list&lt;span style="color:#f92672"&gt;(&lt;/span&gt;orphaned&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as orphaned, list&lt;span style="color:#f92672"&gt;(&lt;/span&gt;sharing&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as sharing, list&lt;span style="color:#f92672"&gt;(&lt;/span&gt;owner&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as owner, list&lt;span style="color:#f92672"&gt;(&lt;/span&gt;updated&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as updated by app
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List all knowledge objects&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Maintenance --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Maintenance:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;Using the following query, it is often used after a Splunk version or app/addon upgrade to compare the amount of logs.&lt;br&gt;
+Keep in mind that it is using stats, so big pools of data might slow the search down.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* earliest&lt;span style="color:#f92672"&gt;=&lt;/span&gt;-1mon@m-15m latest&lt;span style="color:#f92672"&gt;=&lt;/span&gt;-1mon@m
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| stats min&lt;span style="color:#f92672"&gt;(&lt;/span&gt;_time&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as _time count as Count by sourcetype, index
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| eval Day&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Last month&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| fields Day, _time, Count, sourcetype, index
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| append &lt;span style="color:#f92672"&gt;[&lt;/span&gt; search index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* earliest&lt;span style="color:#f92672"&gt;=&lt;/span&gt;-1w@m-15m latest&lt;span style="color:#f92672"&gt;=&lt;/span&gt;-1w@m
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | stats min&lt;span style="color:#f92672"&gt;(&lt;/span&gt;_time&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as _time count as Count by sourcetype, index
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | eval Day&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Last week&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | fields Day, _time, Count, sourcetype, index&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| append &lt;span style="color:#f92672"&gt;[&lt;/span&gt; search index&lt;span style="color:#f92672"&gt;=&lt;/span&gt;* earliest&lt;span style="color:#f92672"&gt;=&lt;/span&gt;-15m@m latest&lt;span style="color:#f92672"&gt;=&lt;/span&gt;@m
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | stats min&lt;span style="color:#f92672"&gt;(&lt;/span&gt;_time&lt;span style="color:#f92672"&gt;)&lt;/span&gt; as _time count as Count by sourcetype, index
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | eval Day&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Today&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | fields Day, _time, Count, sourcetype, index&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort sourcetype
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Compare amount of events per sourcetype last 15 minutes with same 15 minutes last week and last month.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Splunk searches</title><link>https://siemforge.xyz/notes/2.splunk/gui/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/gui/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
 &lt;h5 class="note-title"&gt;&lt;span&gt;Debug refresh:&lt;/span&gt;&lt;/h5&gt;
@@ -41,7 +239,23 @@ If you still don’t see your changes, you might need to restart Splunk complete
 &lt;li&gt;&lt;strong&gt;Configuration files:&lt;/strong&gt; Settings that control how Splunk works.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;App files:&lt;/strong&gt; Other resources and assets within your Splunk apps that have been changed.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;a href="https://dev.splunk.com/enterprise/docs/developapps/manageknowledge/assetcaching/?_gl=1*16bjotw*_gcl_aw*R0NMLjE3NTk5ODg2ODQuQ2owS0NRandsNWpIQmhESEFSSXNBQjBZcWp3NHJhQk1uUUVyeEc5OXcweGt0TU0tTWl6cjB2N05lV1RiYi1kSGt4endkOHZWQ0NFVy1YUWFBa2l3RUFMd193Y0I.*_gcl_au*NDc3MjU1Nzc0LjE3NTg2MDcyNjY.*FPAU*NDc3MjU1Nzc0LjE3NTg2MDcyNjY.*_ga*Mzg3OTA2MjM0LjE3NDI0NjQ3MzU.*_ga_5EPM2P39FV*czE3NjExMTYwNjgkbzkzJGcwJHQxNzYxMTE2MDY4JGo2MCRsMCRoMTIyNDM2OTU4MQ..*_fplc*RXhXckVEOVBuVjZxRzQ0M3RhJTJGWGVmVXJVdEFkRHFOUlZFdHAlMkZXbzRreHZBSEpDMVclMkIzN2JtMkJwMUZMTGpoamtEOGo5NjFGQnhhalZBSGpzNDdZSHZqY2syRjc0WFJXWTFISUNyeTcxOEtTWnZEZEQxeER0QyUyRjhzUndLUGclM0QlM0Q." target="_blank" rel="noopener"&gt;resource&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Splunk CLI commands</title><link>https://siemforge.xyz/notes/2.splunk/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;p&gt;&lt;a href="https://dev.splunk.com/enterprise/docs/developapps/manageknowledge/assetcaching/?_gl=1*16bjotw*_gcl_aw*R0NMLjE3NTk5ODg2ODQuQ2owS0NRandsNWpIQmhESEFSSXNBQjBZcWp3NHJhQk1uUUVyeEc5OXcweGt0TU0tTWl6cjB2N05lV1RiYi1kSGt4endkOHZWQ0NFVy1YUWFBa2l3RUFMd193Y0I.*_gcl_au*NDc3MjU1Nzc0LjE3NTg2MDcyNjY.*FPAU*NDc3MjU1Nzc0LjE3NTg2MDcyNjY.*_ga*Mzg3OTA2MjM0LjE3NDI0NjQ3MzU.*_ga_5EPM2P39FV*czE3NjExMTYwNjgkbzkzJGcwJHQxNzYxMTE2MDY4JGo2MCRsMCRoMTIyNDM2OTU4MQ..*_fplc*RXhXckVEOVBuVjZxRzQ0M3RhJTJGWGVmVXJVdEFkRHFOUlZFdHAlMkZXbzRreHZBSEpDMVclMkIzN2JtMkJwMUZMTGpoamtEOGo5NjFGQnhhalZBSGpzNDdZSHZqY2syRjc0WFJXWTFISUNyeTcxOEtTWnZEZEQxeER0QyUyRjhzUndLUGclM0QlM0Q." target="_blank" rel="noopener"&gt;resource&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;SSO bypass local account login&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;I’ve seen several setups where SSO is turned on but not set up correctly, which can lead to users having the wrong permissions. Even if local accounts are still enabled, the login URL will redirect to authenticate with SAML or another service. To log in with a local account instead, just add this to the end of the original URL: /en-US/account/login?loginType=splunk&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;https://&amp;lt;host&amp;gt;:&amp;lt;port&amp;gt;/en-US/account/login?loginType&lt;span style="color:#f92672"&gt;=&lt;/span&gt;splunk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href="https://splunk.my.site.com/customer/s/article/How-to-login-into-Splunk-using-local-Splunk-accounts-after-configuring-SAML" target="_blank" rel="noopener"&gt;resource&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Splunk CLI commands</title><link>https://siemforge.xyz/notes/2.splunk/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;!-- CLI commands: --&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
@@ -62,7 +276,38 @@ If you still don’t see your changes, you might need to restart Splunk complete
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check Splunk admins&lt;/p&gt;
 &lt;h3 id="splunk-service-setup"&gt;Splunk service setup&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk enable
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Enable Splunk service to start when the host boots up&lt;/p&gt;</description></item><item><title>Splunk Upgrade procedure</title><link>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Enable Splunk service to start when the host boots up&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk disable
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Disable Splunk service so it doesn&amp;rsquo;t start when the host boots up&lt;/p&gt;
+&lt;h3 id="deployment-server"&gt;Deployment server&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk reload deploy-server -class &lt;span style="color:#f92672"&gt;[&lt;/span&gt;serverclass-name&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Reload a serverclass to push deployment apps without restarting Splunk&amp;quot;&lt;/p&gt;
+&lt;h3 id="licenses"&gt;Licenses&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk list licenses | grep &lt;span style="color:#e6db74"&gt;&amp;#34;expiration_time&amp;#34;&lt;/span&gt; | awk -F&lt;span style="color:#e6db74"&gt;&amp;#39;:&amp;#39;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;{print $2}&amp;#39;&lt;/span&gt; | xargs -I&lt;span style="color:#f92672"&gt;{}&lt;/span&gt; date -d @&lt;span style="color:#f92672"&gt;{}&lt;/span&gt; +&lt;span style="color:#e6db74"&gt;&amp;#34;%Y-%m-%d %H:%M:%S&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check license expiration date&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk btool server list license --debug
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check license info&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk list licenser-localpeer
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check license info on a peer node in a distributed deployment setup.&lt;/p&gt;
+&lt;h3 id="appsaddons"&gt;Apps/addons&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk list app
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List installed apps and their status&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk list app | grep version /opt/splunk/etc/apps/*/default/app.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List installed apps and their version (if found)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/splunk install app &amp;lt;path to app.package&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Install an app&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/splunk install app &amp;lt;path to app.package&amp;gt; -update &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Update an app&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk remove app &lt;span style="color:#f92672"&gt;[&lt;/span&gt;appname&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Remove an app&lt;/p&gt;
+&lt;h3 id="extra"&gt;Extra&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cat /opt/splunk/var/log/splunk/splunkd_stdout.log | grep &lt;span style="color:#e6db74"&gt;&amp;#34;Splunk&amp;gt;&amp;#34;&lt;/span&gt; | tail -n &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Find the startup message&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Splunk Upgrade procedure</title><link>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/2.splunk/splunk-upgrade/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;!-- Upgrade procedure: --&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
@@ -91,7 +336,81 @@ If you still don’t see your changes, you might need to restart Splunk complete
 &lt;h2 id="2-download-and-transfer-files"&gt;2. Download and Transfer Files&lt;/h2&gt;
 &lt;h3 id="download-the-splunk-installer"&gt;Download the Splunk Installer&lt;/h3&gt;
 &lt;p&gt;You can use the wget command to download the package on the host
-wget -O splunk-&lt;version&gt;-&lt;hash&gt;-Linux-x86_64.tgz &amp;ldquo;&lt;a href="https://download.splunk.com/products/splunk/releases/" target="_blank" rel="noopener"&gt;https://download.splunk.com/products/splunk/releases/&lt;/a&gt;&lt;version&gt;/linux/splunk-&lt;version&gt;-&lt;hash&gt;-Linux-x86_64.tgz&amp;rdquo;&lt;/p&gt;</description></item><item><title>Kusto query language</title><link>https://siemforge.xyz/notes/3.sentinel/kql/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/kql/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+wget -O splunk-&lt;version&gt;-&lt;hash&gt;-Linux-x86_64.tgz &amp;ldquo;&lt;a href="https://download.splunk.com/products/splunk/releases/" target="_blank" rel="noopener"&gt;https://download.splunk.com/products/splunk/releases/&lt;/a&gt;&lt;version&gt;/linux/splunk-&lt;version&gt;-&lt;hash&gt;-Linux-x86_64.tgz&amp;rdquo;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo -i
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd /tmp
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget -O splunk-9.4.3-237ebbd22314-linux-amd64.tgz &lt;span style="color:#e6db74"&gt;&amp;#34;https://download.splunk.com/products/splunk/releases/9.4.3/linux/splunk-9.4.3-237ebbd22314-linux-amd64.tgz&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="transfer-the-installer-to-target-devices"&gt;Transfer the Installer to Target Devices&lt;/h3&gt;
+&lt;p&gt;Use WinSCP or similar tools to connect and send to the device:
+put &amp;ldquo;path\to\splunk-&lt;version&gt;-&lt;hash&gt;-Linux-x86_64.tgz&amp;rdquo; &amp;ldquo;/tmp/splunk-&lt;version&gt;-&lt;hash&gt;-Linux-x86_64.tgz&amp;rdquo;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;set path&lt;span style="color:#f92672"&gt;=&lt;/span&gt;C:&lt;span style="color:#ae81ff"&gt;\P&lt;/span&gt;rogram Files &lt;span style="color:#f92672"&gt;(&lt;/span&gt;x86&lt;span style="color:#f92672"&gt;)&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;\W&lt;/span&gt;inSCP;%path%
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;winscp sftp://&amp;lt;CLI-account&amp;gt;@&amp;lt;device_NAT_IP&amp;gt;:/tmp
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;put &lt;span style="color:#e6db74"&gt;&amp;#34;path\to\splunk-9.4.3-237ebbd22314-linux-amd64.tgz&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;/tmp/splunk-9.4.3-237ebbd22314-linux-amd64.tgz&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Use SCP on more recent windows machines or on Linux:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;scp &lt;span style="color:#e6db74"&gt;&amp;#34;path\to\splunk-9.4.3-237ebbd22314-linux-amd64.tgz&amp;#34;&lt;/span&gt; user@remote-ip:&lt;span style="color:#e6db74"&gt;&amp;#34;/tmp/splunk-9.4.3-237ebbd22314-linux-amd64.tgz&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="3-pre-upgrade-checks"&gt;3. Pre-Upgrade Checks&lt;/h2&gt;
+&lt;p&gt;Check if Splunk has an active process:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ps -ef | grep splunk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check if Splunk is running:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk status
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check Splunk version:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk --version
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="4-device-state-management"&gt;4. Device State Management&lt;/h2&gt;
+&lt;p&gt;Check whether a monitoring needs to set the host in maintenance mode&lt;/p&gt;
+&lt;p&gt;On Splunk in environments with index clusters: Maintenance mode halts most bucket fixup activity and prevents frequent rolling of hot buckets. It is useful when performing peer upgrades and other maintenance activities on an indexer cluster.
+Enable maintenance mode:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk enable maintenance-mode
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Disable maintenance mode:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk disable maintenance-mode
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Enable maintenance mode:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk show maintenance-mode
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="5-backup-current-configuration"&gt;5. Backup Current Configuration&lt;/h2&gt;
+&lt;p&gt;Check KV Store status&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk show kvstore-status
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Backup KV Store&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk backup kvstore
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check backup&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ls -la /opt/splunk/var/lib/splunk/kvstorebackup/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Backup config files&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo -i
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd /tmp
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir /tmp/etc_backup&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;date +&lt;span style="color:#e6db74"&gt;&amp;#34;%d-%m-%Y&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cp -a /opt/splunk/etc/ /tmp/etc_backup&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;date +&lt;span style="color:#e6db74"&gt;&amp;#34;%d-%m-%Y&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check backup&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ls /tmp/etc_backup&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;date +&lt;span style="color:#e6db74"&gt;&amp;#34;%d-%m-%Y&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;/etc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="6-install-the-new-version"&gt;6. Install the New Version&lt;/h2&gt;
+&lt;p&gt;stop splunk using Splunk command&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk stop
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;stop splunk using systemctl command&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;systemctl stop splunk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Unpack the Installer&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tar -xvzf /tmp/splunk-9.4.3-237ebbd22314-linux-amd64.tgz -C /opt/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Change the owner of the Splunk folder recursively with the account running Splunk&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;chown -R splunk.splunk /opt/splunk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Since I&amp;rsquo;m using a splunk user account (created without elevated privileges) to run splunk, I am switching to the account&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;su - splunk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Start Splunk with License Acceptance&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk start --accept-license --answer-yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="7-post-upgrade-verification"&gt;7. Post-Upgrade Verification&lt;/h2&gt;
+&lt;p&gt;Check if Splunk is running&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk status
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check recent logs for errors&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tail -20f /opt/splunk/var/log/splunk/splunkd.log
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check Splunk version&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/opt/splunk/bin/splunk --version
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check if Splunk service is run by splunk user&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ps -ef | grep splunkd | grep -v grep
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="8-documentation-and-communication"&gt;8. Documentation and Communication&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Update internal documentation with the new version details.&lt;/li&gt;
+&lt;li&gt;Notify customer and colleagues of the successful upgrade.&lt;/li&gt;
+&lt;li&gt;Share release notes and any post-upgrade instructions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Kusto query language</title><link>https://siemforge.xyz/notes/3.sentinel/kql/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/kql/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
 &lt;h5 class="note-title"&gt;&lt;span&gt;Troubleshooting:&lt;/span&gt;&lt;/h5&gt;
@@ -123,7 +442,69 @@ Further filters the data to include only failed login attempts.&lt;br&gt;
 &lt;strong&gt;| project TimeGenerated, SentinelResourceName, Status&lt;/strong&gt;&lt;br&gt;
 Selects only the columns for the time of the event, resource name, and status.&lt;br&gt;
 &lt;strong&gt;| sort by TimeGenerated desc&lt;/strong&gt;&lt;br&gt;
-Orders the results by the most recent events first.&lt;/p&gt;</description></item><item><title>Logstash CLI commands</title><link>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+Orders the results by the most recent events first.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SentinelHealth
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where SentinelResourceName in &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Successful logon from IP and failure from a different IP&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| project TimeGenerated, SentinelResourceName, Status
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort by TimeGenerated desc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Expand the failed run time window to investigate warnings or successful runs. It is possible that Sentinel runs out of resources where a failed run can be expected and closed as true benign positive, expected behavior. Multiple failed runs might indicate another issue with the analytics rule (Syntax related or other) after an update of the rule. Further investigation is needed to resolve the issue.&lt;/p&gt;
+&lt;h2 id="table-does-not-receive-data"&gt;Table does not receive data&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;union withsource&lt;span style="color:#f92672"&gt;=&lt;/span&gt;TableName
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcenter_CL, SecurityEvent, CommonSecurityLog, Syslog // Add/remove tables as needed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where TimeGenerated &amp;gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; ago&lt;span style="color:#f92672"&gt;(&lt;/span&gt;7d&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| summarize MinutesSinceLastEvent &lt;span style="color:#f92672"&gt;=&lt;/span&gt; datetime_diff&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;minute&amp;#34;&lt;/span&gt;, now&lt;span style="color:#f92672"&gt;()&lt;/span&gt;, max&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated&lt;span style="color:#f92672"&gt;))&lt;/span&gt;, LastIngestionTime &lt;span style="color:#f92672"&gt;=&lt;/span&gt; max&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated&lt;span style="color:#f92672"&gt;)&lt;/span&gt; by TableName
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where MinutesSinceLastEvent &amp;gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;60&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| project TableName, alert_minutes_last_event &lt;span style="color:#f92672"&gt;=&lt;/span&gt; MinutesSinceLastEvent, LastIngestionTime
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| extend info_name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;table_not_receiving-data&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| extend info_sub_route &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Sentinel&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Identifies tables that haven&amp;rsquo;t received data for over an hour, signaling possible ingestion problems.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SecurityAlert
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| summarize EventCount &lt;span style="color:#f92672"&gt;=&lt;/span&gt; count&lt;span style="color:#f92672"&gt;()&lt;/span&gt; by bin&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated, 1h&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| render timechart
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This query counts the amount of events per hour and renders it in a timechart. This is an easy way to pinpoint anomalies in log event ingestion.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SecurityAlert
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where TimeGenerated &amp;gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; ago&lt;span style="color:#f92672"&gt;(&lt;/span&gt;30d&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort by TimeGenerated asc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| serialize
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| extend TimeDiff &lt;span style="color:#f92672"&gt;=&lt;/span&gt; datetime_diff&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;second&amp;#39;&lt;/span&gt;, TimeGenerated, prev&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated&lt;span style="color:#f92672"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where TimeDiff &amp;gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;3600&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| project TimeGenerated, prev_TimeGenerated&lt;span style="color:#f92672"&gt;=&lt;/span&gt;prev&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, TimeDiff
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Statistical overview of gaps (over 1 hour) between events for the last 30 days. This one is mostly used to determine tuning for the threshold used in an analytic rule to check if a table did not receive data. (could indicate a logsource stopped sending or a misconfiguration in sending the logs to another table)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SecurityEvent
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where Computer contains &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;test-pc&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| summarize Type &lt;span style="color:#f92672"&gt;=&lt;/span&gt; count&lt;span style="color:#f92672"&gt;()&lt;/span&gt; by Computer, bin&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated, 1h&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| render timechart
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This KQL query filters security events to include only those from computers with &amp;ldquo;test-pc&amp;rdquo; in their name, then counts the number of events for each computer grouped by 1-hour intervals, and finally displays the results as a time chart. I use this to check for patterns in log ingestion which can indicate ingestion issues or expected behavior.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Reporting:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h1 id="reporting"&gt;Reporting&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;_GetWatchlist&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;CriticalLogs&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| project Host, Vendor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; SubType, Threshold, Table &lt;span style="color:#f92672"&gt;=&lt;/span&gt; DataTable, Updated &lt;span style="color:#f92672"&gt;=&lt;/span&gt; LastUpdatedTimeUTC
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Example query to display the content of a watchlist in Azure Sentinel. Columns are renamed in output using following format &amp;ldquo;&lt;new name&gt; = &lt;original name&gt;&amp;rdquo;, project operator only returns provided columns.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Usage
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where IsBillable &lt;span style="color:#f92672"&gt;==&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where QuantityUnit &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;MBytes&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| summarize totalMB &lt;span style="color:#f92672"&gt;=&lt;/span&gt; sum&lt;span style="color:#f92672"&gt;(&lt;/span&gt;Quantity&lt;span style="color:#f92672"&gt;)&lt;/span&gt; by day &lt;span style="color:#f92672"&gt;=&lt;/span&gt; bin&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated, 1d&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| summarize avgGBperDay &lt;span style="color:#f92672"&gt;=&lt;/span&gt; round&lt;span style="color:#f92672"&gt;(&lt;/span&gt;avg&lt;span style="color:#f92672"&gt;(&lt;/span&gt;totalMB / 1024&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, 2&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A Sentinel KQL query to extract the average daily volume, adjust time range as needed.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Usage
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where IsBillable &lt;span style="color:#f92672"&gt;==&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where QuantityUnit &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;MBytes&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| summarize totalMB &lt;span style="color:#f92672"&gt;=&lt;/span&gt; sum&lt;span style="color:#f92672"&gt;(&lt;/span&gt;Quantity&lt;span style="color:#f92672"&gt;)&lt;/span&gt; by day &lt;span style="color:#f92672"&gt;=&lt;/span&gt; bin&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated, 1d&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| extend GB &lt;span style="color:#f92672"&gt;=&lt;/span&gt; round&lt;span style="color:#f92672"&gt;(&lt;/span&gt;totalMB / 1024, 2&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| order by day asc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A Sentinel KQL query aggregated the total number of bytes ingested per day.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Logstash CLI commands</title><link>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
 &lt;h5 class="note-title"&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;
@@ -143,7 +524,26 @@ Orders the results by the most recent events first.&lt;/p&gt;</description></ite
 &lt;strong&gt;logstop:&lt;/strong&gt; Stops the Logstash service.&lt;br&gt;
 &lt;strong&gt;logrestart:&lt;/strong&gt; Restarts the Logstash service.&lt;br&gt;
 &lt;strong&gt;logstatus:&lt;/strong&gt; Checks the current status of the Logstash service.&lt;br&gt;
-&lt;strong&gt;logsamp:&lt;/strong&gt; Navigates to the directory containing sample Logstash configurations.&lt;/p&gt;</description></item><item><title>Linux Bash commands</title><link>https://siemforge.xyz/notes/4.linux/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;strong&gt;logsamp:&lt;/strong&gt; Navigates to the directory containing sample Logstash configurations.&lt;/p&gt;
+&lt;h3 id="making-alias-permanent-for-all-users"&gt;Making alias permanent for all users&lt;/h3&gt;
+&lt;p&gt;To ensure these aliases are available for all users permanently, you can add them to a global shell configuration file such as /etc/bashrc, /etc/bash.bashrc, or /etc/profile, depending on your system and shell preferences.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo nano /etc/bashrc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Edit bashrc file.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logtail&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;tail -f /var/log/logstash/logstash-plain.log&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logconf&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;cd /etc/logstash/conf.d&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logstart&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;systemctl start logstash&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logstop&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;systemctl stop logstash&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logrestart&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;systemctl restart logstash&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logstatus&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;systemctl status logstash&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logsamp&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;cd /usr/share/logstash/samples&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;add the alias commands at the end of the file.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;source /etc/bashrc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Save the file and reload the shell configuration.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Linux Bash commands</title><link>https://siemforge.xyz/notes/4.linux/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;!-- Troubleshooting: --&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
@@ -165,7 +565,96 @@ Orders the results by the most recent events first.&lt;/p&gt;</description></ite
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;p&gt;Check logs if a service has executed/failed before (I needed to check if logrotate was running daily, also checked for rsyslog after)&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;journalctl | grep logrotate
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;check if machine is a vm or barebone&lt;/p&gt;</description></item><item><title>Logrotate config</title><link>https://siemforge.xyz/notes/4.linux/logrotate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/logrotate/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;check if machine is a vm or barebone&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;dmidecode -s system-manufacturer
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;check folder disk usage&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;du -hs * | sort -h
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;check open port&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;echo &amp;gt; /dev/tcp/10.254.4.54/22&lt;span style="color:#f92672"&gt;)&lt;/span&gt; &amp;gt;/dev/null 2&amp;gt;&amp;amp;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;It&amp;#39;s up&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;It&amp;#39;s down&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;check for listening ports&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo lsof -i -P -n | grep LISTEN
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo netstat -tulpn | grep LISTEN
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo ss -tulpn | grep LISTEN
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo lsof -i:22 &lt;span style="color:#75715e"&gt;## see a specific port such as 22 ##&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo nmap -sTU -O IP-address-Here
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Troubleshooting: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Troubleshooting (SSL):&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;Check expiry date on .pem file&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;openssl x509 -enddate -noout -in /path/to/certificate.pem
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Maintenance: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Maintenance:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;dry-run an update on OS&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo yum check-update
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check if a reboot is required&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;needs-restarting -r
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;remove cache of updates for old data&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;rm -rf /var/cache/yum
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;block icmp&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sysctl -w net.ipv4.icmp_echo_ignore_all&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- File manipulation: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;File manipulation:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;remove empty lines from file&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sed -i &lt;span style="color:#e6db74"&gt;&amp;#39;/^$/d&amp;#39;&lt;/span&gt; &amp;lt;filename&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Disk manipulation: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Disk manipulation:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;Check logs while plugging in the new drive&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;dmesg --follow
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List all block devices, including filesystems, UUIDs and labels&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lsblk -o NAME,SIZE,TYPE,FSTYPE,LABEL,UUID,MOUNTPOINT
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;detailed info about new disk (Replace X with your new disk e.g. &amp;ndash;name=/dev/sdb)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;udevadm info --query&lt;span style="color:#f92672"&gt;=&lt;/span&gt;all --name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/dev/sdX
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Filesystem details (if you encounter command not found -&amp;gt; try sudo)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;blkid
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;SMART/health info (Replace X with your new disk e.g. &amp;ndash;name=/dev/sdb)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo smartctl -a -d scsi /dev/sdX
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Account: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Account control:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;change to root&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo -i
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Grep sudo users&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;rm -f /tmp/names; &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; user in &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;getent passwd | cut -d: -f1&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;do&lt;/span&gt; count&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$((&lt;/span&gt;count+1&lt;span style="color:#66d9ef"&gt;))&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; sudo -l -U &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$user&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; | grep -q &lt;span style="color:#e6db74"&gt;&amp;#34;ALL&amp;#34;&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$user&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; &amp;gt;&amp;gt; /tmp/names; echo &lt;span style="color:#e6db74"&gt;&amp;#34;Checked &lt;/span&gt;$count&lt;span style="color:#e6db74"&gt; of &lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;getent passwd | cut -d: -f1 | wc -l&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt; users.&amp;#34;&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;done&lt;/span&gt;; clear; cat /tmp/names; rm -f /tmp/names
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Oneline to create and add a sudo user, removing sudo prompt. Change pw123 and username as required.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;useradd -m -p &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;openssl passwd -1 pw123&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt; username &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; usermod -aG sudo username &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;username ALL=(ALL) NOPASSWD: ALL&amp;#34;&lt;/span&gt; &amp;gt;&amp;gt; /etc/sudoers &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; usermod --shell /bin/bash username
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Logrotate config</title><link>https://siemforge.xyz/notes/4.linux/logrotate/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/logrotate/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
 &lt;h5 class="note-title"&gt;&lt;span&gt;Logrotate Configuration Cheat Sheet:&lt;/span&gt;&lt;/h5&gt;
@@ -200,7 +689,102 @@ Use this as a quick reference to master log rotation on Unix-like systems.&lt;/p
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;h4 id="basic-settings"&gt;Basic Settings:&lt;/h4&gt;
 &lt;p&gt;&lt;code&gt;rotate &amp;lt;count&amp;gt;&lt;/code&gt;&lt;br&gt;
-Keep &lt;count&gt; number of old log files before deleting them.&lt;/p&gt;</description></item><item><title>LVM cheatsheet</title><link>https://siemforge.xyz/notes/4.linux/lvm/lvm_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/lvm/lvm_cheatsheet/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+Keep &lt;count&gt; number of old log files before deleting them.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;daily | weekly | monthly | yearly&lt;/code&gt;&lt;br&gt;
+Frequency of rotation.&lt;/p&gt;
+&lt;h4 id="compression-options"&gt;Compression Options:&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;compress&lt;/code&gt;&lt;br&gt;
+Compress old versions of log files with gzip.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;nocompress&lt;/code&gt;&lt;br&gt;
+Do not compress old logs.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;delaycompress&lt;/code&gt;&lt;br&gt;
+Postpone compression to the next rotation cycle (used with compress).&lt;/p&gt;
+&lt;h4 id="file-handling"&gt;File Handling:&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;missingok&lt;/code&gt;&lt;br&gt;
+Ignore missing log files and don’t issue an error.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;notifempty&lt;/code&gt;&lt;br&gt;
+Do not rotate the log if it is empty.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ifempty&lt;/code&gt;&lt;br&gt;
+Rotate the log even if it is empty (default behavior).&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;create &amp;lt;mode&amp;gt; &amp;lt;owner&amp;gt; &amp;lt;group&amp;gt;&lt;/code&gt;&lt;br&gt;
+Create a new log file with specified permissions.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;copy&lt;/code&gt;&lt;br&gt;
+Make a copy of the log file and truncate the original.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;copytruncate&lt;/code&gt;&lt;br&gt;
+Truncate the original log file after copying it (useful for active logs).&lt;/p&gt;
+&lt;h4 id="date--naming"&gt;Date &amp;amp; Naming:&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;dateext&lt;/code&gt;&lt;br&gt;
+Append an extension with the current date to rotated log files.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;dateformat .%Y-%m-%d&lt;/code&gt;&lt;br&gt;
+Custom format for dateext (e.g., .2025-06-06).&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;extension &amp;lt;ext&amp;gt;&lt;/code&gt;&lt;br&gt;
+Force specific extension for rotated files (e.g., .log).&lt;/p&gt;
+&lt;h4 id="size-based-rotation"&gt;Size-Based Rotation:&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;maxage &amp;lt;days&amp;gt;&lt;/code&gt;&lt;br&gt;
+Remove rotated logs older than &lt;days&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;minsize &amp;lt;size&amp;gt;&lt;/code&gt;&lt;br&gt;
+Rotate only if log size is above &lt;size&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;size &amp;lt;size&amp;gt;&lt;/code&gt;&lt;br&gt;
+Rotate if log file size meets threshold, regardless of time.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;maxsize &amp;lt;size&amp;gt;&lt;/code&gt;&lt;br&gt;
+Do not rotate if log is larger than specified size.&lt;/p&gt;
+&lt;h4 id="directory--scripts"&gt;Directory &amp;amp; Scripts:&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;olddir &amp;lt;dir&amp;gt;&lt;/code&gt;&lt;br&gt;
+Move rotated logs to a specified directory.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sharedscripts&lt;/code&gt;&lt;br&gt;
+Run postrotate script once for all matching logs.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;postrotate/endscript&lt;/code&gt;&lt;br&gt;
+Script to run after log rotation.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;prerotate/endscript&lt;/code&gt;&lt;br&gt;
+Script to run before log rotation.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;firstaction/endscript&lt;/code&gt;&lt;br&gt;
+Run only once before rotation begins (before prerotate).&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;lastaction/endscript&lt;/code&gt;&lt;br&gt;
+Run once after rotation finishes (after postrotate).&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;tabooext + &amp;lt;ext&amp;gt;&lt;/code&gt;&lt;br&gt;
+Treat additional extensions as taboo (not rotated).&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Full Example Configuration:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/var/log/myapp/*.log &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; daily
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; rotate &lt;span style="color:#ae81ff"&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; size 100M
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compress
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; delaycompress
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; missingok
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; notifempty
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; create &lt;span style="color:#ae81ff"&gt;0640&lt;/span&gt; appuser adm
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sharedscripts
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; postrotate
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; systemctl reload myapp &amp;gt; /dev/null 2&amp;gt;&amp;amp;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; endscript
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Tips:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;ul&gt;
+&lt;li&gt;Run &lt;code&gt;logrotate -d &amp;lt;config&amp;gt;&lt;/code&gt; to debug your config without applying changes.&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;logrotate -f &amp;lt;config&amp;gt;&lt;/code&gt; to force rotation for testing.&lt;/li&gt;
+&lt;li&gt;Logrotate is typically triggered via cron or systemd timers.&lt;/li&gt;
+&lt;li&gt;Keep your config DRY by centralizing shared logic in /etc/logrotate.conf and using includes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;/div&gt;</description></item><item><title>LVM cheatsheet</title><link>https://siemforge.xyz/notes/4.linux/lvm/lvm_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/lvm/lvm_cheatsheet/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
 &lt;h5 class="note-title"&gt;&lt;span&gt;LVM cheatsheet&lt;/span&gt;&lt;/h5&gt;
@@ -230,7 +814,122 @@ LV1 LV2 LV3
 &lt;/div&gt;
 &lt;div class="card"&gt;
 &lt;div class="card-body"&gt;&lt;h3 id="2-create-physical-volumes"&gt;2. Create Physical Volumes&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;Info&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>fdisk</title><link>https://siemforge.xyz/notes/4.linux/fdisk/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/fdisk/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;p&gt;&lt;strong&gt;Info&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pvck &lt;span style="color:#75715e"&gt;# Check PV metadata&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pvdisplay &lt;span style="color:#75715e"&gt;# Display PV attributes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pvs &lt;span style="color:#75715e"&gt;# Report PV information&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pvscan &lt;span style="color:#75715e"&gt;# Scan for PVs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Create&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pvcreate /dev/sda /dev/sdb /dev/sdc /dev/sdd
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Delete&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pvremove /dev/sdX
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pvchange &lt;span style="color:#75715e"&gt;# Change PV attributes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pvmove &lt;span style="color:#75715e"&gt;# Move physical extents&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pvresize &lt;span style="color:#75715e"&gt;# Resize PV&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h3 id="3-create-volume-groups"&gt;3. Create Volume Groups&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Info&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgck &lt;span style="color:#75715e"&gt;# Check VG metadata&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgdisplay &lt;span style="color:#75715e"&gt;# VG attributes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgs &lt;span style="color:#75715e"&gt;# Report VG info&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgscan &lt;span style="color:#75715e"&gt;# Scan for VGs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Create&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgcreate vg0 /dev/sda
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Delete&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgremove vg_name
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgcfgbackup &lt;span style="color:#75715e"&gt;# Backs up volume group (VG) metadata&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgcfgrestore &lt;span style="color:#75715e"&gt;# Restores VG metadata from backup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgchange &lt;span style="color:#75715e"&gt;# Change VG attributes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgconvert &lt;span style="color:#75715e"&gt;# Metadata format change&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgexport &lt;span style="color:#75715e"&gt;# Exports a VG to make it unknown to the system&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgimport &lt;span style="color:#75715e"&gt;# Imports a VG previously exported&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgimportclone &lt;span style="color:#75715e"&gt;# Imports and renames a VG to avoid conflicts&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgmerge &lt;span style="color:#75715e"&gt;# Merges two VGs into one&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgsplit &lt;span style="color:#75715e"&gt;# Splits a VG into two separate VGs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgextend vg0 /dev/sdc /dev/sdd &lt;span style="color:#75715e"&gt;# Adds physical volumes to a VG&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgreduce &lt;span style="color:#75715e"&gt;# Removes physical volumes from a VG&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgrename &lt;span style="color:#75715e"&gt;# Renames a VG&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgmknodes &lt;span style="color:#75715e"&gt;# Recreates device nodes for LVM devices&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h3 id="4-create-logical-volumes"&gt;4. Create Logical Volumes&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Info&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvdisplay &lt;span style="color:#75715e"&gt;# Show LV attributes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvmdiskscan &lt;span style="color:#75715e"&gt;# Scan for devices&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvs &lt;span style="color:#75715e"&gt;# Report info&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvscan &lt;span style="color:#75715e"&gt;# Scan for LVs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Create&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvcreate -n lvbackup -L 50G vgbackup -r
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Delete&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvremove /dev/vg_name/lv_name
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvchange &lt;span style="color:#75715e"&gt;# Change LV attributes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvconvert &lt;span style="color:#75715e"&gt;# Mirror/snapshot conversion&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvextend /dev/vg_name/lv_name
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvreduce &lt;span style="color:#75715e"&gt;# Reduce size&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvresize &lt;span style="color:#75715e"&gt;# Resize&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvrename &lt;span style="color:#75715e"&gt;# Rename&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;resize2fs /dev/vg0/lv_root &lt;span style="color:#75715e"&gt;# Resize filesystem&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;xfs_growfs -d /dev/vg-group-name/lv-name
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h3 id="5-create-a-filesystem-on-your-logical-volume"&gt;5. Create a filesystem on your Logical Volume&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkfs.ext4 /dev/vgbackup/lvbackup
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h3 id="6-mounting-the-logical-volume"&gt;6. Mounting the Logical Volume&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;blkid /dev/vgbackup/lvbackup &lt;span style="color:#75715e"&gt;# Get UUID&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir /path/to/folder &lt;span style="color:#75715e"&gt;# Mount point&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vim /etc/fstab &lt;span style="color:#75715e"&gt;# Add entry with UUID&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mount -a &lt;span style="color:#75715e"&gt;# Mount all from fstab&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h2 id="overview-commands"&gt;Overview Commands&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pvs &lt;span style="color:#75715e"&gt;# List physical volumes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgs &lt;span style="color:#75715e"&gt;# List volume groups&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvs &lt;span style="color:#75715e"&gt;# List logical volumes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pvdisplay
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgdisplay
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvdisplay
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h2 id="snapshotting"&gt;Snapshotting&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvcreate --size 1G --snapshot --name snap_name /dev/vg0/lvdata
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvconvert --merge /dev/vg0/snap_name
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h2 id="filesystem-resize-after-lv-resize"&gt;Filesystem Resize After LV Resize&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lvextend -L +10G /dev/vgbackup/lvbackup
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;resize2fs /dev/vgbackup/lvbackup
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;xfs_growfs /path/to/your/mount/point
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h2 id="helpful-tips"&gt;Helpful Tips&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Always back up metadata:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vgcfgbackup
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Reload partition tables without rebooting:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;partprobe /dev/sdX
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>fdisk</title><link>https://siemforge.xyz/notes/4.linux/fdisk/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/fdisk/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
 &lt;h5 class="note-title"&gt;&lt;span&gt;fdisk cheatsheet:&lt;/span&gt;&lt;/h5&gt;
@@ -240,7 +939,170 @@ LV1 LV2 LV3
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fdisk &lt;span style="color:#f92672"&gt;[&lt;/span&gt;options&lt;span style="color:#f92672"&gt;]&lt;/span&gt; /dev/sdX
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Where &lt;code&gt;/dev/sdX&lt;/code&gt; is the disk you want to operate on (e.g., &lt;code&gt;/dev/sda&lt;/code&gt;, &lt;code&gt;/dev/sdb&lt;/code&gt;).&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Always double-check the disk name to avoid data loss.&lt;/p&gt;</description></item><item><title>TCPDump cheatsheet</title><link>https://siemforge.xyz/notes/4.linux/tcpdump/tcpdump_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/tcpdump/tcpdump_cheatsheet/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;p&gt;Always double-check the disk name to avoid data loss.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;h2 id="key-commands-in-fdisk-interactive-mode"&gt;Key commands in &lt;code&gt;fdisk&lt;/code&gt; interactive mode&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Command&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;m&lt;/td&gt;
+&lt;td&gt;Print help menu&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;p&lt;/td&gt;
+&lt;td&gt;Display existing partition table&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;n&lt;/td&gt;
+&lt;td&gt;Create a new partition&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;d&lt;/td&gt;
+&lt;td&gt;Delete a partition&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;t&lt;/td&gt;
+&lt;td&gt;Change a partition&amp;rsquo;s system ID (type)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;a&lt;/td&gt;
+&lt;td&gt;Toggle bootable flag&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;w&lt;/td&gt;
+&lt;td&gt;Write changes and exit&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;q&lt;/td&gt;
+&lt;td&gt;Quit without saving changes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h2 id="common-workflow-examples"&gt;Common workflow examples&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;1. View partition table&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo fdisk -l
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Lists all disks and their partitions.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. Start fdisk on a specific disk&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo fdisk /dev/sdX
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Enters interactive mode.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. Create a new partition&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Command &lt;span style="color:#f92672"&gt;(&lt;/span&gt;m &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; help&lt;span style="color:#f92672"&gt;)&lt;/span&gt;: n
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Select default or choose primary &lt;span style="color:#f92672"&gt;(&lt;/span&gt;p&lt;span style="color:#f92672"&gt;)&lt;/span&gt; or extended &lt;span style="color:#f92672"&gt;(&lt;/span&gt;e&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Partition number: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;First sector: &lt;span style="color:#f92672"&gt;[&lt;/span&gt;Press Enter to accept default&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Last sector: +1G &lt;span style="color:#75715e"&gt;# or specify size like +20G&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;4. Change partition type&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Command &lt;span style="color:#f92672"&gt;(&lt;/span&gt;m &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; help&lt;span style="color:#f92672"&gt;)&lt;/span&gt;: t
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Partition number: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Hex code &lt;span style="color:#f92672"&gt;(&lt;/span&gt;type L &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; list&lt;span style="color:#f92672"&gt;)&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;83&lt;/span&gt; &lt;span style="color:#75715e"&gt;# Linux filesystem&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;5. Set bootable flag&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Command &lt;span style="color:#f92672"&gt;(&lt;/span&gt;m &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; help&lt;span style="color:#f92672"&gt;)&lt;/span&gt;: a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Partition number: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;6. Write changes to disk&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Command &lt;span style="color:#f92672"&gt;(&lt;/span&gt;m &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; help&lt;span style="color:#f92672"&gt;)&lt;/span&gt;: w
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Writes the partition table to disk and exits.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;7. Quit without saving&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Command &lt;span style="color:#f92672"&gt;(&lt;/span&gt;m &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; help&lt;span style="color:#f92672"&gt;)&lt;/span&gt;: q
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Exits without modifying the disk.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h2 id="important-options"&gt;Important options&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-f &lt;span style="color:#75715e"&gt;# Use a script file&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-l &lt;span style="color:#75715e"&gt;# List partition tables for all devices&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-u &lt;span style="color:#75715e"&gt;# Display sectors in cylinders or sectors&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;h2 id="partition-type-codes"&gt;Partition type codes&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Code&lt;/th&gt;
+&lt;th&gt;Filesystem Type&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;83&lt;/td&gt;
+&lt;td&gt;Linux&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;82&lt;/td&gt;
+&lt;td&gt;Linux swap&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;HPFS/NTFS/exFAT&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;b&lt;/td&gt;
+&lt;td&gt;W95 FAT32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;c&lt;/td&gt;
+&lt;td&gt;W95 FAT32 (LBA)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;a5&lt;/td&gt;
+&lt;td&gt;FreeBSD&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;To list all type codes:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Command &lt;span style="color:#f92672"&gt;(&lt;/span&gt;m &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; help&lt;span style="color:#f92672"&gt;)&lt;/span&gt;: L
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h2 id="post-partitioning"&gt;Post partitioning&lt;/h2&gt;
+&lt;p&gt;After creating partitions, always format them:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkfs.ext4 /dev/sdX1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkfs.vfat /dev/sdX2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Creating a label for the disk:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;e2label /dev/sdX1 nvmeExternal
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Mount the partition:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mount /dev/sdX1 /mnt/mydisk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Configure in fstab:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;LABEL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;nvmeExternal /mnt/sdX1 ext4 defaults,nofail,x-systemd.device-timeout&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;10&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Mount all disks configured in fstab&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mount -a
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h2 id="helpful-tips"&gt;Helpful tips&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Use &lt;code&gt;partprobe&lt;/code&gt; or reboot after changing partition table:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo partprobe /dev/sdX
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;lsblk&lt;/code&gt; or &lt;code&gt;blkid&lt;/code&gt; to view and identify new partitions:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lsblk
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;blkid
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>TCPDump cheatsheet</title><link>https://siemforge.xyz/notes/4.linux/tcpdump/tcpdump_cheatsheet/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/4.linux/tcpdump/tcpdump_cheatsheet/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
 &lt;h5 class="note-title"&gt;&lt;span&gt;TCPDump cheatsheet&lt;/span&gt;&lt;/h5&gt;
@@ -612,7 +1474,13 @@ install:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://dev.yorhel.nl/download/ncdu-2.8.1-linux-x86_64.tar.gz
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tar -xzf ncdu-2.8.1-linux-x86_64.tar.gz
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mv ncdu /usr/local/bin/
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;usage:&lt;/p&gt;</description></item><item><title>Python</title><link>https://siemforge.xyz/notes/6.coding/python/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/6.coding/python/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;usage:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ncdu &amp;lt;directory_name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Python</title><link>https://siemforge.xyz/notes/6.coding/python/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/6.coding/python/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;!-- Project: --&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
@@ -681,4 +1549,338 @@ a reference name for the latest commit, to save you having to type Commit IDs. H
 &lt;div class="item"&gt;
 &lt;h5 class="note-title"&gt;&lt;span&gt;How to install:&lt;/span&gt;&lt;/h5&gt;
 &lt;div class="card"&gt;
-&lt;div class="card-body"&gt;&lt;p&gt;On OS X or Windows — Using an installer&lt;/p&gt;</description></item></channel></rss>
+&lt;div class="card-body"&gt;&lt;p&gt;On OS X or Windows — Using an installer&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Download the installer&lt;/li&gt;
+&lt;li&gt;Follow the prompts
+On OS X — Using Homebrew&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;brew install git
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;On Linux&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get install git
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check if installation successful (On any platform)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git --version
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Setup: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Configuration:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;p&gt;If you are working in a team on a single repo, it is important for others to know who made certain changes to the code. So, Git allows you to set user credentials such as name, email, etc..&lt;/p&gt;
+&lt;h1 id="basic-information"&gt;basic information&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Configure your email&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git config user.email &lt;span style="color:#f92672"&gt;[&lt;/span&gt;your.email@domain.com&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Configure your name&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git config user.name &lt;span style="color:#f92672"&gt;[&lt;/span&gt;your-name&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id="important-tags"&gt;Important tags&lt;/h1&gt;
+&lt;p&gt;to determine the scope of configurations, Git lets you use tags to determine the scope of the information you’re using during setup&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Local directory, single project (this is the default tag)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git config --local user.email “my_email@example.com”
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;All git projects under the current user&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git config --global user.email “my_email@example.com”
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;For all users on the current machine&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git config --system user.email “my_email@example.com”
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id="list-configurations"&gt;List configurations&lt;/h1&gt;
+&lt;p&gt;List all key-value configurations&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git config --list
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Get the value of a single key&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git config --get &amp;lt;key&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id="setting-aliases"&gt;Setting aliases&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Create an alias named gc for the “git commit” command&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git config --global alias.gc commit
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Example usage:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gc -m &lt;span style="color:#e6db74"&gt;&amp;#34;New commit&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Create an alias named ga for the “git add” command&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git config --global alias.ga add
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Basics: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Managing repos:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h1 id="creating-local-repositories"&gt;Creating local repositories&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Clone a repository from remote hosts (GitHub, GitLab, DagsHub, etc.)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone &amp;lt;remote_repo_url&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Initialize git tracking inside the current directory&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git init
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Create a git-tracked repository inside a new directory&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git init &lt;span style="color:#f92672"&gt;[&lt;/span&gt;dir_name&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Clone only a specific branch&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone -branch &amp;lt;branch_name&amp;gt; &amp;lt;repo_url&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Cloning into a specified directory&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone &amp;lt;repo_url&amp;gt; &amp;lt;dir_name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id="managing-remote-repositories"&gt;Managing remote repositories&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;List remote repos&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git remote
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Create a new connection called &lt;remote&gt; to a remote repository on servers like GitHub, GitLab, DagsHub, etc&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git remote add &amp;lt;remote&amp;gt; &amp;lt;url_to_remote&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Remove a connection to a remote repo called &lt;remote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git remote rm &amp;lt;remote&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Rename a remote connection&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git remote rename &amp;lt;old_name&amp;gt; &amp;lt;new_name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Files: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Handling files:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h1 id="adding-and-removing-files"&gt;Adding and removing files&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Add a file or directory to git for tracking&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git add &amp;lt;filename_or_dir&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Add all untracked and tracked files inside the current directory to git&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git add .
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Remove a file from a working directory or staging area&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git rm &amp;lt;filename_or_dir&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id="saving-and-working-with-changes"&gt;Saving and working with changes&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;See changes in the local repository&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git status
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Saving a snapshot of the staged changes with a custom message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git commit -m “&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Commit message&lt;span style="color:#f92672"&gt;]&lt;/span&gt;”
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Staging changes in all tracked files and committing with a message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git add -am “&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Commit message&lt;span style="color:#f92672"&gt;]&lt;/span&gt;”
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Editing the message of the latest commit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git commit --amend -m “&lt;span style="color:#f92672"&gt;[&lt;/span&gt;New commit message&lt;span style="color:#f92672"&gt;]&lt;/span&gt;”
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;h1 id="a-note-on-stashes"&gt;A note on stashes&lt;/h1&gt;
+&lt;p&gt;Git stash allows you to temporarily save edits you&amp;rsquo;ve made to your working copy so you can return to your work later. Stashing is especially useful when you are not yet ready to commit
+changes you&amp;rsquo;ve done, but would like to revisit them at a later time.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Saving staged and unstaged changes to stash for a later use&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git stash
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Stashing staged, unstaged and untracked files as well&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git stash -u
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Stashing everything (including ignored files)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git stash --all
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Reapply previously stashed changes and empty the stash&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git stash pop
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Reapply previously stashed changes and keep the stash&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git stash apply
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Dropping changes in the stash&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git stash drop
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Show uncommitted changes since the last commit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git diff
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Show the differences between two commits (should provide the commit IDs)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git diff &amp;lt;id_1&amp;gt; &amp;lt;id_2&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- branches: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Branches:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;ul&gt;
+&lt;li&gt;List all branches&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git branch
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git branch --list
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git branch -a
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Create a new local branch named new_branch without checking out that branch&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git branch &amp;lt;new_branch&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Switch into an existing branch named &lt;branch&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout &amp;lt;branch&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Create a new local branch and switch into it&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout -b &amp;lt;new_branch&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Safe delete a local branch (prevents deleting unmerged changes)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git branch -d &amp;lt;branch&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Force delete a local branch (whether merged or unmerged)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git branch -D &amp;lt;branch&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Rename the current branch to &amp;lt;new_name&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git branch -m &amp;lt;new_name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Push a copy of local branch named branch to the remote repo&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git push &amp;lt;remote_repo&amp;gt; branch~
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Delete a remote branch named branch&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git push &amp;lt;remote_repo&amp;gt; :branch
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git push &amp;lt;remote_repo&amp;gt; --delete branch
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Merging a branch into the main branch&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout main
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git merge &amp;lt;other_branch&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Merging a branch and creating a commit message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git merge --no-ff &amp;lt;other_branch&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Compare the differences between two branches&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git diff &amp;lt;branch_1&amp;gt; &amp;lt;branch_2&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Compare a single &lt;file&gt; between two branches&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git diff &amp;lt;branch_1&amp;gt; &amp;lt;branch_2&amp;gt; &amp;lt;file&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Commits: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Handle commits:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h1 id="pulling-changes"&gt;Pulling changes&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Download all commits and branches from the &lt;remote&gt; without applying them on the local repo&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git fetch &amp;lt;remote&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Only download the specified &lt;branch&gt; from the &lt;remote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git fetch &amp;lt;remote&amp;gt; &amp;lt;branch&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Merge the fetched changes if accepted&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git merge &amp;lt;remote&amp;gt;/&amp;lt;branch&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;A more aggressive version of fetch which calls fetch and merge simultaneously&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git pull &amp;lt;remote&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id="review-work-with-logs"&gt;Review work with logs&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;List all commits with their author, commit ID, date and message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git log
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;List one commit per line (-n tag can be used to limit the number of commits displayed (e.g. -5))&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git log --oneline &lt;span style="color:#f92672"&gt;[&lt;/span&gt;-n&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Log all commits with diff information:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git log --stat
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Log commits after some date&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git log --oneline --after&lt;span style="color:#f92672"&gt;=&lt;/span&gt;”YYYY-MM-DD&lt;span style="color:#e6db74"&gt;&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Log commits before some date&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git log --oneline --before&lt;span style="color:#f92672"&gt;=&lt;/span&gt;”last year”
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id="reverse-changes"&gt;Reverse changes&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Checking out (switching to) older commits&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout HEAD~2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Checks out the third-to-last commit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout &amp;lt;commit_id&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Undo the latest commit but leave the working directory unchanged
+You can undo as many commits as you want by changing the number after the tilde&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git reset HEAD~1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Discard all changes of the latest commit (no easy recovery)
+Instead of HEAD~n, you can provide commit hash as well. Changes after that commit will be destroyed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git reset --hard HEAD~1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Undo a single given commit, without modifying commits that come after it (a safe reset)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git revert &lt;span style="color:#f92672"&gt;[&lt;/span&gt;commit_id&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Sources: --&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;sources:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;a href="https://media.datacamp.com/legacy/image/upload/v1656573882/Marketing/Blog/git_cheat_sheet.pdf" target="_blank" rel="noopener"&gt;DatacampCheatsheet&lt;/a&gt;&lt;br&gt;
+&lt;a href="https://about.gitlab.com/images/press/git-cheat-sheet.pdf" target="_blank" rel="noopener"&gt;GitlabCheatsheet&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item></channel></rss>

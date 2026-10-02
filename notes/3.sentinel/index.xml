@@ -30,7 +30,69 @@ Further filters the data to include only failed login attempts.&lt;br&gt;
 &lt;strong&gt;| project TimeGenerated, SentinelResourceName, Status&lt;/strong&gt;&lt;br&gt;
 Selects only the columns for the time of the event, resource name, and status.&lt;br&gt;
 &lt;strong&gt;| sort by TimeGenerated desc&lt;/strong&gt;&lt;br&gt;
-Orders the results by the most recent events first.&lt;/p&gt;</description></item><item><title>Logstash CLI commands</title><link>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
+Orders the results by the most recent events first.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SentinelHealth
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where SentinelResourceName in &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Successful logon from IP and failure from a different IP&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| project TimeGenerated, SentinelResourceName, Status
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort by TimeGenerated desc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Expand the failed run time window to investigate warnings or successful runs. It is possible that Sentinel runs out of resources where a failed run can be expected and closed as true benign positive, expected behavior. Multiple failed runs might indicate another issue with the analytics rule (Syntax related or other) after an update of the rule. Further investigation is needed to resolve the issue.&lt;/p&gt;
+&lt;h2 id="table-does-not-receive-data"&gt;Table does not receive data&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;union withsource&lt;span style="color:#f92672"&gt;=&lt;/span&gt;TableName
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcenter_CL, SecurityEvent, CommonSecurityLog, Syslog // Add/remove tables as needed
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where TimeGenerated &amp;gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; ago&lt;span style="color:#f92672"&gt;(&lt;/span&gt;7d&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| summarize MinutesSinceLastEvent &lt;span style="color:#f92672"&gt;=&lt;/span&gt; datetime_diff&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;minute&amp;#34;&lt;/span&gt;, now&lt;span style="color:#f92672"&gt;()&lt;/span&gt;, max&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated&lt;span style="color:#f92672"&gt;))&lt;/span&gt;, LastIngestionTime &lt;span style="color:#f92672"&gt;=&lt;/span&gt; max&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated&lt;span style="color:#f92672"&gt;)&lt;/span&gt; by TableName
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where MinutesSinceLastEvent &amp;gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;60&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| project TableName, alert_minutes_last_event &lt;span style="color:#f92672"&gt;=&lt;/span&gt; MinutesSinceLastEvent, LastIngestionTime
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| extend info_name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;table_not_receiving-data&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| extend info_sub_route &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Sentinel&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Identifies tables that haven&amp;rsquo;t received data for over an hour, signaling possible ingestion problems.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SecurityAlert
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| summarize EventCount &lt;span style="color:#f92672"&gt;=&lt;/span&gt; count&lt;span style="color:#f92672"&gt;()&lt;/span&gt; by bin&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated, 1h&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| render timechart
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This query counts the amount of events per hour and renders it in a timechart. This is an easy way to pinpoint anomalies in log event ingestion.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SecurityAlert
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where TimeGenerated &amp;gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; ago&lt;span style="color:#f92672"&gt;(&lt;/span&gt;30d&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| sort by TimeGenerated asc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| serialize
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| extend TimeDiff &lt;span style="color:#f92672"&gt;=&lt;/span&gt; datetime_diff&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;second&amp;#39;&lt;/span&gt;, TimeGenerated, prev&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated&lt;span style="color:#f92672"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where TimeDiff &amp;gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;3600&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| project TimeGenerated, prev_TimeGenerated&lt;span style="color:#f92672"&gt;=&lt;/span&gt;prev&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, TimeDiff
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Statistical overview of gaps (over 1 hour) between events for the last 30 days. This one is mostly used to determine tuning for the threshold used in an analytic rule to check if a table did not receive data. (could indicate a logsource stopped sending or a misconfiguration in sending the logs to another table)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SecurityEvent
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where Computer contains &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;test-pc&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| summarize Type &lt;span style="color:#f92672"&gt;=&lt;/span&gt; count&lt;span style="color:#f92672"&gt;()&lt;/span&gt; by Computer, bin&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated, 1h&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| render timechart
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This KQL query filters security events to include only those from computers with &amp;ldquo;test-pc&amp;rdquo; in their name, then counts the number of events for each computer grouped by 1-hour intervals, and finally displays the results as a time chart. I use this to check for patterns in log ingestion which can indicate ingestion issues or expected behavior.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="note-card "&gt;
+&lt;div class="item"&gt;
+&lt;h5 class="note-title"&gt;&lt;span&gt;Reporting:&lt;/span&gt;&lt;/h5&gt;
+&lt;div class="card"&gt;
+&lt;div class="card-body"&gt;&lt;h1 id="reporting"&gt;Reporting&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;_GetWatchlist&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;CriticalLogs&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| project Host, Vendor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; SubType, Threshold, Table &lt;span style="color:#f92672"&gt;=&lt;/span&gt; DataTable, Updated &lt;span style="color:#f92672"&gt;=&lt;/span&gt; LastUpdatedTimeUTC
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Example query to display the content of a watchlist in Azure Sentinel. Columns are renamed in output using following format &amp;ldquo;&lt;new name&gt; = &lt;original name&gt;&amp;rdquo;, project operator only returns provided columns.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Usage
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where IsBillable &lt;span style="color:#f92672"&gt;==&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where QuantityUnit &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;MBytes&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| summarize totalMB &lt;span style="color:#f92672"&gt;=&lt;/span&gt; sum&lt;span style="color:#f92672"&gt;(&lt;/span&gt;Quantity&lt;span style="color:#f92672"&gt;)&lt;/span&gt; by day &lt;span style="color:#f92672"&gt;=&lt;/span&gt; bin&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated, 1d&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| summarize avgGBperDay &lt;span style="color:#f92672"&gt;=&lt;/span&gt; round&lt;span style="color:#f92672"&gt;(&lt;/span&gt;avg&lt;span style="color:#f92672"&gt;(&lt;/span&gt;totalMB / 1024&lt;span style="color:#f92672"&gt;)&lt;/span&gt;, 2&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A Sentinel KQL query to extract the average daily volume, adjust time range as needed.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Usage
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where IsBillable &lt;span style="color:#f92672"&gt;==&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| where QuantityUnit &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;MBytes&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| summarize totalMB &lt;span style="color:#f92672"&gt;=&lt;/span&gt; sum&lt;span style="color:#f92672"&gt;(&lt;/span&gt;Quantity&lt;span style="color:#f92672"&gt;)&lt;/span&gt; by day &lt;span style="color:#f92672"&gt;=&lt;/span&gt; bin&lt;span style="color:#f92672"&gt;(&lt;/span&gt;TimeGenerated, 1d&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| extend GB &lt;span style="color:#f92672"&gt;=&lt;/span&gt; round&lt;span style="color:#f92672"&gt;(&lt;/span&gt;totalMB / 1024, 2&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| order by day asc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A Sentinel KQL query aggregated the total number of bytes ingested per day.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Logstash CLI commands</title><link>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://siemforge.xyz/notes/3.sentinel/logstash_cli/</guid><description>&lt;div style="display: block; width: 100%; max-width: none;"&gt;
 &lt;div class="note-card "&gt;
 &lt;div class="item"&gt;
 &lt;h5 class="note-title"&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;
@@ -50,4 +112,23 @@ Orders the results by the most recent events first.&lt;/p&gt;</description></ite
 &lt;strong&gt;logstop:&lt;/strong&gt; Stops the Logstash service.&lt;br&gt;
 &lt;strong&gt;logrestart:&lt;/strong&gt; Restarts the Logstash service.&lt;br&gt;
 &lt;strong&gt;logstatus:&lt;/strong&gt; Checks the current status of the Logstash service.&lt;br&gt;
-&lt;strong&gt;logsamp:&lt;/strong&gt; Navigates to the directory containing sample Logstash configurations.&lt;/p&gt;</description></item></channel></rss>
+&lt;strong&gt;logsamp:&lt;/strong&gt; Navigates to the directory containing sample Logstash configurations.&lt;/p&gt;
+&lt;h3 id="making-alias-permanent-for-all-users"&gt;Making alias permanent for all users&lt;/h3&gt;
+&lt;p&gt;To ensure these aliases are available for all users permanently, you can add them to a global shell configuration file such as /etc/bashrc, /etc/bash.bashrc, or /etc/profile, depending on your system and shell preferences.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo nano /etc/bashrc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Edit bashrc file.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logtail&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;tail -f /var/log/logstash/logstash-plain.log&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logconf&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;cd /etc/logstash/conf.d&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logstart&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;systemctl start logstash&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logstop&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;systemctl stop logstash&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logrestart&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;systemctl restart logstash&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logstatus&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;systemctl status logstash&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;alias logsamp&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;cd /usr/share/logstash/samples&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;add the alias commands at the end of the file.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;source /etc/bashrc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Save the file and reload the shell configuration.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item></channel></rss>
